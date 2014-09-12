@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Globalization;
+using System.Threading;
 
 namespace GTAVC_Chaos
 {
     static class Program
     {
+
+
+        public const int SEED_VALID_LENGTH = 4;
+        public const float PROGRAM_VERSION = 1.21f;
+
         static public WelcomeWindow welcomeWindow;
         /// <summary>
         /// The main entry point for the application.
@@ -13,9 +20,18 @@ namespace GTAVC_Chaos
         [STAThread]
         static void Main()
         {
-            Debug.WriteLine("Started up");
+            // So that the decimal separator is always a period and stuff like that we set the cultureinfo 
+            // to en-UK if it isn't already.
+            if (Thread.CurrentThread.CurrentCulture.Name != "en-UK")
+            {
+                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-UK");
+                CultureInfo.DefaultThreadCurrentCulture = culture;
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
+                Thread.CurrentThread.CurrentCulture = culture;
+                Thread.CurrentThread.CurrentCulture = culture;
+            }
+
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
-            Debug.WriteLine("Event OnApplicationExit added");
             InitWelcomeWindow();
 
         }
@@ -25,7 +41,6 @@ namespace GTAVC_Chaos
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             welcomeWindow = new WelcomeWindow();
-            Debug.WriteLine("Event OnWelcomeWindowClose added");
             Application.Run(welcomeWindow);
         }
 

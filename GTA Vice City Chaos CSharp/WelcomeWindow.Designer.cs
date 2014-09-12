@@ -47,7 +47,7 @@
             // 
             // buttonConfirm
             // 
-            this.buttonConfirm.Location = new System.Drawing.Point(13, 330);
+            this.buttonConfirm.Location = new System.Drawing.Point(12, 304);
             this.buttonConfirm.Name = "buttonConfirm";
             this.buttonConfirm.Size = new System.Drawing.Size(75, 23);
             this.buttonConfirm.TabIndex = 0;
@@ -57,7 +57,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(94, 330);
+            this.buttonClose.Location = new System.Drawing.Point(93, 304);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 1;
@@ -150,7 +150,7 @@
             // labelWelcomeMessage
             // 
             this.labelWelcomeMessage.AutoSize = true;
-            this.labelWelcomeMessage.Location = new System.Drawing.Point(12, 9);
+            this.labelWelcomeMessage.Location = new System.Drawing.Point(10, 9);
             this.labelWelcomeMessage.Name = "labelWelcomeMessage";
             this.labelWelcomeMessage.Size = new System.Drawing.Size(132, 13);
             this.labelWelcomeMessage.TabIndex = 15;
@@ -162,9 +162,9 @@
             this.labelEnterSeed.Location = new System.Drawing.Point(10, 53);
             this.labelEnterSeed.Name = "labelEnterSeed";
             this.labelEnterSeed.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelEnterSeed.Size = new System.Drawing.Size(166, 13);
+            this.labelEnterSeed.Size = new System.Drawing.Size(160, 13);
             this.labelEnterSeed.TabIndex = 16;
-            this.labelEnterSeed.Text = "Please enter a 4 digit seed below:";
+            this.labelEnterSeed.Text = "Please enter a  digit seed below:";
             // 
             // labelDifficulty
             // 
@@ -195,7 +195,7 @@
             this.numericTextBoxSeed.AllowNumberGroupSeparator = false;
             this.numericTextBoxSeed.AllowSpace = false;
             this.numericTextBoxSeed.Location = new System.Drawing.Point(12, 69);
-            this.numericTextBoxSeed.MaxLength = 4;
+            this.numericTextBoxSeed.MaxLength = 8;
             this.numericTextBoxSeed.Name = "numericTextBoxSeed";
             this.numericTextBoxSeed.Size = new System.Drawing.Size(100, 20);
             this.numericTextBoxSeed.TabIndex = 9;
@@ -204,7 +204,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 365);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(275, 337);
             this.Controls.Add(this.labelQuicksave);
             this.Controls.Add(this.labelDifficulty);
             this.Controls.Add(this.labelEnterSeed);
@@ -219,10 +220,14 @@
             this.Controls.Add(this.buttonShowAdvancedOptions);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonConfirm);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "WelcomeWindow";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Chaos% Welcome Window";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
+            this.Load += new System.EventHandler(this.WelcomeWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,7 +241,6 @@
         private System.Windows.Forms.RadioButton radioButtonDifficulty1;
         private System.Windows.Forms.RadioButton radioButtonDifficulty2;
         private System.Windows.Forms.RadioButton radioButtonDifficulty3;
-        private NumericTextBox numericTextBoxSeed;
         private System.Windows.Forms.CheckBox checkBoxStaticEffectsEnabled;
         private System.Windows.Forms.CheckBox checkBoxTimedEffectsEnabled;
         private System.Windows.Forms.CheckBox checkboxSanicModeEnabled;
@@ -244,6 +248,7 @@
         private System.Windows.Forms.Label labelEnterSeed;
         private System.Windows.Forms.Label labelDifficulty;
         private System.Windows.Forms.Label labelQuicksave;
+        public NumericTextBox numericTextBoxSeed;
     }
 }
 

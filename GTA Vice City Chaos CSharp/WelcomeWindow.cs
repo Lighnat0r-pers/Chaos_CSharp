@@ -37,13 +37,20 @@ namespace GTAVC_Chaos
                 e.Cancel = true;
         }
 
+        /// <summary>
+        /// Toggle showing the advance options, i.e. the checkboxes below the Advanced Options button.
+        /// If the advanced options are disabled, make sure all the checkboxes are at default.
+        /// </summary>
         private void buttonShowAdvancedOptions_Click(object sender, EventArgs e)
         {
             if(showAdvancedOptions)
             {
                 checkboxSanicModeEnabled.Hide();
+                checkboxSanicModeEnabled.Checked = false;
                 checkBoxStaticEffectsEnabled.Hide();
+                checkBoxStaticEffectsEnabled.Checked = true;
                 checkBoxTimedEffectsEnabled.Hide();
+                checkBoxTimedEffectsEnabled.Checked = true;
             }
             else
             {
@@ -52,6 +59,19 @@ namespace GTAVC_Chaos
                 checkBoxTimedEffectsEnabled.Show();
             }
             showAdvancedOptions = !showAdvancedOptions;
+        }
+
+        /// <summary>
+        /// Because the designer doesn't like variables in any of the control options and every time a control is 
+        /// changed in the designer the code is updated and any manual changes reverted, we have to set the variables 
+        /// we want to use in any of the controls after the code of the designer is executed, 
+        /// that is just before the window is shown. Doing it like this sucks, but it's the best I can do without ditching the designer.
+        /// </summary>
+        private void WelcomeWindow_Load(object sender, EventArgs e)
+        {
+            numericTextBoxSeed.MaxLength = Program.SEED_VALID_LENGTH;
+            labelEnterSeed.Text = "Please enter a " + Program.SEED_VALID_LENGTH  + " digit seed below:";
+            labelWelcomeMessage.Text = "Welcome to Chaos% v" + Program.PROGRAM_VERSION + "!";
         }
     }
 }
