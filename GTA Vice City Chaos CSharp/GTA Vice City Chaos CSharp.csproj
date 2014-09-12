@@ -90,9 +90,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="WelcomeWindow.en-GB.resx">
-      <DependentUpon>WelcomeWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="WelcomeWindow.resx">
       <DependentUpon>WelcomeWindow.cs</DependentUpon>
     </EmbeddedResource>
