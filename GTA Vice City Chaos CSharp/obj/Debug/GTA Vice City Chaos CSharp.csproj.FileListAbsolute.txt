@@ -1,0 +1,17 @@
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\GTA Vice City Chaos CSharp.exe.config
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\GTA Vice City Chaos CSharp.exe.manifest
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\GTA Vice City Chaos CSharp.application
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\GTA Vice City Chaos CSharp.exe
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\GTA Vice City Chaos CSharp.pdb
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\System.Data.dll
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\System.dll
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\System.Drawing.dll
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\System.Windows.Forms.dll
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTAVC_Chaos.WelcomeWindow.resources
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTAVC_Chaos.Properties.Resources.resources
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.csproj.GenerateResource.Cache
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.exe.manifest
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.application
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.exe
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.pdb

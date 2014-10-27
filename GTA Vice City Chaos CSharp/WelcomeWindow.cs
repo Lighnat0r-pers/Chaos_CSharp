@@ -65,7 +65,7 @@ namespace GTAVC_Chaos
         /// Because the designer doesn't like variables in any of the control options and every time a control is 
         /// changed in the designer the code is updated and any manual changes reverted, we have to set the variables 
         /// we want to use in any of the controls after the code of the designer is executed, 
-        /// that is just before the window is shown. Doing it like this sucks, but it's the best I can do without ditching the designer.
+        /// that is just before the window is shown. Doing it like this kinda sucks, but it's the best I can do without ditching the designer.
         /// </summary>
         private void WelcomeWindow_Load(object sender, EventArgs e)
         {
