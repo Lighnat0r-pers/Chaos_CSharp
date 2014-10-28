@@ -1,0 +1,32 @@
+Effects stored in .xml files per type of effect for user modifiability.
+
+Effect properties:
+Name
+Enabled
+Category
+
+
+
+
+
+
+Classes:
+BaseEffect
+	StaticEffect
+	PermanentEffect
+	TimedEffect
+BaseGame
+	GameText
+
+Interfaces:
+
+
+
+
+
+
+Useful stuff:
+MemoryStream
+System.IO.Path
+Variable parameter lists
+Delegates instead of %EffectName%Data etc.

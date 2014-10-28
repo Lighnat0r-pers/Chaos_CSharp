@@ -8,12 +8,22 @@ namespace GTAVC_Chaos
 {
     static class Program
     {
-
+        #if DEBUG
+            const bool DEBUG_MODE_ENABLED = true;
+        #else
+            const bool DEBUG_MODE_ENABLED = false;
+        #endif
 
         public const int SEED_VALID_LENGTH = 4;
         public const float PROGRAM_VERSION = 1.21f;
 
+        
+
         static public WelcomeWindow welcomeWindow;
+
+
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -31,11 +41,17 @@ namespace GTAVC_Chaos
                 Thread.CurrentThread.CurrentCulture = culture;
             }
 
+            // Enable registering when the application closes.
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
+
+            // Show the welcome window.
             InitWelcomeWindow();
 
         }
 
+        /// <summary>
+        /// Initialise an instance of the welcome window class and make it visible.
+        /// </summary>
         static void InitWelcomeWindow()
         {
             Application.EnableVisualStyles();

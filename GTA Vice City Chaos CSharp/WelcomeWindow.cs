@@ -20,6 +20,9 @@ namespace GTAVC_Chaos
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Close the program when clicking the close button.
+        /// </summary>
         private void buttonClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -35,6 +38,19 @@ namespace GTAVC_Chaos
             }
             if (MessageBox.Show("Are you sure you want to exit the program?", "GTA Vice City Chaos%", MessageBoxButtons.YesNo) == DialogResult.No)
                 e.Cancel = true;
+        }
+
+        /// <summary>
+        /// Because the designer doesn't like variables in any of the control options and every time a control is 
+        /// changed in the designer the code is updated and any manual changes reverted, we have to set the variables 
+        /// we want to use in any of the controls after the code of the designer is executed, 
+        /// that is just before the window is shown. Doing it like this kinda sucks, but it's the best I can do without ditching the designer.
+        /// </summary>
+        private void WelcomeWindow_Load(object sender, EventArgs e)
+        {
+            numericTextBoxSeed.MaxLength = Program.SEED_VALID_LENGTH;
+            labelEnterSeed.Text = String.Format("Please enter a {0} digit seed below:", Program.SEED_VALID_LENGTH);
+            labelWelcomeMessage.Text = String.Format("Welcome to Chaos% v{0}!", Program.PROGRAM_VERSION);
         }
 
         /// <summary>
@@ -62,16 +78,20 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// Because the designer doesn't like variables in any of the control options and every time a control is 
-        /// changed in the designer the code is updated and any manual changes reverted, we have to set the variables 
-        /// we want to use in any of the controls after the code of the designer is executed, 
-        /// that is just before the window is shown. Doing it like this kinda sucks, but it's the best I can do without ditching the designer.
+        /// When the timed effects are set to be turned off, disable the sanic mode checkbox since 
+        /// that does nothing without timed effects. Re-enable the sanic mode checkbox when the timed effects are turned back on.
         /// </summary>
-        private void WelcomeWindow_Load(object sender, EventArgs e)
+        private void checkBoxTimedEffectsEnabled_Click(object sender, EventArgs e)
         {
-            numericTextBoxSeed.MaxLength = Program.SEED_VALID_LENGTH;
-            labelEnterSeed.Text = "Please enter a " + Program.SEED_VALID_LENGTH  + " digit seed below:";
-            labelWelcomeMessage.Text = "Welcome to Chaos% v" + Program.PROGRAM_VERSION + "!";
+            if(!checkBoxTimedEffectsEnabled.Checked)
+            {
+                checkboxSanicModeEnabled.Enabled = false;
+                checkboxSanicModeEnabled.Checked = false;
+            }
+            else
+            {
+                checkboxSanicModeEnabled.Enabled = true;
+            }
         }
     }
 }

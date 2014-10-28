@@ -79,9 +79,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseEffect.cs" />
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="TimedEffect.cs" />
     <Compile Include="WelcomeWindow.cs">
       <SubType>Form</SubType>
     </Compile>

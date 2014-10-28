@@ -135,6 +135,7 @@
             this.checkBoxTimedEffectsEnabled.Text = "Timed effects enabled";
             this.checkBoxTimedEffectsEnabled.UseVisualStyleBackColor = true;
             this.checkBoxTimedEffectsEnabled.Visible = false;
+            this.checkBoxTimedEffectsEnabled.Click += new System.EventHandler(this.checkBoxTimedEffectsEnabled_Click);
             // 
             // checkboxSanicModeEnabled
             // 
