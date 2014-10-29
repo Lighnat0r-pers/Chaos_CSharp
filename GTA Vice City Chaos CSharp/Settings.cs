@@ -1,4 +1,6 @@
-﻿namespace GTAVC_Chaos
+﻿using System.Collections.Generic;
+
+namespace GTAVC_Chaos
 {
     static class Settings
     {
@@ -10,6 +12,12 @@
         static public bool timedEffectsEnabled = true;
         static public bool staticEffectsEnabled = true;
         static public bool sanicModeEnabled = false;
+
+
+        static public Dictionary<string, string> gameWindowNameArray = new Dictionary<string, string>();
+        static public Dictionary<string, string> gameWindowClassNameArray = new Dictionary<string, string>();
+
+        public const int DEFAULT_WAIT_TIME = 250;
 
         /// <summary>
         /// Readonly property returning the finalised multiplier for time.
@@ -23,6 +31,15 @@
                 else
                     return baseTimeMultiplier;
             }
+        }
+
+        /// <summary>
+        /// Static constructor for the Settings class that will run once at the start of the program.
+        /// </summary>
+        static Settings()
+        {
+            gameWindowNameArray.Add("GTAVC", "GTA: Vice City");
+            gameWindowClassNameArray.Add("GTAVC", "Grand theft auto 3");
         }
     }
 }
