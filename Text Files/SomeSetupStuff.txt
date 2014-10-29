@@ -30,3 +30,4 @@ MemoryStream
 System.IO.Path
 Variable parameter lists
 Delegates instead of %EffectName%Data etc.
+Using multicast delegates for effect limitations.

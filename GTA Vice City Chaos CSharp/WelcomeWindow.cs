@@ -28,6 +28,10 @@ namespace GTAVC_Chaos
             this.Close();
         }
 
+        /// <summary>
+        /// On registering the program closing, show a window asking the user to confirm exiting the program.
+        /// This really isnt necessary for the welcome window, but we'll leave the code in for now to use later for the output window.
+        /// </summary>
         private void WelcomeWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             Debug.WriteLine("Event OnWelcomeWindowClose fired");

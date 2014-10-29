@@ -60,6 +60,10 @@ namespace GTAVC_Chaos
             Application.Run(welcomeWindow);
         }
 
+        /// <summary>
+        /// When the program exits, we need to do some 'garbage collection' to restore the game to its normal values.
+        /// This will be extended when the program is in a further stage of development where it actually changes the game.
+        /// </summary>
         static void OnApplicationExit(object Sender, EventArgs e)
         {
             Debug.WriteLine("Event OnApplicationExit fired");

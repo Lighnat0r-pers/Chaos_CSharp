@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="TimedEffect.cs" />
+    <Compile Include="TimedEffectLimitations.cs" />
     <Compile Include="WelcomeWindow.cs">
       <SubType>Form</SubType>
     </Compile>
