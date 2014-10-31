@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -9,12 +8,11 @@ using AccessProcessMemory;
 namespace GTAVC_Chaos
 {
     [DllImport("user32.dll")] // GetClassName
-    [DllImport("kernel32.dll")] // ReadProcessMemory WriteProcessMemory
 
     static class GameHandler
     {
         //static public Process gameProcess;
-
+        static public Memory memory = null;
 
         // External function that outputs window class name for a given handle.
         static extern int GetClassName(IntPtr hwnd, StringBuilder lpClassName, int MaxCount);
@@ -26,8 +24,11 @@ namespace GTAVC_Chaos
         /// writing the memory of the process. In no matching process is found, the method will sleep 
         /// and keep trying until a matching process is found.
         /// </summary>
-        static public void OpenGameProcess(string gameName, string gameClassName)
+        static public void OpenGameProcess(string gameName)
         {
+            string gameWindowName = Settings.gameWindowNameArray[gameName];
+            string gameClassName = Settings.gameWindowClassNameArray[gameName];
+
             bool gameFound = false;
             do
             {
@@ -38,7 +39,7 @@ namespace GTAVC_Chaos
                     GetClassName(process.Handle, foundClassName, gameClassName.Length);
                     if (foundClassName.ToString() == gameClassName)
                     {
-                        Memory memory = new Memory(process);
+                        memory = new Memory(process);
                         gameFound = true;
                         break;
                     }

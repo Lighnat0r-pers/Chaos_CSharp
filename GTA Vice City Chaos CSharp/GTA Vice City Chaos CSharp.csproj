@@ -84,7 +84,6 @@
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProcessNotFoundException.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TimedEffect.cs" />
     <Compile Include="TimedEffectLimitations.cs" />

@@ -104,30 +104,29 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Read [length] bytes at [address] in the current targetProcess. The byte
-        /// array is then converted to [dataType] before being returned.
-        /// Defaults to reading a DWord.
+        /// Read [length] bytes at [address] in the current targetProcess. The byte array is then 
+        /// converted to type [T] before being returned. length defaults to 4.
         /// </summary>
-        public dynamic Read(int address, uint length = 4, string dataType = "int")
+        public T Read<T>(int address, uint length = 4)
         {
             byte[] buffer = new byte[length];
             IntPtr ptrBytesReaded;
             AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, buffer, length, out ptrBytesReaded);
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
 
-            dynamic result = ConvertOutput(buffer, dataType);
+            T result = ConvertOutput<T>(buffer);
             return result;
         }
 
         /// <summary>
-        /// Convert the input to a byte array of [length]. If the input is shorter, the rest of the 
+        /// Convert the input of type T to a byte array of [length]. If the input is shorter, the rest of the 
         /// array will be filled with zeros. Length defaults to the length of the input after conversion
-        /// to byte array, datatype defaults to int. Write the fullInput byte array to [address] in the
-        /// current targetProcess.
+        /// to byte array. Write the fullInput byte array to [address] in the current targetProcess.
         /// </summary>
-        public void Write(int address, dynamic input, uint length = uint.MinValue, string dataType = "int")
+        public void Write<T>(int address, T input, uint length = uint.MinValue)
         {
-            byte[] byteInput = ConvertInput(input, dataType);
+            string dataType = typeof(T).Name;
+            byte[] byteInput = ConvertInput<T>(input);
             if (length == uint.MinValue)
                 length = (uint)byteInput.Length;
             byte[] fullInput = new byte[length];
@@ -143,8 +142,9 @@ namespace AccessProcessMemory
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
         /// converted to little endian if necessary.
         /// </summary>
-        dynamic ConvertOutput(byte[] output, string targetDataType)
+        private T ConvertOutput<T>(byte[] output)
         {
+            string targetDataType = typeof(T).Name;
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(output); // Convert big endian to little endian.
 
@@ -180,8 +180,9 @@ namespace AccessProcessMemory
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
         /// converted to little endian if necessary.
         /// </summary>
-        byte[] ConvertInput(dynamic input, string originalDataType)
+        byte[] ConvertInput<T>(dynamic input)
         {
+            string originalDataType = typeof(T).Name;
             byte[] result;
             switch (originalDataType)
             {

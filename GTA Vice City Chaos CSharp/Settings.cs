@@ -12,7 +12,7 @@ namespace GTAVC_Chaos
         static public bool timedEffectsEnabled = true;
         static public bool staticEffectsEnabled = true;
         static public bool sanicModeEnabled = false;
-
+        static public string gameName = "GTAVC";
 
         static public Dictionary<string, string> gameWindowNameArray = new Dictionary<string, string>();
         static public Dictionary<string, string> gameWindowClassNameArray = new Dictionary<string, string>();
@@ -38,8 +38,8 @@ namespace GTAVC_Chaos
         /// </summary>
         static Settings()
         {
-            gameWindowNameArray.Add("GTAVC", "GTA: Vice City");
-            gameWindowClassNameArray.Add("GTAVC", "Grand theft auto 3");
+            gameWindowNameArray.Add(gameName, "GTA: Vice City");
+            gameWindowClassNameArray.Add(gameName, "Grand theft auto 3");
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
+using AccessProcessMemory;
 
 namespace GTAVC_Chaos
 {
@@ -20,7 +21,6 @@ namespace GTAVC_Chaos
         
 
         static public WelcomeWindow welcomeWindow;
-
 
 
 
@@ -44,9 +44,31 @@ namespace GTAVC_Chaos
             // Enable registering when the application closes.
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
+
+            // While the user will be choosing settings in this thread, start another thread which will start
+            // trying to get a handle to the game. Calling GameHandler.OpenGameProcess directly doesn't work
+            // for some reason related to it requiring a parameter, so GetGame() is called which in turn calls
+            // GameHandler.OpenGameProcess with the parameter.
+            Thread gameAccessThread = new Thread(GetGame);
+            gameAccessThread.Start();
+
             // Show the welcome window.
             InitWelcomeWindow();
 
+            // Wait until the thread that gets the game handle is finished before continuing.
+            gameAccessThread.Join();
+            Debug.WriteLine("Continuing main thread as game handle thread is done");
+        }
+
+        /// <summary>
+        /// Function that calls the function that opens a handle to the game in GameHandler so that this can be 
+        /// done in a separate thread. The handle will be stored in GameHandler.memory
+        /// </summary>
+        static void GetGame() 
+        {
+            Debug.WriteLine("Started attempts to get game handle");
+            GameHandler.OpenGameProcess(Settings.gameName);
+            Debug.WriteLine("Game handle found");
         }
 
         /// <summary>
@@ -54,6 +76,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static void InitWelcomeWindow()
         {
+            Debug.WriteLine("Initializing Welcome Window");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             welcomeWindow = new WelcomeWindow();

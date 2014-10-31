@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GTAVC_Chaos
 {
@@ -22,6 +18,16 @@ namespace GTAVC_Chaos
             name = effectName;
         }
 
+        // Activate the effect
+        public void Activate()
+        {
 
+        }
+
+        // Deactivate the effect
+        public void Deactivate()
+        {
+
+        }
     }
 }
