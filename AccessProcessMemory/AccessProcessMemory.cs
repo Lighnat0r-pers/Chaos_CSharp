@@ -99,6 +99,7 @@ namespace AccessProcessMemory
             int iRetValue = AccessProcessMemoryApi.CloseHandle(m_ProcessHandle);
             if (iRetValue == 0)
                 throw new Exception("CloseProcess failed");
+            Debug.WriteLine("Game handle closed");
         }
 
         /// <summary>

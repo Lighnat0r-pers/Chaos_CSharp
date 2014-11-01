@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -52,9 +45,10 @@ namespace GTAVC_Chaos
         /// </summary>
         private void WelcomeWindow_Load(object sender, EventArgs e)
         {
-            numericTextBoxSeed.MaxLength = Program.SEED_VALID_LENGTH;
-            labelEnterSeed.Text = String.Format("Please enter a {0} digit seed below:", Program.SEED_VALID_LENGTH);
-            labelWelcomeMessage.Text = String.Format("Welcome to Chaos% v{0}!", Program.PROGRAM_VERSION);
+            this.Icon = Properties.Resources.SunriseIcon;
+            numericTextBoxSeed.MaxLength = Settings.SEED_VALID_LENGTH;
+            labelEnterSeed.Text = String.Format("Please enter a {0} digit seed below:", Settings.SEED_VALID_LENGTH);
+            labelWelcomeMessage.Text = String.Format("Welcome to Chaos% v{0:f}!", Settings.PROGRAM_VERSION);
         }
 
         /// <summary>
@@ -65,18 +59,18 @@ namespace GTAVC_Chaos
         {
             if(showAdvancedOptions)
             {
-                checkboxSanicModeEnabled.Hide();
-                checkboxSanicModeEnabled.Checked = false;
-                checkBoxStaticEffectsEnabled.Hide();
-                checkBoxStaticEffectsEnabled.Checked = true;
                 checkBoxTimedEffectsEnabled.Hide();
-                checkBoxTimedEffectsEnabled.Checked = true;
+                checkBoxTimedEffectsEnabled.Checked = Settings.timedEffectsEnabledDefault;
+                checkBoxStaticEffectsEnabled.Hide();
+                checkBoxStaticEffectsEnabled.Checked = Settings.staticEffectsEnabledDefault;
+                checkboxSanicModeEnabled.Hide();
+                checkboxSanicModeEnabled.Checked = Settings.sanicModeEnabledDefault;
             }
             else
             {
-                checkboxSanicModeEnabled.Show();
-                checkBoxStaticEffectsEnabled.Show();
                 checkBoxTimedEffectsEnabled.Show();
+                checkBoxStaticEffectsEnabled.Show();
+                checkboxSanicModeEnabled.Show();
             }
             showAdvancedOptions = !showAdvancedOptions;
         }
@@ -90,12 +84,31 @@ namespace GTAVC_Chaos
             if(!checkBoxTimedEffectsEnabled.Checked)
             {
                 checkboxSanicModeEnabled.Enabled = false;
-                checkboxSanicModeEnabled.Checked = false;
+                checkboxSanicModeEnabled.Checked = Settings.sanicModeEnabledDefault;
             }
             else
             {
                 checkboxSanicModeEnabled.Enabled = true;
             }
+        }
+
+        /// <summary>
+        /// When the confirm button is clicked, save the settings set and close the form without 
+        /// triggering the exit confirmation.
+        /// </summary>
+        private void buttonConfirm_Click(object sender, EventArgs e)
+        {
+            bool isValidSeed = uint.TryParse(numericTextBoxSeed.Text, out Settings.seed);
+            if (!isValidSeed)
+            {
+                Debug.WriteLine("Seed entered was not valid, set to default 0");
+            }
+            Settings.timedEffectsEnabled = checkBoxTimedEffectsEnabled.Checked;
+            Settings.staticEffectsEnabled = checkBoxStaticEffectsEnabled.Checked;
+            Settings.sanicModeEnabled = checkboxSanicModeEnabled.Checked;
+            
+            Hide();
+            Program.currentForm = null;
         }
     }
 }

@@ -4,25 +4,19 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using AccessProcessMemory;
+using System.Drawing;
 
 namespace GTAVC_Chaos
 {
     static class Program
     {
-        #if DEBUG
-            const bool DEBUG_MODE_ENABLED = true;
-        #else
-            const bool DEBUG_MODE_ENABLED = false;
-        #endif
-
-        public const int SEED_VALID_LENGTH = 4;
-        public const float PROGRAM_VERSION = 1.21f;
-
         static public bool _shouldStop = false;
+        static public Form currentForm = null;
+
 
         static public WelcomeWindow welcomeWindow;
-
-
+        static public NotifyIcon trayIcon;
+        static public ContextMenu contextMenu;
 
         /// <summary>
         /// The main entry point for the application.
@@ -30,7 +24,7 @@ namespace GTAVC_Chaos
         [STAThread]
         static void Main()
         {
-            // So that the decimal separator is always a period and stuff like that we set the cultureinfo 
+            // To ensure the decimal separator is always a period and stuff like that, we set the culture 
             // to en-UK if it isn't already.
             if (Thread.CurrentThread.CurrentCulture.Name != "en-UK")
             {
@@ -44,6 +38,9 @@ namespace GTAVC_Chaos
             // Enable registering when the application closes.
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
 
+            // Set some application settings BEFORE creating any type of System.Windows.Forms object.
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             // While the user will be choosing settings in this thread, start another thread which will start
             // trying to get a handle to the game. Calling GameHandler.OpenGameProcess directly doesn't work
@@ -52,6 +49,9 @@ namespace GTAVC_Chaos
             Thread gameAccessThread = new Thread(GetGame);
             gameAccessThread.IsBackground = true;
             gameAccessThread.Start();
+
+            // Create the tray icon.
+            InitTrayIcon();
 
             // Show the welcome window.
             InitWelcomeWindow();
@@ -63,6 +63,14 @@ namespace GTAVC_Chaos
             // Exit the application if the welcome window was exited.
             if (_shouldStop == true)
                 Application.Exit();
+
+            // Start the ModsLoop which will be in charge of activating the different modules.
+            // Keep repeating the Update method until the program should stop.
+            do
+            {
+                ModsLoop.Update();
+                Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
+            } while (_shouldStop == false);
         }
 
         /// <summary>
@@ -79,11 +87,11 @@ namespace GTAVC_Chaos
             else
                 Debug.WriteLine("Search for game handle aborted");
 
-            //GameHandler.memory.OpenProcess();
-            byte read = ReadWriteTest<byte>();
-            Debug.WriteLine(String.Format("Read value: {0}", read));
+            //byte read = ReadWriteTest<byte>();
+            //Debug.WriteLine(String.Format("Read value: {0}", read));
         }
 
+        /*
         static T ReadWriteTest<T>()
         {
             int address = 0x00A0FB75; // TimeHours
@@ -93,6 +101,41 @@ namespace GTAVC_Chaos
             GameHandler.memory.Write<byte>(address, writeValue, 1);
             return readValue;
         }
+        */
+
+        /// <summary>
+        /// Create the tray icon.
+        /// </summary>
+        static void InitTrayIcon()
+        {
+            Debug.WriteLine("Creating tray icon");
+            trayIcon = new NotifyIcon();
+            trayIcon.Icon = Properties.Resources.SunriseIcon;
+            trayIcon.Text = Settings.PROGRAM_NAME;
+            trayIcon.ContextMenu = contextMenu;
+            trayIcon.Visible = true;
+        }
+
+        /// <summary>
+        /// Creates the context menu and populates it.
+        /// </summary>
+        static void CreateContextMenu()
+        {
+            contextMenu = new ContextMenu();
+            MenuItem menuItemExit = new MenuItem();
+            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit });
+            menuItemExit.Index = 0;
+            menuItemExit.Text = "E&xit";
+            menuItemExit.Click += new EventHandler(menuItemExit_Click);
+        }
+
+        /// <summary>
+        /// Triggered when the user clicks the Exit button in the context menu.
+        /// </summary>
+        private static void menuItemExit_Click(object Sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
         /// <summary>
         /// Initialise an instance of the welcome window class and make it visible.
@@ -100,20 +143,24 @@ namespace GTAVC_Chaos
         static void InitWelcomeWindow()
         {
             Debug.WriteLine("Initializing Welcome Window");
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             welcomeWindow = new WelcomeWindow();
             Application.Run(welcomeWindow);
         }
 
         /// <summary>
-        /// When the program exits, we need to do some 'garbage collection' to restore the game to its normal values.
+        /// When the program exits, we need to release and remove some objects manually to ensure correct behaviour.
+        /// Later on, we also need to do some 'garbage collection' to restore the game to its normal values.
         /// This will be extended when the program is in a further stage of development where it actually changes the game.
         /// </summary>
         static void OnApplicationExit(object Sender, EventArgs e)
         {
             _shouldStop = true;
-            GameHandler.memory.CloseProcess();
+            if (GameHandler.memory != null)
+            {
+                GameHandler.memory.CloseProcess();
+            }
+            if (trayIcon != null)
+                trayIcon.Visible = false;
             Debug.WriteLine("Event OnApplicationExit fired");
         }
     }

@@ -24,8 +24,6 @@ namespace GTAVC_Chaos
             get { return effectLength; }
             set { effectLength = value * Settings.timeMultiplier; }
         }
-
-        
         
         /// <summary>
         /// Constructor for TimedEffect class specifying only the name.
@@ -53,7 +51,6 @@ namespace GTAVC_Chaos
                 allLimitations += (Limitations)Delegate.CreateDelegate(typeof(Limitations), mi);
             }
         }
-
 
         // Activate the effect
         public void Activate()

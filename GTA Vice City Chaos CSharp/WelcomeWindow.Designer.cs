@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WelcomeWindow));
             this.buttonConfirm = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonShowAdvancedOptions = new System.Windows.Forms.Button();
@@ -54,6 +53,7 @@
             this.buttonConfirm.TabStop = false;
             this.buttonConfirm.Text = "Confirm";
             this.buttonConfirm.UseVisualStyleBackColor = true;
+            this.buttonConfirm.Click += new System.EventHandler(this.buttonConfirm_Click);
             // 
             // buttonClose
             // 
@@ -222,7 +222,6 @@
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "WelcomeWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
