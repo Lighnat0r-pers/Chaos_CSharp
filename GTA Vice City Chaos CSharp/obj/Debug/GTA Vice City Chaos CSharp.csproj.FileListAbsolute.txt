@@ -15,3 +15,5 @@ C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chao
 C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.application
 C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.exe
 C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\obj\Debug\GTA Vice City Chaos CSharp.pdb
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\AccessProcessMemory.dll
+C:\Users\Roald\Dropbox\GTA VC Chaos%\CSharp Test\Chaos_CSharp\GTA Vice City Chaos CSharp\bin\Debug\AccessProcessMemory.pdb

@@ -18,7 +18,7 @@ namespace GTAVC_Chaos
         public const int SEED_VALID_LENGTH = 4;
         public const float PROGRAM_VERSION = 1.21f;
 
-        
+        static public bool _shouldStop = false;
 
         static public WelcomeWindow welcomeWindow;
 
@@ -50,6 +50,7 @@ namespace GTAVC_Chaos
             // for some reason related to it requiring a parameter, so GetGame() is called which in turn calls
             // GameHandler.OpenGameProcess with the parameter.
             Thread gameAccessThread = new Thread(GetGame);
+            gameAccessThread.IsBackground = true;
             gameAccessThread.Start();
 
             // Show the welcome window.
@@ -58,6 +59,10 @@ namespace GTAVC_Chaos
             // Wait until the thread that gets the game handle is finished before continuing.
             gameAccessThread.Join();
             Debug.WriteLine("Continuing main thread as game handle thread is done");
+
+            // Exit the application if the welcome window was exited.
+            if (_shouldStop == true)
+                Application.Exit();
         }
 
         /// <summary>
@@ -66,9 +71,13 @@ namespace GTAVC_Chaos
         /// </summary>
         static void GetGame() 
         {
+            _shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
             GameHandler.OpenGameProcess(Settings.gameName);
-            Debug.WriteLine("Game handle found");
+            if (GameHandler.memory != null)
+                Debug.WriteLine("Game handle found");
+            else
+                Debug.WriteLine("Search for game handle aborted");
         }
 
         /// <summary>
@@ -89,6 +98,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static void OnApplicationExit(object Sender, EventArgs e)
         {
+            _shouldStop = true;
             Debug.WriteLine("Event OnApplicationExit fired");
         }
     }

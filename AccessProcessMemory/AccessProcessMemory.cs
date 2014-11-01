@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AccessProcessMemory
 {
-    class AccessProcessMemoryApi
+    static class AccessProcessMemoryApi
     {
         public const UInt32 PROCESS_ALL_ACCESS = 0x001F0FFF;
 
@@ -16,14 +16,16 @@ namespace AccessProcessMemory
             UInt32 dwProcessId
             );
 
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern Int32 ReadProcessMemory(
             IntPtr hProcess,
             IntPtr lpBaseAddress,
-            [In, Out] byte[] buffer,
+            out byte[] buffer,
             UInt32 size,
             out IntPtr lpNumberOfBytesRead
             );
 
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern Int32 WriteProcessMemory(
             IntPtr hProcess,
             IntPtr lpBaseAddress,
@@ -32,7 +34,7 @@ namespace AccessProcessMemory
             out IntPtr lpNumberOfBytesWritten
             );
 
-
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern Int32 CloseHandle(
             IntPtr hObject
             );
@@ -111,7 +113,7 @@ namespace AccessProcessMemory
         {
             byte[] buffer = new byte[length];
             IntPtr ptrBytesReaded;
-            AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, buffer, length, out ptrBytesReaded);
+            AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, out buffer, length, out ptrBytesReaded);
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
 
             T result = ConvertOutput<T>(buffer);

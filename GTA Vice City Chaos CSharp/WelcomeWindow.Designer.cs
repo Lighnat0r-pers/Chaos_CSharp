@@ -47,7 +47,7 @@
             // 
             // buttonConfirm
             // 
-            this.buttonConfirm.Location = new System.Drawing.Point(12, 304);
+            this.buttonConfirm.Location = new System.Drawing.Point(15, 287);
             this.buttonConfirm.Name = "buttonConfirm";
             this.buttonConfirm.Size = new System.Drawing.Size(75, 23);
             this.buttonConfirm.TabIndex = 0;
@@ -57,7 +57,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(93, 304);
+            this.buttonClose.Location = new System.Drawing.Point(110, 287);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 1;
@@ -68,7 +68,7 @@
             // 
             // buttonShowAdvancedOptions
             // 
-            this.buttonShowAdvancedOptions.Location = new System.Drawing.Point(13, 203);
+            this.buttonShowAdvancedOptions.Location = new System.Drawing.Point(15, 189);
             this.buttonShowAdvancedOptions.Name = "buttonShowAdvancedOptions";
             this.buttonShowAdvancedOptions.Size = new System.Drawing.Size(150, 23);
             this.buttonShowAdvancedOptions.TabIndex = 2;
@@ -80,7 +80,7 @@
             // radioButtonDifficulty1
             // 
             this.radioButtonDifficulty1.AutoSize = true;
-            this.radioButtonDifficulty1.Location = new System.Drawing.Point(12, 114);
+            this.radioButtonDifficulty1.Location = new System.Drawing.Point(15, 114);
             this.radioButtonDifficulty1.Name = "radioButtonDifficulty1";
             this.radioButtonDifficulty1.Size = new System.Drawing.Size(48, 17);
             this.radioButtonDifficulty1.TabIndex = 4;
@@ -91,7 +91,7 @@
             // radioButtonDifficulty2
             // 
             this.radioButtonDifficulty2.AutoSize = true;
-            this.radioButtonDifficulty2.Location = new System.Drawing.Point(66, 114);
+            this.radioButtonDifficulty2.Location = new System.Drawing.Point(69, 114);
             this.radioButtonDifficulty2.Name = "radioButtonDifficulty2";
             this.radioButtonDifficulty2.Size = new System.Drawing.Size(62, 17);
             this.radioButtonDifficulty2.TabIndex = 5;
@@ -102,7 +102,7 @@
             // radioButtonDifficulty3
             // 
             this.radioButtonDifficulty3.AutoSize = true;
-            this.radioButtonDifficulty3.Location = new System.Drawing.Point(134, 114);
+            this.radioButtonDifficulty3.Location = new System.Drawing.Point(137, 114);
             this.radioButtonDifficulty3.Name = "radioButtonDifficulty3";
             this.radioButtonDifficulty3.Size = new System.Drawing.Size(48, 17);
             this.radioButtonDifficulty3.TabIndex = 6;
@@ -115,7 +115,7 @@
             this.checkBoxStaticEffectsEnabled.AutoSize = true;
             this.checkBoxStaticEffectsEnabled.Checked = true;
             this.checkBoxStaticEffectsEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxStaticEffectsEnabled.Location = new System.Drawing.Point(13, 233);
+            this.checkBoxStaticEffectsEnabled.Location = new System.Drawing.Point(15, 218);
             this.checkBoxStaticEffectsEnabled.Name = "checkBoxStaticEffectsEnabled";
             this.checkBoxStaticEffectsEnabled.Size = new System.Drawing.Size(129, 17);
             this.checkBoxStaticEffectsEnabled.TabIndex = 12;
@@ -128,7 +128,7 @@
             this.checkBoxTimedEffectsEnabled.AutoSize = true;
             this.checkBoxTimedEffectsEnabled.Checked = true;
             this.checkBoxTimedEffectsEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxTimedEffectsEnabled.Location = new System.Drawing.Point(13, 257);
+            this.checkBoxTimedEffectsEnabled.Location = new System.Drawing.Point(15, 241);
             this.checkBoxTimedEffectsEnabled.Name = "checkBoxTimedEffectsEnabled";
             this.checkBoxTimedEffectsEnabled.Size = new System.Drawing.Size(131, 17);
             this.checkBoxTimedEffectsEnabled.TabIndex = 13;
@@ -140,7 +140,7 @@
             // checkboxSanicModeEnabled
             // 
             this.checkboxSanicModeEnabled.AutoSize = true;
-            this.checkboxSanicModeEnabled.Location = new System.Drawing.Point(12, 281);
+            this.checkboxSanicModeEnabled.Location = new System.Drawing.Point(15, 264);
             this.checkboxSanicModeEnabled.Name = "checkboxSanicModeEnabled";
             this.checkboxSanicModeEnabled.Size = new System.Drawing.Size(123, 17);
             this.checkboxSanicModeEnabled.TabIndex = 14;
@@ -151,7 +151,7 @@
             // labelWelcomeMessage
             // 
             this.labelWelcomeMessage.AutoSize = true;
-            this.labelWelcomeMessage.Location = new System.Drawing.Point(10, 9);
+            this.labelWelcomeMessage.Location = new System.Drawing.Point(12, 9);
             this.labelWelcomeMessage.Name = "labelWelcomeMessage";
             this.labelWelcomeMessage.Size = new System.Drawing.Size(132, 13);
             this.labelWelcomeMessage.TabIndex = 15;
@@ -160,7 +160,7 @@
             // labelEnterSeed
             // 
             this.labelEnterSeed.AutoSize = true;
-            this.labelEnterSeed.Location = new System.Drawing.Point(10, 53);
+            this.labelEnterSeed.Location = new System.Drawing.Point(12, 53);
             this.labelEnterSeed.Name = "labelEnterSeed";
             this.labelEnterSeed.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelEnterSeed.Size = new System.Drawing.Size(160, 13);
@@ -170,7 +170,7 @@
             // labelDifficulty
             // 
             this.labelDifficulty.AutoSize = true;
-            this.labelDifficulty.Location = new System.Drawing.Point(12, 98);
+            this.labelDifficulty.Location = new System.Drawing.Point(12, 92);
             this.labelDifficulty.Name = "labelDifficulty";
             this.labelDifficulty.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelDifficulty.Size = new System.Drawing.Size(50, 13);
@@ -180,14 +180,14 @@
             // labelQuicksave
             // 
             this.labelQuicksave.AutoSize = true;
-            this.labelQuicksave.Location = new System.Drawing.Point(10, 140);
+            this.labelQuicksave.Location = new System.Drawing.Point(12, 134);
             this.labelQuicksave.MaximumSize = new System.Drawing.Size(200, 0);
             this.labelQuicksave.Name = "labelQuicksave";
             this.labelQuicksave.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelQuicksave.Size = new System.Drawing.Size(198, 52);
             this.labelQuicksave.TabIndex = 18;
-            this.labelQuicksave.Text = " F5 will quicksave the game if not in a vehicle or on a mission. After a crash, p" +
-    "ress F5 in the main menu to restore the save.";
+            this.labelQuicksave.Text = "F5 will quicksave the game if not in a vehicle or on a mission. After a crash, pr" +
+    "ess F5 in the main menu to restore the save.";
             // 
             // numericTextBoxSeed
             // 
@@ -195,7 +195,7 @@
             this.numericTextBoxSeed.AllowNegativeSign = false;
             this.numericTextBoxSeed.AllowNumberGroupSeparator = false;
             this.numericTextBoxSeed.AllowSpace = false;
-            this.numericTextBoxSeed.Location = new System.Drawing.Point(12, 69);
+            this.numericTextBoxSeed.Location = new System.Drawing.Point(15, 69);
             this.numericTextBoxSeed.MaxLength = 8;
             this.numericTextBoxSeed.Name = "numericTextBoxSeed";
             this.numericTextBoxSeed.Size = new System.Drawing.Size(100, 20);
@@ -206,7 +206,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(275, 337);
+            this.ClientSize = new System.Drawing.Size(237, 324);
             this.Controls.Add(this.labelQuicksave);
             this.Controls.Add(this.labelDifficulty);
             this.Controls.Add(this.labelEnterSeed);
@@ -226,7 +226,7 @@
             this.MaximizeBox = false;
             this.Name = "WelcomeWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Chaos% Welcome Window";
+            this.Text = "Welcome to Chaos%";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
             this.Load += new System.EventHandler(this.WelcomeWindow_Load);
             this.ResumeLayout(false);
