@@ -42,7 +42,7 @@ namespace GTAVC_Chaos
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // While the user will be choosing settings in this thread, start another thread which will start
+            // While the user will be shown the welcome window in this thread, start another thread which will start
             // trying to get a handle to the game. Calling GameHandler.OpenGameProcess directly doesn't work
             // for some reason related to it requiring a parameter, so GetGame() is called which in turn calls
             // GameHandler.OpenGameProcess with the parameter.
@@ -50,7 +50,7 @@ namespace GTAVC_Chaos
             gameAccessThread.IsBackground = true;
             gameAccessThread.Start();
 
-            // Create the tray icon.
+            // Create the tray icon and context menu.
             InitTrayIcon();
 
             // Show the welcome window.
@@ -58,11 +58,12 @@ namespace GTAVC_Chaos
 
             // Wait until the thread that gets the game handle is finished before continuing.
             gameAccessThread.Join();
-            Debug.WriteLine("Continuing main thread as game handle thread is done");
-
-            // Exit the application if the welcome window was exited.
-            if (_shouldStop == true)
+            if (_shouldStop == true) // Exit the application if the welcome window was exited.
+            {
+                Debug.WriteLine("Exiting application as stop signal was given");
                 Application.Exit();
+            }
+            Debug.WriteLine("Continuing main thread as game handle thread is done");
 
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
@@ -74,7 +75,7 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// Function that calls the function that opens a handle to the game in GameHandler so that this can be 
+        /// Method that calls the method that opens a handle to the game in GameHandler so that this can be 
         /// done in a separate thread. The handle will be stored in GameHandler.memory
         /// </summary>
         static void GetGame() 
@@ -112,6 +113,7 @@ namespace GTAVC_Chaos
             trayIcon = new NotifyIcon();
             trayIcon.Icon = Properties.Resources.SunriseIcon;
             trayIcon.Text = Settings.PROGRAM_NAME;
+            CreateContextMenu();
             trayIcon.ContextMenu = contextMenu;
             trayIcon.Visible = true;
         }
@@ -123,10 +125,14 @@ namespace GTAVC_Chaos
         {
             contextMenu = new ContextMenu();
             MenuItem menuItemExit = new MenuItem();
-            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit });
-            menuItemExit.Index = 0;
+            MenuItem menuItemRestart = new MenuItem();
+            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit, menuItemRestart});
+            menuItemExit.Index = 1;
             menuItemExit.Text = "E&xit";
             menuItemExit.Click += new EventHandler(menuItemExit_Click);
+            menuItemRestart.Index = 0;
+            menuItemRestart.Text = "R&estart Program";
+            menuItemRestart.Click += new EventHandler(menuItemRestart_Click);
         }
 
         /// <summary>
@@ -134,7 +140,17 @@ namespace GTAVC_Chaos
         /// </summary>
         private static void menuItemExit_Click(object Sender, EventArgs e)
         {
+            Debug.WriteLine("Context menu item Exit clicked");
             Application.Exit();
+        }
+
+        /// <summary>
+        /// Triggered when the user clicks the Exit button in the context menu.
+        /// </summary>
+        private static void menuItemRestart_Click(object Sender, EventArgs e)
+        {
+            Debug.WriteLine("Context menu item Restart Program clicked");
+            Application.Restart();
         }
 
         /// <summary>
@@ -144,7 +160,7 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Initializing Welcome Window");
             welcomeWindow = new WelcomeWindow();
-            Application.Run(welcomeWindow);
+            Application.Run();
         }
 
         /// <summary>

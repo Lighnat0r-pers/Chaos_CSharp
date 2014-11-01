@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Linq;
 
 namespace GTAVC_Chaos
 {
@@ -11,6 +12,7 @@ namespace GTAVC_Chaos
         public WelcomeWindow()
         {
             InitializeComponent();
+            Show();
         }
 
         /// <summary>
@@ -19,6 +21,7 @@ namespace GTAVC_Chaos
         private void buttonClose_Click(object sender, EventArgs e)
         {
             this.Close();
+            Application.Exit();
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace GTAVC_Chaos
         /// </summary>
         private void WelcomeWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Debug.WriteLine("Event OnWelcomeWindowClose fired");
+            Debug.WriteLine("Event WelcomeWindow_FormClosing fired");
             if (e.CloseReason != CloseReason.UserClosing)
             {
                 e.Cancel = false;
@@ -103,11 +106,26 @@ namespace GTAVC_Chaos
             {
                 Debug.WriteLine("Seed entered was not valid, set to default 0");
             }
-            Settings.timedEffectsEnabled = checkBoxTimedEffectsEnabled.Checked;
+
+            RadioButton checkedButton = panel1.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+            bool isValidDifficulty = Settings.difficultiesArray.TryGetValue(checkedButton.Text, out Settings.difficulty);
+            if (!isValidDifficulty)
+            {
+                Settings.difficulty = Settings.difficultyDefault;
+            }
+
             Settings.staticEffectsEnabled = checkBoxStaticEffectsEnabled.Checked;
+            Settings.timedEffectsEnabled = checkBoxTimedEffectsEnabled.Checked;
             Settings.sanicModeEnabled = checkboxSanicModeEnabled.Checked;
-            
-            Hide();
+
+            Debug.WriteLine(String.Format("Seed: {0}", Settings.seed));
+            Debug.WriteLine(String.Concat("Difficulty: ", checkedButton.Text));
+            Debug.WriteLine(String.Format("Static Effects Enabled: {0}", Settings.staticEffectsEnabled));
+            Debug.WriteLine(String.Format("Timed Effects Enabled: {0}", Settings.timedEffectsEnabled));
+            Debug.WriteLine(String.Format("Sanic Mode Enabled: {0}", Settings.sanicModeEnabled));
+
+            this.FormClosing -= new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
+            Close();
             Program.currentForm = null;
         }
     }

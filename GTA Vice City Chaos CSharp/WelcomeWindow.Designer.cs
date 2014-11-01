@@ -41,7 +41,9 @@
             this.labelEnterSeed = new System.Windows.Forms.Label();
             this.labelDifficulty = new System.Windows.Forms.Label();
             this.labelQuicksave = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.numericTextBoxSeed = new GTAVC_Chaos.NumericTextBox();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonConfirm
@@ -80,18 +82,18 @@
             // radioButtonDifficulty1
             // 
             this.radioButtonDifficulty1.AutoSize = true;
-            this.radioButtonDifficulty1.Location = new System.Drawing.Point(15, 114);
+            this.radioButtonDifficulty1.Location = new System.Drawing.Point(3, 3);
             this.radioButtonDifficulty1.Name = "radioButtonDifficulty1";
             this.radioButtonDifficulty1.Size = new System.Drawing.Size(48, 17);
             this.radioButtonDifficulty1.TabIndex = 4;
-            this.radioButtonDifficulty1.TabStop = true;
             this.radioButtonDifficulty1.Text = "Easy";
             this.radioButtonDifficulty1.UseVisualStyleBackColor = true;
             // 
             // radioButtonDifficulty2
             // 
             this.radioButtonDifficulty2.AutoSize = true;
-            this.radioButtonDifficulty2.Location = new System.Drawing.Point(69, 114);
+            this.radioButtonDifficulty2.Checked = true;
+            this.radioButtonDifficulty2.Location = new System.Drawing.Point(57, 3);
             this.radioButtonDifficulty2.Name = "radioButtonDifficulty2";
             this.radioButtonDifficulty2.Size = new System.Drawing.Size(62, 17);
             this.radioButtonDifficulty2.TabIndex = 5;
@@ -102,11 +104,10 @@
             // radioButtonDifficulty3
             // 
             this.radioButtonDifficulty3.AutoSize = true;
-            this.radioButtonDifficulty3.Location = new System.Drawing.Point(137, 114);
+            this.radioButtonDifficulty3.Location = new System.Drawing.Point(125, 3);
             this.radioButtonDifficulty3.Name = "radioButtonDifficulty3";
             this.radioButtonDifficulty3.Size = new System.Drawing.Size(48, 17);
             this.radioButtonDifficulty3.TabIndex = 6;
-            this.radioButtonDifficulty3.TabStop = true;
             this.radioButtonDifficulty3.Text = "Hard";
             this.radioButtonDifficulty3.UseVisualStyleBackColor = true;
             // 
@@ -189,6 +190,16 @@
             this.labelQuicksave.Text = "F5 will quicksave the game if not in a vehicle or on a mission. After a crash, pr" +
     "ess F5 in the main menu to restore the save.";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.radioButtonDifficulty1);
+            this.panel1.Controls.Add(this.radioButtonDifficulty2);
+            this.panel1.Controls.Add(this.radioButtonDifficulty3);
+            this.panel1.Location = new System.Drawing.Point(12, 108);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(186, 23);
+            this.panel1.TabIndex = 19;
+            // 
             // numericTextBoxSeed
             // 
             this.numericTextBoxSeed.AllowDecimalSeparator = false;
@@ -207,6 +218,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(237, 324);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelQuicksave);
             this.Controls.Add(this.labelDifficulty);
             this.Controls.Add(this.labelEnterSeed);
@@ -215,9 +227,6 @@
             this.Controls.Add(this.checkBoxTimedEffectsEnabled);
             this.Controls.Add(this.checkBoxStaticEffectsEnabled);
             this.Controls.Add(this.numericTextBoxSeed);
-            this.Controls.Add(this.radioButtonDifficulty3);
-            this.Controls.Add(this.radioButtonDifficulty2);
-            this.Controls.Add(this.radioButtonDifficulty1);
             this.Controls.Add(this.buttonShowAdvancedOptions);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonConfirm);
@@ -228,6 +237,8 @@
             this.Text = "Welcome to Chaos%";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
             this.Load += new System.EventHandler(this.WelcomeWindow_Load);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -249,6 +260,7 @@
         private System.Windows.Forms.Label labelDifficulty;
         private System.Windows.Forms.Label labelQuicksave;
         public NumericTextBox numericTextBoxSeed;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

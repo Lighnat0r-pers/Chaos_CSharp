@@ -7,20 +7,27 @@ namespace GTAVC_Chaos
         // Define private variables.
         static int sanicModeMultiplier = 10;
         static int baseTimeMultiplier = 1;
+        static int difficultyEasy = 4;
+        static int difficultyMedium = 7;
+        static int difficultyHard = 10;
 
         // Define public variables.
         static public bool timedEffectsEnabledDefault = true;
         static public bool staticEffectsEnabledDefault = true;
         static public bool sanicModeEnabledDefault = false;
         static public string gameName = "GTAVC";
+        static public int difficultyDefault = difficultyMedium;
 
         static public bool timedEffectsEnabled;
         static public bool staticEffectsEnabled;
         static public bool sanicModeEnabled;
         static public uint seed;
+        static public int difficulty;
 
         static public Dictionary<string, string> gameWindowNameArray = new Dictionary<string, string>();
         static public Dictionary<string, string> gameWindowClassNameArray = new Dictionary<string, string>();
+        static public Dictionary<string, int> difficultiesArray = new Dictionary<string, int>();
+
 
         public const int DEFAULT_WAIT_TIME = 250;
         public const int SEED_VALID_LENGTH = 4;
@@ -54,6 +61,9 @@ namespace GTAVC_Chaos
         {
             gameWindowNameArray.Add(gameName, "GTA: Vice City");
             gameWindowClassNameArray.Add(gameName, "Grand theft auto 3");
+            difficultiesArray.Add("Easy", difficultyEasy);
+            difficultiesArray.Add("Medium", difficultyMedium);
+            difficultiesArray.Add("Hard", difficultyHard);
         }
     }
 }

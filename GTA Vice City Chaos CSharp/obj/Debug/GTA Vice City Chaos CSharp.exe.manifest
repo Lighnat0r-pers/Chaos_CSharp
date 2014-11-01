@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GTA Vice City Chaos CSharp.exe" size="292352">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GTA Vice City Chaos CSharp.exe" size="294400">
       <assemblyIdentity name="GTA Vice City Chaos CSharp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YVYgFja0/Rk8sysbaU2KNc6Sn0ReLLe29b/ywmjbpXM=</dsig:DigestValue>
+        <dsig:DigestValue>DYbcsi8GL5z1z+oOECBTLcgjNk6nFdSRanJObtrL7Oo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
