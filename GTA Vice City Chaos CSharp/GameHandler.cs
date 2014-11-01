@@ -9,7 +9,7 @@ namespace GTAVC_Chaos
 {
     static class GameHandlerApi
     {
-        [DllImport("user32.dll")] // GetClassName
+        [DllImport("user32.dll", CharSet=CharSet.Unicode)] // GetClassName
         public static extern int GetClassName(IntPtr hwnd, StringBuilder lpClassName, int MaxCount);
     }
 

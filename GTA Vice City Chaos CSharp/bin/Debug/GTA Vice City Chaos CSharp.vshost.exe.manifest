@@ -43,26 +43,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AccessProcessMemory.dll" size="10240">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AccessProcessMemory.dll" size="11776">
       <assemblyIdentity name="AccessProcessMemory" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>aprLAUtpNXbVAfZC8XMDol+Yi5kRNVitGVPMrOkpFIw=</dsig:DigestValue>
+        <dsig:DigestValue>Bu/uyFw/Wnk2prlOsXPzK9IQTV6R8VwH8PIK0Csbrts=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GTA Vice City Chaos CSharp.exe" size="561664">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GTA Vice City Chaos CSharp.exe" size="562176">
       <assemblyIdentity name="GTA Vice City Chaos CSharp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>4IvSXo70H9EEKFKw1+T8NE0R+vu7J6/rKXY1VpmfsXc=</dsig:DigestValue>
+        <dsig:DigestValue>khceAs8rQ/ONL1d/ryr9gCo1Brqwjb9j4ycLDaf1Eds=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

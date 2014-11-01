@@ -12,25 +12,25 @@ namespace AccessProcessMemory
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr OpenProcess(
             UInt32 dwDesiredAccess,
-            Int32 bInheritHandle,
-            UInt32 dwProcessId
+            bool bInheritHandle,
+            Int32 dwProcessId
             );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern Int32 ReadProcessMemory(
+        public static extern bool ReadProcessMemory(
             IntPtr hProcess,
             IntPtr lpBaseAddress,
-            out byte[] buffer,
-            UInt32 size,
+            [In, Out] byte[] lpBuffer,
+            IntPtr dwSize,
             out IntPtr lpNumberOfBytesRead
             );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern Int32 WriteProcessMemory(
+        public static extern bool WriteProcessMemory(
             IntPtr hProcess,
             IntPtr lpBaseAddress,
-            byte[] buffer,
-            UInt32 size,
+            byte[] lpBuffer,
+            IntPtr dwSize,
             out IntPtr lpNumberOfBytesWritten
             );
 
@@ -38,7 +38,6 @@ namespace AccessProcessMemory
         public static extern Int32 CloseHandle(
             IntPtr hObject
             );
-
 
     }
 
@@ -64,8 +63,7 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Process that the functions in this library will target. The handle to the process 
-        /// is automatically gotten when this is set.
+        /// Process that the functions in this library will target.
         /// </summary>
         public Process targetProcess
         {
@@ -76,7 +74,6 @@ namespace AccessProcessMemory
             set
             {
                 m_Process = value;
-                OpenProcess();
             }
         }
 
@@ -85,12 +82,11 @@ namespace AccessProcessMemory
         private IntPtr m_ProcessHandle = IntPtr.Zero;
 
         /// <summary>
-        /// Gets the process handle for m_Process. Automatically called when the targetProcess
-        /// property is set.
+        /// Gets the process handle for m_Process. Needs to be called before accessing the memory.
         /// </summary>
-        void OpenProcess()
+        public void OpenProcess()
         {
-            m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, 0, (uint)m_Process.Id);
+            m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, true, m_Process.Id);
             if (m_ProcessHandle == IntPtr.Zero)
                 throw new Exception("OpenProcess failed");
         }
@@ -109,13 +105,15 @@ namespace AccessProcessMemory
         /// Read [length] bytes at [address] in the current targetProcess. The byte array is then 
         /// converted to type [T] before being returned. length defaults to 4.
         /// </summary>
-        public T Read<T>(int address, uint length = 4)
+        public T Read<T>(int address, int length = 4)
         {
+            OpenProcess();
             byte[] buffer = new byte[length];
             IntPtr ptrBytesReaded;
-            AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, out buffer, length, out ptrBytesReaded);
+            AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, buffer, (IntPtr)length, out ptrBytesReaded);
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
-
+            if (buffer == null)
+                throw new Exception("Error while reading memory, no memory read");
             T result = ConvertOutput<T>(buffer);
             return result;
         }
@@ -125,17 +123,20 @@ namespace AccessProcessMemory
         /// array will be filled with zeros. Length defaults to the length of the input after conversion
         /// to byte array. Write the fullInput byte array to [address] in the current targetProcess.
         /// </summary>
-        public void Write<T>(int address, T input, uint length = uint.MinValue)
+        public void Write<T>(int address, T input, int length = int.MinValue)
         {
+            OpenProcess();
+            if (input == null)
+                throw new Exception("Error while writing memory, no input provided");
             string dataType = typeof(T).Name;
             byte[] byteInput = ConvertInput<T>(input);
-            if (length == uint.MinValue)
-                length = (uint)byteInput.Length;
+            if (length == int.MinValue)
+                length = byteInput.Length;
             byte[] fullInput = new byte[length];
             Array.Copy(byteInput, fullInput, byteInput.Length);
 
             IntPtr ptrBytesWritten;
-            AccessProcessMemoryApi.WriteProcessMemory(m_ProcessHandle, (IntPtr)address, fullInput, length, out ptrBytesWritten);
+            AccessProcessMemoryApi.WriteProcessMemory(m_ProcessHandle, (IntPtr)address, fullInput, (IntPtr)length, out ptrBytesWritten);
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
         }
 
@@ -146,15 +147,24 @@ namespace AccessProcessMemory
         /// </summary>
         private T ConvertOutput<T>(byte[] output)
         {
+            if (output == null)
+                throw new Exception("Error while converting output from memory, no output");
             string targetDataType = typeof(T).Name;
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(output); // Convert big endian to little endian.
 
             dynamic result;
+            targetDataType = targetDataType.ToLowerInvariant();
             switch (targetDataType)
             {
                 case "bool":
                     result = BitConverter.ToBoolean(output, 0);
+                    break;
+                case "byte":
+                    result = output[0];
+                    break;
+                case "short":
+                    result = BitConverter.ToInt16(output, 0);
                     break;
                 case "int":
                     result = BitConverter.ToInt32(output, 0);
@@ -184,11 +194,21 @@ namespace AccessProcessMemory
         /// </summary>
         byte[] ConvertInput<T>(dynamic input)
         {
+            if (input == null)
+                throw new Exception("Error while converting input for memory, no input");
             string originalDataType = typeof(T).Name;
             byte[] result;
+
+            originalDataType = originalDataType.ToLowerInvariant();
             switch (originalDataType)
             {
                 case "bool":
+                    result = BitConverter.GetBytes(input);
+                    break;
+                case "byte":
+                    result = new byte[]{input};
+                    break;
+                case "short":
                     result = BitConverter.GetBytes(input);
                     break;
                 case "int":
@@ -207,7 +227,7 @@ namespace AccessProcessMemory
                     result = Encoding.Unicode.GetBytes(input);
                     break;
                 default:
-                    throw new Exception(String.Format("Tried to convert memory reading to unknown dataType {0}", originalDataType));
+                    throw new Exception(String.Format("Tried to convert memory input to unknown dataType {0}", originalDataType));
             }
 
             if (BitConverter.IsLittleEndian)

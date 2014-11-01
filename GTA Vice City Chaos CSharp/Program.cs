@@ -78,6 +78,20 @@ namespace GTAVC_Chaos
                 Debug.WriteLine("Game handle found");
             else
                 Debug.WriteLine("Search for game handle aborted");
+
+            //GameHandler.memory.OpenProcess();
+            byte read = ReadWriteTest<byte>();
+            Debug.WriteLine(String.Format("Read value: {0}", read));
+        }
+
+        static T ReadWriteTest<T>()
+        {
+            int address = 0x00A0FB75; // TimeHours
+            T readValue;
+            byte writeValue = 14;
+            readValue = GameHandler.memory.Read<T>(address, 1);
+            GameHandler.memory.Write<byte>(address, writeValue, 1);
+            return readValue;
         }
 
         /// <summary>
@@ -99,6 +113,7 @@ namespace GTAVC_Chaos
         static void OnApplicationExit(object Sender, EventArgs e)
         {
             _shouldStop = true;
+            GameHandler.memory.CloseProcess();
             Debug.WriteLine("Event OnApplicationExit fired");
         }
     }
