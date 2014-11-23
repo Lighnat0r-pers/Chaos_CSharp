@@ -56,14 +56,19 @@ namespace GTAVC_Chaos
             // Show the welcome window.
             InitWelcomeWindow();
 
+            // Read effects from xml files.
+            Components.Init();
+
             // Wait until the thread that gets the game handle is finished before continuing.
             gameAccessThread.Join();
-            if (_shouldStop == true) // Exit the application if the welcome window was exited.
+            if (_shouldStop == true) // Exit the application if the welcome window was exited by returning in the main method.
             {
                 Debug.WriteLine("Exiting application as stop signal was given");
-                Application.Exit();
+                return;
             }
             Debug.WriteLine("Continuing main thread as game handle thread is done");
+
+
 
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
@@ -128,10 +133,10 @@ namespace GTAVC_Chaos
             MenuItem menuItemRestart = new MenuItem();
             contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit, menuItemRestart});
             menuItemExit.Index = 1;
-            menuItemExit.Text = "E&xit";
+            menuItemExit.Text = "Exit";
             menuItemExit.Click += new EventHandler(menuItemExit_Click);
             menuItemRestart.Index = 0;
-            menuItemRestart.Text = "R&estart Program";
+            menuItemRestart.Text = "Restart Program";
             menuItemRestart.Click += new EventHandler(menuItemRestart_Click);
         }
 

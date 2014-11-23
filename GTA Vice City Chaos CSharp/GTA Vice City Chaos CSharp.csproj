@@ -81,12 +81,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEffect.cs" />
+    <Compile Include="Components.cs" />
+    <Compile Include="DoTimedEffects.cs" />
     <Compile Include="GameHandler.cs" />
     <Compile Include="ModsLoop.cs" />
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PermanentEffect.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="StaticEffect.cs" />
     <Compile Include="TimedEffect.cs" />
     <Compile Include="TimedEffectLimitations.cs" />
     <Compile Include="WelcomeWindow.cs">
@@ -120,6 +124,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="TimedEffectSchema.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -149,6 +156,11 @@
       <Project>{8e530303-45d6-4fae-bc03-67abd09b2e33}</Project>
       <Name>AccessProcessMemory</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TimedEffects.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

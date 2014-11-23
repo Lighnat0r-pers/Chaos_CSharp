@@ -69,5 +69,29 @@ namespace GTAVC_Chaos.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema id=&quot;TimedEffectSchema&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///
+        ///  &lt;xs:element name=&quot;timedeffects&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;timedeffect&quot;  maxOccurs=&quot;unbounded&quot; type=&quot;TimedEffect&quot;/&gt;
+        ///      &lt;/xs:sequence&gt;
+        ///    &lt;/xs:complexType&gt;
+        ///  &lt;/xs:element&gt;
+        ///
+        ///
+        ///  &lt;xs:complexType name=&quot;TimedEffect&quot;&gt;
+        ///    &lt;xs:sequence&gt;
+        ///      &lt;xs:element name=&quot;name&quot; type=&quot;xs:string&quot;/&gt;
+        ///      &lt;xs:element name [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TimedEffectSchema {
+            get {
+                return ResourceManager.GetString("TimedEffectSchema", resourceCulture);
+            }
+        }
     }
 }

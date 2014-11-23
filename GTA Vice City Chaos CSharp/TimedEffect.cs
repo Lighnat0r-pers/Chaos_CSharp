@@ -34,7 +34,7 @@ namespace GTAVC_Chaos
         }
         
         /// <summary>
-        /// Constructor for TimedEffect class specifying the name and length.
+        /// Constructor for TimedEffect class specifying the name and duration.
         /// The name is passed onto the constructor of the base class (BaseEffect).
         /// </summary>
         public TimedEffect(string effectName, int duration, string[] limitations = null) : base(effectName)
@@ -53,7 +53,7 @@ namespace GTAVC_Chaos
         }
 
         // Activate the effect
-        public void Activate()
+        public override void Activate()
         {
             // Check all the limitations, if one of them returns true set canExecute to false and stop checking limitations.
             foreach (Limitations f in allLimitations.GetInvocationList())
@@ -69,9 +69,14 @@ namespace GTAVC_Chaos
         }
 
         // Deactivate the effect
-        public void Deactivate()
+        public override void Deactivate()
         {
 
+        }
+
+        public void CalculateMTTH()
+        {
+            float activationTime = effectLength / difficulty;
         }
     }
 }
