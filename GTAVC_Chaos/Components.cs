@@ -40,38 +40,42 @@ namespace GTAVC_Chaos
 
         static void InitTimedEffects()
         {
-           // /*
-            // NOTE(Ligh): Get the schema from an external file.
-            XmlSchemaCollection schemas = new XmlSchemaCollection();
-            XmlReader schemaReader = new XmlTextReader("TimedEffectSchema.xsd");
-            XmlSchema schema = XmlSchema.Read(schemaReader, null);
+
+            XmlSchemaSet schemas = new XmlSchemaSet();
+
+            // NOTE(Ligh): Gets the schema from an external file.
+            //XmlReader x = new XmlTextReader("TimedEffectSchema.xsd");
+
+            // NOTE(Ligh): Gets the schema from an embedded resource.
+            Stream x = Assembly.GetExecutingAssembly().GetManifestResourceStream("GTAVC_Chaos.TimedEffectSchema.xsd");
+            
+            XmlSchema schema = XmlSchema.Read(x, null);
+
             schemas.Add(schema);
-            // */
 
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.Schemas = schemas;
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
+            XmlReader readerDoc = XmlReader.Create("TimedEffects.xml", settings);
 
-
-            XmlReader readerDoc = new XmlTextReader("TimedEffects.xml");
-            XmlValidatingReader newReader = new XmlValidatingReader(readerDoc);
-            newReader.Schemas.Add(schemas);
-            //newReader.ValidationEventHandler += new ValidationEventHandler(OnValidate);
-
-            while (newReader.Read())
+            while (readerDoc.Read())
             {
-                switch (newReader.NodeType)
+                switch (readerDoc.NodeType)
                 {
                     case XmlNodeType.Element:
-                        Debug.WriteLine("<" + newReader.Name + ">");
+                        Debug.WriteLine("<" + readerDoc.Name + ">");
                         break;
                     case XmlNodeType.Text:
-                        Debug.WriteLine(newReader.Value);
+                        Debug.WriteLine(readerDoc.Value);
                         break;
                     case XmlNodeType.EndElement:
-                        Debug.WriteLine("</" + newReader.Name + ">");
+                        Debug.WriteLine("</" + readerDoc.Name + ">");
                         break;
                 }
             }
-            newReader.Close();
+            readerDoc.Close();
             /*
 
             XmlSchemaSet schemas = new XmlSchemaSet();
@@ -120,6 +124,11 @@ namespace GTAVC_Chaos
         static void InitStaticEffects()
         {
 
+        }
+
+        private static void ValidationCallBack(object sender, ValidationEventArgs e)
+        {
+            Console.WriteLine("Validation Error: {0}", e.Message);
         }
     }
 }

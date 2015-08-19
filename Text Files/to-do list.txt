@@ -9,4 +9,3 @@ List of used addresses
 Bit data type support for memory addresses.
 Converter for MemoryAddresses.xml to MHS file and back (also CE?)
 Support for dynamic memory addresses.
-XSD schemas should be embedded resources.
