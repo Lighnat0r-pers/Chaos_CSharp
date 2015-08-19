@@ -23,16 +23,7 @@ namespace GTAVC_Chaos
         [STAThread]
         static void Main()
         {
-            // To ensure the decimal separator is always a period and stuff like that, we set the culture 
-            // to en-UK if it isn't already.
-            if (Thread.CurrentThread.CurrentCulture.Name != "en-UK")
-            {
-                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-UK");
-                CultureInfo.DefaultThreadCurrentCulture = culture;
-                CultureInfo.DefaultThreadCurrentUICulture = culture;
-                Thread.CurrentThread.CurrentCulture = culture;
-                Thread.CurrentThread.CurrentCulture = culture;
-            }
+            SetThreadCulture();
 
             // Enable registering when the application closes.
             Application.ApplicationExit += new EventHandler(OnApplicationExit);
@@ -75,6 +66,22 @@ namespace GTAVC_Chaos
                 ModsLoop.Update();
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
             } while (_shouldStop == false);
+        }
+
+        /// <summary>
+        /// To ensure the decimal separator is always a period and stuff like that, we set the culture 
+        /// to en-UK if it isn't already.
+        /// </summary>
+        private static void SetThreadCulture()
+        {
+            if (Thread.CurrentThread.CurrentCulture.Name != "en-UK")
+            {
+                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-UK");
+                CultureInfo.DefaultThreadCurrentCulture = culture;
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
+                Thread.CurrentThread.CurrentCulture = culture;
+                Thread.CurrentThread.CurrentCulture = culture;
+            }
         }
 
         /// <summary>
