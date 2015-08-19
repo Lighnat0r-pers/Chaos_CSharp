@@ -29,8 +29,8 @@ namespace GTAVC_Chaos
         {
             InitMemoryAddresses();
             InitTimedEffects();
-            InitPermanentEffects();
-            InitStaticEffects();
+            //InitPermanentEffects();
+            //InitStaticEffects();
         }
 
         void xmlValidationEventHandler(object sender, ValidationEventArgs e)

@@ -8,3 +8,4 @@ Bit data type support for memory addresses.
 Converter for MemoryAddresses.xml to MHS file and back (also CE?)
 Support for dynamic memory addresses (pointers + offsets).
 Adding in the support for limitations in TimedEffects.xml
+proper documentation of the xml files.

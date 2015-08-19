@@ -6,7 +6,6 @@ namespace GTAVC_Chaos
 {
     class MemoryAddress
     {
-
         public string name;
         public long address;
         public Type type;
