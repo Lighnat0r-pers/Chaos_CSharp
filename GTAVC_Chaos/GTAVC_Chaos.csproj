@@ -83,7 +83,6 @@
     <Compile Include="BaseEffect.cs" />
     <Compile Include="Components.cs" />
     <Compile Include="DoTimedEffects.cs" />
-    <Compile Include="FileLoader.cs" />
     <Compile Include="GameHandler.cs" />
     <Compile Include="MemoryAddress.cs" />
     <Compile Include="ModsLoop.cs" />

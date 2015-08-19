@@ -97,11 +97,6 @@ namespace GTAVC_Chaos
             //Debug.WriteLine(String.Format("Read value: {0}", read));
         }
 
-        static void LoadMemoryAddresses()
-        {
-            FileLoader.LoadMemoryAddresses("MemoryAddresses.xml");
-        }
-
         /*
         static T ReadWriteTest<T>()
         {
