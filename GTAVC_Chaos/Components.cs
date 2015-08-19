@@ -94,7 +94,7 @@ namespace GTAVC_Chaos
                 string type = node.SelectSingleNode("type").InnerText;
 
                 int size = 0;
-                XmlNode sizeNode = node.SelectSingleNode("size");
+                XmlNode sizeNode = node.SelectSingleNode("length");
                 if (sizeNode != null)
                 {
                     size = Int32.Parse(sizeNode.InnerText);
