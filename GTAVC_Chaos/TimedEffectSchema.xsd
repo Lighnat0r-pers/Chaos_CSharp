@@ -38,12 +38,20 @@
   <!--Define what an activator should be-->
   <xs:complexType name="Activator">
     <xs:sequence>
-      <xs:element name="address" type="xs:hexBinary"/>
+      <xs:element name="address" type="xs:string"/>
       <xs:element name="target"/>
-      <xs:element name="original"/>
     </xs:sequence>
-    <xs:attribute name="type" type="xs:string" use="required"/>
-    <xs:attribute name="datatype" type="xs:string" use="required"/>
+    <xs:attribute ref="type" use="required"/>
   </xs:complexType>
+
+  <!--Limit allowed values of type-->
+  <xs:attribute name="type">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="simple"/>
+        <xs:enumeration value="gradual"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
   
 </xs:schema>

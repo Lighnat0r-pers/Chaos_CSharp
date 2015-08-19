@@ -21,6 +21,11 @@ The size element is only used for the ascii/unicode data types and can be safely
     <!--<size>4</size>-->
   </memoryaddress>
   <memoryaddress>
+    <name>DrunkCam</name>
+    <address>00983B38</address>
+    <type>int</type>
+  </memoryaddress>
+  <memoryaddress>
     <name>PlayerPointer</name>
     <address>007E4B8C</address>
     <type>int</type>

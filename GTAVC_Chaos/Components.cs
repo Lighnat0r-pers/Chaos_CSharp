@@ -8,25 +8,27 @@ using System.Xml.Schema;
 
 namespace GTAVC_Chaos
 {
-    static class Components
+    class Components
     {
-        static public MemoryAddress[] memoryAddresses;
-        static public TimedEffect[] timedEffects;
-        static public PermanentEffect[] permanentEffects;
-        static public StaticEffect[] staticEffects;
+        public MemoryAddress[] memoryAddresses;
+        public TimedEffect[] timedEffects;
+        public PermanentEffect[] permanentEffects;
+        public StaticEffect[] staticEffects;
 
-        static string baseResourceString     = "GTAVC_Chaos.";
-        static string memoryAddressesFile    = "MemoryAddresses.xml";
-        static string memoryAddressesSchema  = "MemoryAddressSchema.xsd";
-        static string timedEffectsFile       = "TimedEffects.xml";
-        static string timedEffectsSchema     = "TimedEffectSchema.xsd";
-        static string permanentEffectsFile   = "PermanentEffects.xml";
-        static string permanentEffectsSchema = "PermanentEffectSchema.xsd";
-        static string staticEffectsFile      = "StaticEffects.xml";
-        static string staticEffectsSchema    = "StaticEffectSchema.xsd";
+        string baseResourceString     = "GTAVC_Chaos.";
+        string memoryAddressesFile    = "MemoryAddresses.xml";
+        string memoryAddressesSchema  = "MemoryAddressSchema.xsd";
+        string timedEffectsFile       = "TimedEffects.xml";
+        string timedEffectsSchema     = "TimedEffectSchema.xsd";
+        string permanentEffectsFile   = "PermanentEffects.xml";
+        string permanentEffectsSchema = "PermanentEffectSchema.xsd";
+        string staticEffectsFile      = "StaticEffects.xml";
+        string staticEffectsSchema    = "StaticEffectSchema.xsd";
 
-
-        static public void Init()
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Components()
         {
             InitMemoryAddresses();
             InitTimedEffects();
@@ -34,7 +36,7 @@ namespace GTAVC_Chaos
             InitStaticEffects();
         }
 
-        static void xmlValidationEventHandler(object sender, ValidationEventArgs e)
+        void xmlValidationEventHandler(object sender, ValidationEventArgs e)
         {
             if (e.Severity == XmlSeverityType.Warning)
             {
@@ -46,7 +48,7 @@ namespace GTAVC_Chaos
             }
         }
 
-        static XmlSchemaSet getXmlSchemaSet(string filename)
+        XmlSchemaSet getXmlSchemaSet(string filename)
         {
             XmlSchemaSet schemas = new XmlSchemaSet();
 
@@ -61,7 +63,7 @@ namespace GTAVC_Chaos
             return schemas;
         }
 
-        static XmlDocument getXmlDocument(string xmlFilename, string xsdFilename)
+        XmlDocument getXmlDocument(string xmlFilename, string xsdFilename)
         {
             XmlDocument document = new XmlDocument();
             document.Load(xmlFilename);
@@ -71,13 +73,14 @@ namespace GTAVC_Chaos
             return document;
         }
 
-        static void InitMemoryAddresses()
+        void InitMemoryAddresses()
         {
+            Debug.WriteLine("Initializing memory addresses from file.");
             XmlDocument file = getXmlDocument(memoryAddressesFile, memoryAddressesSchema);
             ReadMemoryAddresses(file);
         }
 
-        static void ReadMemoryAddresses(XmlDocument file)
+        void ReadMemoryAddresses(XmlDocument file)
         {
             // TODO(Ligh): Properly catch errors here.
 
@@ -102,59 +105,99 @@ namespace GTAVC_Chaos
 
                 count++;
             }
+
+            Debug.WriteLine("Read " + count + " memory addresses from file.");
         }
 
-        static void InitTimedEffects()
+        public MemoryAddress findMemoryAddressByName(string name)
         {
+            MemoryAddress result = null;
+            foreach (MemoryAddress address in memoryAddresses)
+            {
+                if (address.name == name)
+                {
+                    result = address;
+                    break;
+                }
+            }
+
+            if (result == null)
+            {
+                throw new Exception("Memory address " + name + " not found.");
+            }
+
+            return result;
+        }
+
+        void InitTimedEffects()
+        {
+            Debug.WriteLine("Initializing timed effects from file.");
             XmlDocument file = getXmlDocument(timedEffectsFile, timedEffectsSchema);
             ReadTimedEffects(file);
         }
 
-        static void ReadTimedEffects(XmlDocument file)
+        void ReadTimedEffects(XmlDocument file)
         {
-            XmlNodeList effects = file.SelectNodes("//timedeffects/timedeffect");
-            foreach (XmlNode effect in effects)
+            XmlNodeList nodes = file.SelectNodes("//timedeffects/timedeffect");
+            timedEffects = new TimedEffect[nodes.Count];
+
+            int count1 = 0;
+            foreach (XmlNode node in nodes)
             {
-                XmlNode nameNode = effect.SelectSingleNode("name");
-                XmlNode categoryNode = effect.SelectSingleNode("category");
-                XmlNode difficultyNode = effect.SelectSingleNode("difficulty");
-                XmlNode durationNode = effect.SelectSingleNode("duration");
-                if (durationNode == null)
-                {
+                string name = node.SelectSingleNode("name").InnerText;
+                string category = node.SelectSingleNode("category").InnerText;
+                int difficulty = Int32.Parse(node.SelectSingleNode("difficulty").InnerText);
 
+                int duration = 0;
+                XmlNode durationNode = node.SelectSingleNode("duration");
+                if (durationNode != null)
+                {
+                    duration = Int32.Parse(durationNode.InnerText);
                 }
 
-                XmlNodeList activators = effect.SelectNodes("activator");
-                foreach (XmlNode activator in activators)
+                XmlNodeList activatornodes = node.SelectNodes("activator");
+                EffectActivator[] activators = new EffectActivator[activatornodes.Count];
+
+                int count2 = 0;
+                foreach (XmlNode activatornode in activatornodes)
                 {
-                    XmlNode typeNode = activator.SelectSingleNode("type");
-                    XmlNode datatypeNode = activator.SelectSingleNode("datatype");
-                    XmlNode addressNode = activator.SelectSingleNode("address");
-                    XmlNode targetNode = activator.SelectSingleNode("target");
-                    XmlNode originalNode = activator.SelectSingleNode("original");
+                    string type = activatornode.SelectSingleNode("type").InnerText;
+                    string target = activatornode.SelectSingleNode("target").InnerText;
+                    string address = activatornode.SelectSingleNode("address").InnerText;
+
+                    activators[count2] = new EffectActivator(type, target, address);
+
+                    count2++;
                 }
 
+                timedEffects[count1] = new TimedEffect(name, category, difficulty, duration);
+
+                count1++;
             }
+
+            Debug.WriteLine("Read " + count1 + " timed effects from file.");
         }
 
-        static void InitPermanentEffects()
+        void InitPermanentEffects()
         {
+            Debug.WriteLine("Initializing permanent effects from file.");
             XmlDocument file = getXmlDocument(permanentEffectsFile, permanentEffectsSchema);
             ReadPermanentEffects(file);
         }
 
-        static void ReadPermanentEffects(XmlDocument file)
+        void ReadPermanentEffects(XmlDocument file)
         {
 
         }
 
-        static void InitStaticEffects()
+        void InitStaticEffects()
         {
+            Debug.WriteLine("Initializing static effects from file.");
             XmlDocument file = getXmlDocument(staticEffectsFile, staticEffectsSchema);
             ReadStaticEffects(file);
         }
 
-        static void ReadStaticEffects(XmlDocument file)
+        void ReadStaticEffects(XmlDocument file)
         {
 
         }

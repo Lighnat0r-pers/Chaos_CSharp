@@ -7,15 +7,25 @@ namespace GTAVC_Chaos
 
         public bool enabled = true;
         public string name;
-        public int difficulty;
         public string category;
+        public int difficulty;
 
         /// <summary>
         /// Constructor for BaseEffect class specifying only the name.
         /// </summary>
-        public BaseEffect(string effectName)
+        public BaseEffect(string _name)
         {
-            name = effectName;
+            name = _name;
+        }
+
+        /// <summary>
+        /// Constructor for BaseEffect class.
+        /// </summary>
+        public BaseEffect(string _name, string _category, int _difficulty)
+        {
+            name = _name;
+            category = _category;
+            difficulty = _difficulty;
         }
 
         // Activate the effect

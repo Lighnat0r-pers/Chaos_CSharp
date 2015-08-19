@@ -12,7 +12,7 @@ namespace GTAVC_Chaos
         // since the arguments will either be strings or be able to be parsed from strings.
         public delegate bool Limitations(params string[] strings);
 
-        Limitations allLimitations = null;
+        Limitations limitations = null;
 
         bool canExecute;
 
@@ -26,29 +26,22 @@ namespace GTAVC_Chaos
         }
         
         /// <summary>
-        /// Constructor for TimedEffect class specifying only the name.
-        /// </summary>
-        public TimedEffect(string effectName) : base(effectName)
-        {
-            effectLength = defaultEffectLength;
-        }
-        
-        /// <summary>
         /// Constructor for TimedEffect class specifying the name and duration.
         /// The name is passed onto the constructor of the base class (BaseEffect).
         /// </summary>
-        public TimedEffect(string effectName, int duration, string[] limitations = null) : base(effectName)
+        public TimedEffect(string _name, string _category, int _difficulty, int duration = 0, string[] _limitations = null)
+            : base(_name, _category, _difficulty)
         {
-            //effectLength = duration;
+            effectLength = duration == 0 ? defaultEffectLength : duration;
 
             // Process the limitations string array and for each element convert it to a method in TimedEffectLimitations.cs
             // then add it to a multicast delegate which can be called when needed to check all limitations.
             // If no limitations are put in, generate an empty string array so the foreach loop is effectively skipped but doesn't return an exception.
-            limitations = (limitations == null) ? new string[] { } : limitations;
-            foreach (string element in limitations)
+            _limitations = (_limitations == null) ? new string[] { } : _limitations;
+            foreach (string element in _limitations)
             {
                 MethodInfo mi = typeof(TimedEffectLimitations).GetMethod(element);
-                allLimitations += (Limitations)Delegate.CreateDelegate(typeof(Limitations), mi);
+                limitations += (Limitations)Delegate.CreateDelegate(typeof(Limitations), mi);
             }
         }
 
@@ -56,7 +49,7 @@ namespace GTAVC_Chaos
         public override void Activate()
         {
             // Check all the limitations, if one of them returns true set canExecute to false and stop checking limitations.
-            foreach (Limitations f in allLimitations.GetInvocationList())
+            foreach (Limitations f in limitations.GetInvocationList())
             {
                 if (f())
                 {
@@ -64,7 +57,14 @@ namespace GTAVC_Chaos
                     break;
                 }
                 else
+                {
                     canExecute = true;
+                }
+            }
+
+            if (canExecute == true)
+            {
+
             }
         }
 

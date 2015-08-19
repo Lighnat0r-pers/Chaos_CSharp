@@ -15,6 +15,7 @@ namespace GTAVC_Chaos
         static public WelcomeWindow welcomeWindow;
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
+        static public Components components;
 
         /// <summary>
         /// The main entry point for the application.
@@ -49,8 +50,8 @@ namespace GTAVC_Chaos
             // Create the tray icon and context menu.
             InitTrayIcon();
 
-            // Read effects from xml files.
-            Components.Init();
+            // Read addresses and effects from xml files.
+            components = new Components();
 
             // Show the welcome window.
             InitWelcomeWindow();

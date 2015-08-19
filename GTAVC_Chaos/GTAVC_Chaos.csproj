@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEffect.cs" />
+    <Compile Include="EffectActivator.cs" />
     <Compile Include="Components.cs" />
     <Compile Include="DoTimedEffects.cs" />
     <Compile Include="GameHandler.cs" />
