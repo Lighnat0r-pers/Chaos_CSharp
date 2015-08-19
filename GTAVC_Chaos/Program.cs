@@ -180,7 +180,7 @@ namespace GTAVC_Chaos
         static void OnApplicationExit(object Sender, EventArgs e)
         {
             _shouldStop = true;
-            if (game.gameFound == true)
+            if (game != null && game.gameFound == true)
             {
                 game.CloseProcess();
             }
