@@ -150,12 +150,13 @@ namespace AccessProcessMemory
         {
             if (output == null)
                 throw new Exception("Error while converting output from memory, no output");
-            string targetDataType = typeof(T).Name;
+
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(output); // Convert big endian to little endian.
 
             dynamic result;
-            targetDataType = targetDataType.ToLowerInvariant();
+
+            string targetDataType = typeof(T).Name.ToLowerInvariant();
             switch (targetDataType)
             {
                 case "bool":
@@ -200,10 +201,10 @@ namespace AccessProcessMemory
         {
             if (input == null)
                 throw new Exception("Error while converting input for memory, no input");
-            string originalDataType = typeof(T).Name;
+
             byte[] result;
 
-            originalDataType = originalDataType.ToLowerInvariant();
+            string originalDataType = typeof(T).Name.ToLowerInvariant();
             switch (originalDataType)
             {
                 case "bool":
