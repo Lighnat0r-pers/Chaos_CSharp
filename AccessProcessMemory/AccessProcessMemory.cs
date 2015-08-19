@@ -106,7 +106,7 @@ namespace AccessProcessMemory
         /// Read [length] bytes at [address] in the current targetProcess. The byte array is then 
         /// converted to type [T] before being returned. length defaults to 4.
         /// </summary>
-        public T Read<T>(int address, int length = 4)
+        public T Read<T>(long address, int length = 4)
         {
             OpenProcess();
             byte[] buffer = new byte[length];
@@ -124,7 +124,7 @@ namespace AccessProcessMemory
         /// array will be filled with zeros. Length defaults to the length of the input after conversion
         /// to byte array. Write the fullInput byte array to [address] in the current targetProcess.
         /// </summary>
-        public void Write<T>(int address, T input, int length = int.MinValue)
+        public void Write<T>(long address, T input, int length = int.MinValue)
         {
             OpenProcess();
             if (input == null)

@@ -11,11 +11,11 @@ namespace GTAVC_Chaos
         static public bool _shouldStop = false;
         static public Form currentForm = null;
 
-
         static public WelcomeWindow welcomeWindow;
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
         static public Components components;
+        static public GameHandler game;
 
         /// <summary>
         /// The main entry point for the application.
@@ -77,15 +77,14 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// Method that calls the method that opens a handle to the game in GameHandler so that this can be 
-        /// done in a separate thread. The handle will be stored in GameHandler.memory
+        /// Method that gets us access to the game.
         /// </summary>
         static void GetGame() 
         {
             _shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
-            GameHandler.OpenGameProcess(Settings.gameName);
-            if (GameHandler.memory != null)
+            game = new GameHandler(Settings.gameName);
+            if (game.gameFound == true)
                 Debug.WriteLine("Game handle found");
             else
                 Debug.WriteLine("Search for game handle aborted");
@@ -100,8 +99,8 @@ namespace GTAVC_Chaos
             int address = 0x00A0FB75; // TimeHours
             T readValue;
             byte writeValue = 14;
-            readValue = GameHandler.memory.Read<T>(address, 1);
-            GameHandler.memory.Write<byte>(address, writeValue, 1);
+            readValue = game.Read<T>(address, 1);
+            game.Write<byte>(address, writeValue, 1);
             return readValue;
         }
         */
@@ -173,12 +172,14 @@ namespace GTAVC_Chaos
         static void OnApplicationExit(object Sender, EventArgs e)
         {
             _shouldStop = true;
-            if (GameHandler.memory != null)
+            if (game.gameFound == true)
             {
-                GameHandler.memory.CloseProcess();
+                game.CloseProcess();
             }
             if (trayIcon != null)
+            {
                 trayIcon.Visible = false;
+            }
             Debug.WriteLine("Event OnApplicationExit fired");
         }
     }
