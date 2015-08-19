@@ -17,10 +17,11 @@ namespace GTAVC_Chaos
         /// <param name="_address"></param>
         /// <param name="_type"></param>
         /// <param name="_size"></param>
-        public MemoryAddress(string _name, string _address, string _type, int _size = 0)
+        public MemoryAddress(string _name, long _address, string _type, int _size = 0)
         {
+
             name = _name;
-            address = Int64.Parse(_address);
+            address = _address;
             type = _type;
 
             switch (type)

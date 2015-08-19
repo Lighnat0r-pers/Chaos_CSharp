@@ -4,6 +4,7 @@ using System.Xml.Schema;
 using System.Diagnostics;
 using System.Reflection;
 using System.IO;
+using System.Globalization;
 
 namespace GTAVC_Chaos
 {
@@ -78,17 +79,28 @@ namespace GTAVC_Chaos
 
         static void ReadMemoryAddresses(XmlDocument file)
         {
-            XmlNodeList effects = file.SelectNodes("//addresses/memoryaddress");
-            foreach (XmlNode effect in effects)
-            {
-                XmlNode nameNode = effect.SelectSingleNode("name");
-                XmlNode addressNode = effect.SelectSingleNode("address");
-                XmlNode typeNode = effect.SelectSingleNode("Type");
-                XmlNode sizeNode = effect.SelectSingleNode("size");
-                if (sizeNode == null)
-                {
+            // TODO(Ligh): Properly catch errors here.
 
+            XmlNodeList nodes = file.SelectNodes("//addresses/memoryaddress");
+            memoryAddresses = new MemoryAddress[nodes.Count];
+
+            int count = 0;
+            foreach (XmlNode node in nodes)
+            {
+                string name = node.SelectSingleNode("name").InnerText;
+                long address = Int64.Parse(node.SelectSingleNode("address").InnerText, NumberStyles.HexNumber);
+                string type = node.SelectSingleNode("type").InnerText;
+
+                int size = 0;
+                XmlNode sizeNode = node.SelectSingleNode("size");
+                if (sizeNode != null)
+                {
+                    size = Int32.Parse(sizeNode.InnerText);
                 }
+
+                memoryAddresses[count] = new MemoryAddress(name, address, type, size);
+
+                count++;
             }
         }
 
