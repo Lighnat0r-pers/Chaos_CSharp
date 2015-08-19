@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GTAVC_Chaos</RootNamespace>
-    <AssemblyName>GTA Vice City Chaos CSharp</AssemblyName>
+    <AssemblyName>GTAVC_Chaos</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -83,7 +83,9 @@
     <Compile Include="BaseEffect.cs" />
     <Compile Include="Components.cs" />
     <Compile Include="DoTimedEffects.cs" />
+    <Compile Include="FileLoader.cs" />
     <Compile Include="GameHandler.cs" />
+    <Compile Include="MemoryAddress.cs" />
     <Compile Include="ModsLoop.cs" />
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>
@@ -114,7 +116,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="GTA Vice City Chaos CSharp_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

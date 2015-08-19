@@ -1,11 +1,2 @@
-AccessProcessMemory/obj/Debug/AccessProcessMemory.csproj.FileListAbsolute.txt
-AccessProcessMemory/obj/Debug/AccessProcessMemory.dll.orig
-AccessProcessMemory/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
-AccessProcessMemory/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
-AccessProcessMemory/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
-GTA Vice City Chaos CSharp/obj/Debug/GTA Vice City Chaos CSharp.exe.orig
-GTA Vice City Chaos CSharp/Report141101.vsp
-Text Files/SomeSetupStuff.txt~
-AccessProcessMemory/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
-AccessProcessMemory/obj/Release/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
-AccessProcessMemory/obj/Release/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+/*/bin
+/*/obj

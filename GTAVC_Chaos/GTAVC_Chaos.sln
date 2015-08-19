@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTA Vice City Chaos CSharp", "GTA Vice City Chaos CSharp.csproj", "{CDF54F7F-3562-47AA-8545-646992395329}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTAVC_Chaos", "GTAVC_Chaos.csproj", "{CDF54F7F-3562-47AA-8545-646992395329}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessProcessMemory", "..\AccessProcessMemory\AccessProcessMemory.csproj", "{8E530303-45D6-4FAE-BC03-67ABD09B2E33}"
 EndProject

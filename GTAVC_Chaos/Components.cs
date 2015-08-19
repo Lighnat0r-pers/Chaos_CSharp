@@ -9,10 +9,11 @@ namespace GTAVC_Chaos
 {
     static class Components
     {
-        static public TimedEffect[] timedEffectsArray;
-        static public PermanentEffect[] permanentEffectsArray;
-        static public StaticEffect[] staticEffectsArray;
-        static XmlDocument xmlFile;
+        static public MemoryAddress[] memoryAddresses;
+        static public TimedEffect[] timedEffects;
+        static public PermanentEffect[] permanentEffects;
+        static public StaticEffect[] staticEffects;
+        static XmlDocument timedEffectsFile;
 
         static public void Init()
         {
@@ -44,10 +45,10 @@ namespace GTAVC_Chaos
 
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(null, schemaReader);
-            xmlFile = new XmlDocument();
-            xmlFile.Schemas = schemas;
-            xmlFile.LoadXml("TimeEffects.xml");
-            xmlFile.Validate(new ValidationEventHandler(settingsValidationEventHandler));
+            timedEffectsFile = new XmlDocument();
+            timedEffectsFile.Schemas = schemas;
+            timedEffectsFile.LoadXml("TimeEffects.xml");
+            timedEffectsFile.Validate(new ValidationEventHandler(settingsValidationEventHandler));
             ReadTimedEffects();
 
 
@@ -55,7 +56,7 @@ namespace GTAVC_Chaos
 
         static void ReadTimedEffects()
         {
-            XmlNodeList effects = xmlFile.SelectNodes("//timedeffects/timedeffect");
+            XmlNodeList effects = timedEffectsFile.SelectNodes("//timedeffects/timedeffect");
             foreach (XmlNode effect in effects)
             {
                 XmlNode nameNode = effect.SelectSingleNode("name");

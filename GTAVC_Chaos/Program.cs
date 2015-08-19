@@ -54,7 +54,7 @@ namespace GTAVC_Chaos
             InitTrayIcon();
 
             // Show the welcome window.
-            InitWelcomeWindow();
+           // InitWelcomeWindow();
 
             // Read effects from xml files.
             Components.Init();
@@ -95,6 +95,11 @@ namespace GTAVC_Chaos
 
             //byte read = ReadWriteTest<byte>();
             //Debug.WriteLine(String.Format("Read value: {0}", read));
+        }
+
+        static void LoadMemoryAddresses()
+        {
+            FileLoader.LoadMemoryAddresses("MemoryAddresses.xml");
         }
 
         /*
