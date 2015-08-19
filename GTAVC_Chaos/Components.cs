@@ -40,17 +40,48 @@ namespace GTAVC_Chaos
 
         static void InitTimedEffects()
         {
-            Stream schemaStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("GTAVC_Chaos.TimedEffectSchema.xsd");
-            XmlReader schemaReader = XmlReader.Create(schemaStream);
+           // /*
+            // NOTE(Ligh): Get the schema from an external file.
+            XmlSchemaCollection schemas = new XmlSchemaCollection();
+            XmlReader schemaReader = new XmlTextReader("TimedEffectSchema.xsd");
+            XmlSchema schema = XmlSchema.Read(schemaReader, null);
+            schemas.Add(schema);
+            // */
+
+
+
+
+            XmlReader readerDoc = new XmlTextReader("TimedEffects.xml");
+            XmlValidatingReader newReader = new XmlValidatingReader(readerDoc);
+            newReader.Schemas.Add(schemas);
+            //newReader.ValidationEventHandler += new ValidationEventHandler(OnValidate);
+
+            while (newReader.Read())
+            {
+                switch (newReader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        Debug.WriteLine("<" + newReader.Name + ">");
+                        break;
+                    case XmlNodeType.Text:
+                        Debug.WriteLine(newReader.Value);
+                        break;
+                    case XmlNodeType.EndElement:
+                        Debug.WriteLine("</" + newReader.Name + ">");
+                        break;
+                }
+            }
+            newReader.Close();
+            /*
 
             XmlSchemaSet schemas = new XmlSchemaSet();
             schemas.Add(null, schemaReader);
             timedEffectsFile = new XmlDocument();
             timedEffectsFile.Schemas = schemas;
-            timedEffectsFile.LoadXml("TimeEffects.xml");
+            timedEffectsFile.LoadXml("TimedEffects.xml");
             timedEffectsFile.Validate(new ValidationEventHandler(settingsValidationEventHandler));
             ReadTimedEffects();
-
+            */
 
         }
 
