@@ -42,26 +42,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AccessProcessMemory.dll" size="11776">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AccessProcessMemory.dll" size="12288">
       <assemblyIdentity name="AccessProcessMemory" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>6lfHkcmzuI8w304ReHQRzt05Xz9xAqbDYD0Klqm3c9w=</dsig:DigestValue>
+        <dsig:DigestValue>impyu1PVYtzgFFXkyzgaKrLc+l/pNuE6iNdxR8Hn4go=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GTA Vice City Chaos CSharp.exe" size="294400">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="GTA Vice City Chaos CSharp.exe" size="300544">
       <assemblyIdentity name="GTA Vice City Chaos CSharp" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DYbcsi8GL5z1z+oOECBTLcgjNk6nFdSRanJObtrL7Oo=</dsig:DigestValue>
+        <dsig:DigestValue>lb5ru8F38lxTKYHabWA/av4IHQzaeEEmv/VLuPoLgOU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -72,6 +72,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>xm4bo26HQ0LNVwz1vdPYtzhkpMnp2AI5i+f0b+OahTI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="MemoryAddresses.xml" size="422" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hRS54PMA4eoVrLF7FOpWe6QJjLSk+6wDEBhor5S4H5I=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

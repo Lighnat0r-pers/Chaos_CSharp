@@ -170,6 +170,9 @@ namespace AccessProcessMemory
                 case "int":
                     result = BitConverter.ToInt32(output, 0);
                     break;
+                case "long":
+                    result = BitConverter.ToInt64(output, 0);
+                    break;
                 case "float":
                     result = BitConverter.ToSingle(output, 0);
                     break;
@@ -213,6 +216,9 @@ namespace AccessProcessMemory
                     result = BitConverter.GetBytes(input);
                     break;
                 case "int":
+                    result = BitConverter.GetBytes(input);
+                    break;
+                case "long":
                     result = BitConverter.GetBytes(input);
                     break;
                 case "float":

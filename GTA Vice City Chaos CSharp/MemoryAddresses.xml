@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Supported types:
+* bool
+* byte
+* short
+* int
+* long
+* float
+* double
+* ascii
+* unicode
+
+The size element is only used for the ascii/unicode data types and can be safely left out for other types.
+-->
+<addresses>
+  <address>
+    <name>GRAVITY</name>
+    <memory>0068F5F0</memory>
+    <type>float</type>
+    <!--<size>4</size>-->
+  </address>
+</addresses>
