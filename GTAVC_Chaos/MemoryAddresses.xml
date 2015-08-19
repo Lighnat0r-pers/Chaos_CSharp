@@ -18,7 +18,6 @@ The length element is only used for string length (in characters, not bytes!) of
     <name>Gravity</name>
     <address>0068F5F0</address>
     <type>float</type>
-    <!--<length>4</length>-->
   </memoryaddress>
   <memoryaddress>
     <name>DrunkCam</name>
@@ -29,5 +28,11 @@ The length element is only used for string length (in characters, not bytes!) of
     <name>PlayerPointer</name>
     <address>007E4B8C</address>
     <type>int</type>
+  </memoryaddress>
+  <memoryaddress>
+    <name>MissionName</name>
+    <address>0094B243</address>
+    <type>ascii</type>
+    <length>8</length>
   </memoryaddress>
 </addresses>
