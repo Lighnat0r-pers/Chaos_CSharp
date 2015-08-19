@@ -21,7 +21,6 @@ namespace GTAVC_Chaos
         private void buttonClose_Click(object sender, EventArgs e)
         {
             this.Close();
-            Application.Exit();
         }
 
         /// <summary>
@@ -37,7 +36,15 @@ namespace GTAVC_Chaos
                 return;
             }
             if (MessageBox.Show("Are you sure you want to exit the program?", "GTA Vice City Chaos%", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
                 e.Cancel = true;
+            }
+        }
+
+        private void WelcomeWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Debug.WriteLine("Event WelcomeWindow_FormClosed fired");
+            Application.Exit();
         }
 
         /// <summary>
@@ -125,6 +132,7 @@ namespace GTAVC_Chaos
             Debug.WriteLine(String.Format("Sanic Mode Enabled: {0}", Settings.sanicModeEnabled));
 
             this.FormClosing -= new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
+            this.FormClosed -= new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
             Close();
             Program.currentForm = null;
         }

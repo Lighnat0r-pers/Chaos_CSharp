@@ -236,6 +236,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Welcome to Chaos%";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
             this.Load += new System.EventHandler(this.WelcomeWindow_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
