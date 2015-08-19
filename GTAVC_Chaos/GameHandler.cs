@@ -138,7 +138,7 @@ namespace GTAVC_Chaos
         private long getAddressForVersion(long address)
         {
 
-            return address;
+            return address - 0xFF8;
         }
     }
 }

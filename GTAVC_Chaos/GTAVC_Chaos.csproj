@@ -65,6 +65,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -84,6 +85,7 @@
     <Compile Include="EffectActivator.cs" />
     <Compile Include="Components.cs" />
     <Compile Include="DoTimedEffects.cs" />
+    <Compile Include="GameFunctions.cs" />
     <Compile Include="GameHandler.cs" />
     <Compile Include="MemoryAddress.cs" />
     <Compile Include="ModsLoop.cs" />

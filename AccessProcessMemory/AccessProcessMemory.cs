@@ -141,20 +141,21 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Converts byte array to the type given by the targetDataType parameter. If the parameter
+        /// Converts byte array to the type given by the dataType parameter. If the parameter
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
         /// converted to little endian if necessary.
         /// </summary>
-        private static dynamic ConvertOutput(byte[] output, string targetDataType)
+        private static dynamic ConvertOutput(byte[] output, string dataType)
         {
             if (output == null)
                 throw new Exception("Error while converting output from memory, no output");
 
-            if (BitConverter.IsLittleEndian)
+            // TODO(Ligh): This is not necessary for strings, check if it is for others (probably is)
+            if (dataType != "ascii" && dataType != "unicode" && BitConverter.IsLittleEndian)
                 Array.Reverse(output); // Convert big endian to little endian.
 
             dynamic result;
-            switch (targetDataType)
+            switch (dataType)
             {
                 case "bool":
                     result = BitConverter.ToBoolean(output, 0);
@@ -184,23 +185,23 @@ namespace AccessProcessMemory
                     result = Encoding.Unicode.GetString(output);
                     break;
                 default:
-                    throw new Exception(String.Format("Tried to convert memory reading to unknown dataType {0}", targetDataType));
+                    throw new Exception(String.Format("Tried to convert memory reading to unknown data type {0}", dataType));
             }
             return result;
         }
 
         /// <summary>
-        /// Converts the type given by the targetDataType parameter to a byte array. If the parameter
+        /// Converts the type given by the dataType parameter to a byte array. If the parameter
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
         /// converted to little endian if necessary.
         /// </summary>
-        private static byte[] ConvertInput(dynamic input, string originalDataType)
+        private static byte[] ConvertInput(dynamic input, string dataType)
         {
             if (input == null)
                 throw new Exception("Error while converting input for memory, no input");
 
             byte[] result;
-            switch (originalDataType)
+            switch (dataType)
             {
                 case "bool":
                     result = BitConverter.GetBytes(input);
@@ -230,10 +231,11 @@ namespace AccessProcessMemory
                     result = Encoding.Unicode.GetBytes(input);
                     break;
                 default:
-                    throw new Exception(String.Format("Tried to convert memory input to unknown dataType {0}", originalDataType));
+                    throw new Exception(String.Format("Tried to convert memory input to unknown data type {0}", dataType));
             }
 
-            if (BitConverter.IsLittleEndian)
+            // TODO(Ligh): This is not necessary for strings, check if it is for others (probably is)
+            if (dataType != "ascii" && dataType != "unicode" && BitConverter.IsLittleEndian)
                 Array.Reverse(result); // Convert big endian to little endian.
 
             return result;
