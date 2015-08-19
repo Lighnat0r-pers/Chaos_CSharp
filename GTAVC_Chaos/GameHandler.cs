@@ -85,7 +85,7 @@ namespace GTAVC_Chaos
             switch (name)
             {
                 case "GTAVC":
-                    byte value = memory.Read<byte>(0x00608578, 1);
+                    byte value = memory.Read(0x00608578, "byte", 1);
                     switch (value)
                     {
                         case 0x5D:
@@ -111,7 +111,7 @@ namespace GTAVC_Chaos
             return _version;
         }
 
-        public T Read<T>(long address, int length = 4)
+        public dynamic Read(MemoryAddress address)
         {
             // TODO(Ligh): Deal with dynamic addresses (in combination with the version offset).
 
@@ -120,10 +120,10 @@ namespace GTAVC_Chaos
                 throw new Exception("Can't read game memory: Game not found.");
             }
 
-            return memory.Read<T>(getAddressForVersion(address), length);
+            return memory.Read(getAddressForVersion(address.address), address.type, address.size);
         }
 
-        public void Write<T>(long address, T input, int length = int.MinValue)
+        public void Write(MemoryAddress address, dynamic input)
         {
             // TODO(Ligh): Deal with dynamic addresses (in combination with the version offset).
 
@@ -132,7 +132,7 @@ namespace GTAVC_Chaos
                 throw new Exception("Can't write game memory: Game not found.");
             }
 
-            memory.Write<T>(getAddressForVersion(address), input, length);
+            memory.Write(getAddressForVersion(address.address), input, address.type, address.size);
         }
 
         private long getAddressForVersion(long address)

@@ -8,7 +8,7 @@ namespace GTAVC_Chaos
     {
         public string name;
         public long address;
-        public Type type;
+        public string type;
         public int size = 0;
 
         /// <summary>
@@ -16,38 +16,27 @@ namespace GTAVC_Chaos
         /// </summary>
         public MemoryAddress(string _name, long _address, string _type, int length = 0)
         {
-            Dictionary<string, Type> types = new Dictionary<string, Type>();
-            types.Add("bool", typeof(bool));
-            types.Add("byte", typeof(byte));
-            types.Add("short", typeof(short));
-            types.Add("int", typeof(int));
-            types.Add("long", typeof(long));
-            types.Add("float", typeof(float));
-            types.Add("double", typeof(double));
-            types.Add("ascii", typeof(string));
-            types.Add("unicode", typeof(string));
+            Dictionary<string, int> sizes = new Dictionary<string, int>();
+            sizes.Add("bool", sizeof(bool));
+            sizes.Add("byte", sizeof(byte));
+            sizes.Add("short", sizeof(short));
+            sizes.Add("int", sizeof(int));
+            sizes.Add("long", sizeof(long));
+            sizes.Add("float", sizeof(float));
+            sizes.Add("double", sizeof(double));
+            sizes.Add("ascii", length);
+            sizes.Add("unicode", length * 2);
 
             name = _name;
             address = _address;
-            if (!types.ContainsKey(_type))
+            if (!sizes.ContainsKey(_type))
             {
                 throw new Exception("Invalid type of memory address.");
             }
 
-            type = types[_type];
+            type = _type;
 
-            if (_type == "ascii")
-            {
-                size = length;
-            }
-            else if (_type == "unicode")
-            {
-                size = length * 2;
-            }
-            else
-            {
-                size = Marshal.SizeOf(type);
-            }
+            size = sizes[type];
 
             if (size == 0)
             {

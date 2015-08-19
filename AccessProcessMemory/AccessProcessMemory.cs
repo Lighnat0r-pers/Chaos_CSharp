@@ -104,9 +104,9 @@ namespace AccessProcessMemory
 
         /// <summary>
         /// Read [length] bytes at [address] in the current targetProcess. The byte array is then 
-        /// converted to type [T] before being returned. length defaults to 4.
+        /// cast to type before being returned.
         /// </summary>
-        public T Read<T>(long address, int length = 4)
+        public dynamic Read(long address, string type, int length)
         {
             OpenProcess();
             byte[] buffer = new byte[length];
@@ -115,22 +115,21 @@ namespace AccessProcessMemory
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
             if (buffer == null)
                 throw new Exception("Error while reading memory, no memory read");
-            T result = ConvertOutput<T>(buffer);
+            dynamic result = ConvertOutput(buffer, type);
             return result;
         }
 
         /// <summary>
-        /// Convert the input of type T to a byte array of [length]. If the input is shorter, the rest of the 
-        /// array will be filled with zeros. Length defaults to the length of the input after conversion
-        /// to byte array. Write the fullInput byte array to [address] in the current targetProcess.
+        /// Converts the input of the type specified in type to a byte array of [length]. If the input is shorter,
+        /// the rest of the array will be filled with zeros. Length defaults to the length of the input after conversion
+        /// to byte array. Writes the fullInput byte array to [address] in the current targetProcess.
         /// </summary>
-        public void Write<T>(long address, T input, int length = int.MinValue)
+        public void Write(long address, dynamic input, string type, int length = int.MinValue)
         {
             OpenProcess();
             if (input == null)
                 throw new Exception("Error while writing memory, no input provided");
-            string dataType = typeof(T).Name;
-            byte[] byteInput = ConvertInput<T>(input);
+            byte[] byteInput = ConvertInput(input, type);
             if (length == int.MinValue)
                 length = byteInput.Length;
             byte[] fullInput = new byte[length];
@@ -142,11 +141,11 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Convert byte array to the type given by the targetDataType parameter. If the parameter
+        /// Converts byte array to the type given by the targetDataType parameter. If the parameter
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
         /// converted to little endian if necessary.
         /// </summary>
-        private T ConvertOutput<T>(byte[] output)
+        private static dynamic ConvertOutput(byte[] output, string targetDataType)
         {
             if (output == null)
                 throw new Exception("Error while converting output from memory, no output");
@@ -155,8 +154,6 @@ namespace AccessProcessMemory
                 Array.Reverse(output); // Convert big endian to little endian.
 
             dynamic result;
-
-            string targetDataType = typeof(T).Name.ToLowerInvariant();
             switch (targetDataType)
             {
                 case "bool":
@@ -193,25 +190,23 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Convert the type given by the targetDataType parameter to a byte array. If the parameter
+        /// Converts the type given by the targetDataType parameter to a byte array. If the parameter
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
         /// converted to little endian if necessary.
         /// </summary>
-        byte[] ConvertInput<T>(dynamic input)
+        private static byte[] ConvertInput(dynamic input, string originalDataType)
         {
             if (input == null)
                 throw new Exception("Error while converting input for memory, no input");
 
             byte[] result;
-
-            string originalDataType = typeof(T).Name.ToLowerInvariant();
             switch (originalDataType)
             {
                 case "bool":
                     result = BitConverter.GetBytes(input);
                     break;
                 case "byte":
-                    result = new byte[]{input};
+                    result = new byte[] { input };
                     break;
                 case "short":
                     result = BitConverter.GetBytes(input);
