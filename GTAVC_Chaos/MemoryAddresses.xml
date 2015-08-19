@@ -11,14 +11,14 @@ Supported types:
 * ascii
 * unicode
 
-The size element is only used for the ascii/unicode data types and can be safely left out for other types.
+The length element is only used for string length (in characters, not bytes!) of ascii/unicode data types and is ignored for other types.
 -->
 <addresses>
   <memoryaddress>
     <name>Gravity</name>
     <address>0068F5F0</address>
     <type>float</type>
-    <!--<size>4</size>-->
+    <!--<length>4</length>-->
   </memoryaddress>
   <memoryaddress>
     <name>DrunkCam</name>

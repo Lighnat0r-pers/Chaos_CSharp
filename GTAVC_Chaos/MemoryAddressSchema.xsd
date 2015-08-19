@@ -14,7 +14,7 @@
       <xs:element name="name" type="xs:string"/>
       <xs:element name="address" type="xs:hexBinary"/>
       <xs:element name="type" type="Type"/>
-      <xs:element name="size" type="xs:unsignedLong" minOccurs="0"/>
+      <xs:element name="length" type="xs:unsignedLong" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 

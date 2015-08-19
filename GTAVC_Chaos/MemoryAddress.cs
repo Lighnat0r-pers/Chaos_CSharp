@@ -15,11 +15,7 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="_name"></param>
-        /// <param name="_address"></param>
-        /// <param name="_type"></param>
-        /// <param name="_size"></param>
-        public MemoryAddress(string _name, long _address, string _type, int _size = 0)
+        public MemoryAddress(string _name, long _address, string _type, int length = 0)
         {
             Dictionary<string, Type> types = new Dictionary<string, Type>();
             types.Add("bool", typeof(bool));
@@ -43,11 +39,11 @@ namespace GTAVC_Chaos
 
             if (_type == "ascii")
             {
-                size = _size;
+                size = length;
             }
             else if (_type == "unicode")
             {
-                size = _size * 2;
+                size = length * 2;
             }
             else
             {
