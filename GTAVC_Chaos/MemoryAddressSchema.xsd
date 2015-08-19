@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="MemoryAddressSchema" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="addresses">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="memoryaddress"  maxOccurs="unbounded" type="MemoryAddress"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="MemoryAddress">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="address" type="xs:hexBinary"/>
+      <xs:element name="type" type="Type"/>
+      <xs:element name="size" type="xs:unsignedLong" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Limit type to the supported values-->
+  <xs:simpleType name="Type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bool"/>
+      <xs:enumeration value="byte"/>
+      <xs:enumeration value="short"/>
+      <xs:enumeration value="int"/>
+      <xs:enumeration value="long"/>
+      <xs:enumeration value="float"/>
+      <xs:enumeration value="double"/>
+      <xs:enumeration value="ascii"/>
+      <xs:enumeration value="unicode"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>
