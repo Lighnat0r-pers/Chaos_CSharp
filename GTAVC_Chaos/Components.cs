@@ -25,10 +25,7 @@ namespace GTAVC_Chaos
         string staticEffectsFile      = "StaticEffects.xml";
         string staticEffectsSchema    = "StaticEffectSchema.xsd";
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public Components()
+        public void Init()
         {
             InitMemoryAddresses();
             InitTimedEffects();
@@ -65,6 +62,8 @@ namespace GTAVC_Chaos
 
         XmlDocument getXmlDocument(string xmlFilename, string xsdFilename)
         {
+            // TODO(Ligh): Deal with errors (file not found etc) here.
+
             XmlDocument document = new XmlDocument();
             document.Load(xmlFilename);
             document.Schemas = getXmlSchemaSet(xsdFilename);
@@ -138,6 +137,8 @@ namespace GTAVC_Chaos
 
         void ReadTimedEffects(XmlDocument file)
         {
+            // TODO(Ligh): Properly catch errors here.
+
             XmlNodeList nodes = file.SelectNodes("//timedeffects/timedeffect");
             timedEffects = new TimedEffect[nodes.Count];
 
@@ -161,7 +162,7 @@ namespace GTAVC_Chaos
                 int count2 = 0;
                 foreach (XmlNode activatornode in activatornodes)
                 {
-                    string type = activatornode.SelectSingleNode("type").InnerText;
+                    string type = activatornode.Attributes["type"].Value;
                     string target = activatornode.SelectSingleNode("target").InnerText;
                     string address = activatornode.SelectSingleNode("address").InnerText;
 

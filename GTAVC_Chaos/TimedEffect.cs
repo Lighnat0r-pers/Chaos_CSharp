@@ -21,9 +21,11 @@ namespace GTAVC_Chaos
         /// </summary>
         public int effectLength
         {
-            get { return effectLength; }
-            set { effectLength = value * Settings.timeMultiplier; }
+            get { return length; }
+            set { length = value * Settings.timeMultiplier; }
         }
+        private int length;
+
         
         /// <summary>
         /// Constructor for TimedEffect class specifying the name and duration.
@@ -32,7 +34,7 @@ namespace GTAVC_Chaos
         public TimedEffect(string _name, string _category, int _difficulty, int duration = 0, string[] _limitations = null)
             : base(_name, _category, _difficulty)
         {
-            effectLength = duration == 0 ? defaultEffectLength : duration;
+            effectLength = (duration == 0) ? defaultEffectLength : duration;
 
             // Process the limitations string array and for each element convert it to a method in TimedEffectLimitations.cs
             // then add it to a multicast delegate which can be called when needed to check all limitations.
