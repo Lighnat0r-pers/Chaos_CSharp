@@ -179,10 +179,10 @@ namespace AccessProcessMemory
                     result = BitConverter.ToDouble(output, 0);
                     break;
                 case "ascii":
-                    result = Encoding.ASCII.GetString(output);
+                    result = Encoding.ASCII.GetString(output).TrimEnd(new char[] { '\0' });
                     break;
                 case "unicode":
-                    result = Encoding.Unicode.GetString(output);
+                    result = Encoding.Unicode.GetString(output).TrimEnd(new char[] { '\0' });
                     break;
                 default:
                     throw new Exception(String.Format("Tried to convert memory reading to unknown data type {0}", dataType));
