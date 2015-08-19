@@ -21,7 +21,6 @@ namespace GTAVC_Chaos
             InitTimedEffects();
             InitPermanentEffects();
             InitStaticEffects();
-
         }
 
         static void settingsValidationEventHandler(object sender, ValidationEventArgs e)
@@ -53,39 +52,11 @@ namespace GTAVC_Chaos
 
             schemas.Add(schema);
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ValidationType = ValidationType.Schema;
-            settings.Schemas = schemas;
-            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
-
-            XmlReader readerDoc = XmlReader.Create("TimedEffects.xml", settings);
-
-            while (readerDoc.Read())
-            {
-                switch (readerDoc.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        Debug.WriteLine("<" + readerDoc.Name + ">");
-                        break;
-                    case XmlNodeType.Text:
-                        Debug.WriteLine(readerDoc.Value);
-                        break;
-                    case XmlNodeType.EndElement:
-                        Debug.WriteLine("</" + readerDoc.Name + ">");
-                        break;
-                }
-            }
-            readerDoc.Close();
-            /*
-
-            XmlSchemaSet schemas = new XmlSchemaSet();
-            schemas.Add(null, schemaReader);
             timedEffectsFile = new XmlDocument();
+            timedEffectsFile.Load("TimedEffects.xml");
             timedEffectsFile.Schemas = schemas;
-            timedEffectsFile.LoadXml("TimedEffects.xml");
             timedEffectsFile.Validate(new ValidationEventHandler(settingsValidationEventHandler));
             ReadTimedEffects();
-            */
 
         }
 
@@ -124,11 +95,6 @@ namespace GTAVC_Chaos
         static void InitStaticEffects()
         {
 
-        }
-
-        private static void ValidationCallBack(object sender, ValidationEventArgs e)
-        {
-            Console.WriteLine("Validation Error: {0}", e.Message);
         }
     }
 }
