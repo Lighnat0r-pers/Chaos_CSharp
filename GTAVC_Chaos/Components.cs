@@ -86,6 +86,9 @@ namespace GTAVC_Chaos
             XmlNodeList nodes = file.SelectNodes("//addresses/memoryaddress");
             memoryAddresses = new MemoryAddress[nodes.Count];
 
+            // TODO(Ligh): Make use of the game version gotten here so that the GameHandler knows about it.
+            string gameVersion = file.SelectSingleNode("//addresses").Attributes["gameversion"].Value;
+
             int count = 0;
             foreach (XmlNode node in nodes)
             {
