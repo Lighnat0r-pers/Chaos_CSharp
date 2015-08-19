@@ -43,9 +43,7 @@ namespace GTAVC_Chaos
             Application.SetCompatibleTextRenderingDefault(false);
 
             // While the user will be shown the welcome window in this thread, start another thread which will start
-            // trying to get a handle to the game. Calling GameHandler.OpenGameProcess directly doesn't work
-            // for some reason related to it requiring a parameter, so GetGame() is called which in turn calls
-            // GameHandler.OpenGameProcess with the parameter.
+            // trying to get a handle to the game.
             Thread gameAccessThread = new Thread(GetGame);
             gameAccessThread.IsBackground = true;
             gameAccessThread.Start();
@@ -53,11 +51,11 @@ namespace GTAVC_Chaos
             // Create the tray icon and context menu.
             InitTrayIcon();
 
-            // Show the welcome window.
-           // InitWelcomeWindow();
-
             // Read effects from xml files.
             Components.Init();
+
+            // Show the welcome window.
+            InitWelcomeWindow();
 
             // Wait until the thread that gets the game handle is finished before continuing.
             gameAccessThread.Join();
