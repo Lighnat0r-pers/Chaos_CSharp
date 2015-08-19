@@ -39,12 +39,12 @@ namespace GTAVC_Chaos
             {
                 e.Cancel = true;
             }
+            Program._shouldStop = true;
         }
 
         private void WelcomeWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             Debug.WriteLine("Event WelcomeWindow_FormClosed fired");
-            Application.Exit();
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace GTAVC_Chaos
 
             this.FormClosing -= new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
             this.FormClosed -= new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
-            Close();
+            this.Close();
             Program.currentForm = null;
         }
     }

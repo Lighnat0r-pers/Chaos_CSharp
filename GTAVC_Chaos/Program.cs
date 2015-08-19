@@ -57,8 +57,7 @@ namespace GTAVC_Chaos
             }
             Debug.WriteLine("Continuing main thread as game handle thread is done");
 
-
-
+            
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
             do
@@ -169,7 +168,14 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Initializing Welcome Window");
             welcomeWindow = new WelcomeWindow();
-            Application.Run();
+            welcomeWindow.Show();
+            welcomeWindow.Refresh();
+
+            while (welcomeWindow.Visible)
+            {
+                Thread.Sleep(1);
+                Application.DoEvents();
+            }
         }
 
         /// <summary>
