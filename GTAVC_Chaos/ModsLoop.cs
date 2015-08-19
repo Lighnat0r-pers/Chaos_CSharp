@@ -19,7 +19,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static public void Update()
         {
-            
+
             if (CheckGameStatus() == 1) //Game not running.
             {
                 //Deactivate everything

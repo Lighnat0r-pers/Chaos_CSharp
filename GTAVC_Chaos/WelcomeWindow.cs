@@ -67,7 +67,7 @@ namespace GTAVC_Chaos
         /// </summary>
         private void buttonShowAdvancedOptions_Click(object sender, EventArgs e)
         {
-            if(showAdvancedOptions)
+            if (showAdvancedOptions)
             {
                 checkBoxTimedEffectsEnabled.Hide();
                 checkBoxTimedEffectsEnabled.Checked = Settings.timedEffectsEnabledDefault;
@@ -91,7 +91,7 @@ namespace GTAVC_Chaos
         /// </summary>
         private void checkBoxTimedEffectsEnabled_Click(object sender, EventArgs e)
         {
-            if(!checkBoxTimedEffectsEnabled.Checked)
+            if (!checkBoxTimedEffectsEnabled.Checked)
             {
                 checkboxSanicModeEnabled.Enabled = false;
                 checkboxSanicModeEnabled.Checked = Settings.sanicModeEnabledDefault;

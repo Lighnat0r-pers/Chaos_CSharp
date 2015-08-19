@@ -34,11 +34,11 @@ namespace GTAVC_Chaos
         public const float PROGRAM_VERSION = 2.0f; // Converted in interface to 2 decimal places.
         public const string PROGRAM_NAME = "GTA VC Chaos%";
 
-        #if DEBUG
-            const bool DEBUG_MODE_ENABLED = true;
-        #else
-            const bool DEBUG_MODE_ENABLED = false;
-        #endif
+#if DEBUG
+        const bool DEBUG_MODE_ENABLED = true;
+#else
+        const bool DEBUG_MODE_ENABLED = false;
+#endif
 
         /// <summary>
         /// Readonly property returning the finalised multiplier for time.

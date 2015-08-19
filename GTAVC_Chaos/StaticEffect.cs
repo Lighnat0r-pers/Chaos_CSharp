@@ -8,7 +8,8 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Constructor for StaticEffect class specifying only the name.
         /// </summary>
-        public StaticEffect(string effectName) : base(effectName)
+        public StaticEffect(string effectName)
+            : base(effectName)
         {
         }
     }

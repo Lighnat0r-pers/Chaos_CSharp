@@ -34,7 +34,7 @@
       <xs:maxInclusive value="60000"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <!--Define what an activator should be-->
   <xs:complexType name="Activator">
     <xs:sequence>
@@ -53,5 +53,5 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:attribute>
-  
+
 </xs:schema>

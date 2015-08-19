@@ -57,7 +57,7 @@ namespace GTAVC_Chaos
             }
             Debug.WriteLine("Continuing main thread as game handle thread is done");
 
-            
+
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
             do
@@ -87,7 +87,7 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Method that gets us access to the game.
         /// </summary>
-        static void GetGame() 
+        static void GetGame()
         {
             _shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
@@ -135,7 +135,7 @@ namespace GTAVC_Chaos
             contextMenu = new ContextMenu();
             MenuItem menuItemExit = new MenuItem();
             MenuItem menuItemRestart = new MenuItem();
-            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit, menuItemRestart});
+            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit, menuItemRestart });
             menuItemExit.Index = 1;
             menuItemExit.Text = "Exit";
             menuItemExit.Click += new EventHandler(menuItemExit_Click);

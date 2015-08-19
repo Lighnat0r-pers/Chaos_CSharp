@@ -32,5 +32,5 @@
       <xs:enumeration value="unicode"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
 </xs:schema>

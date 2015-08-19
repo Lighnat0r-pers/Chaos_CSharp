@@ -26,7 +26,6 @@ namespace GTAVC_Chaos
         }
         private int length;
 
-        
         /// <summary>
         /// Constructor for TimedEffect class specifying the name and duration.
         /// The name is passed onto the constructor of the base class (BaseEffect).

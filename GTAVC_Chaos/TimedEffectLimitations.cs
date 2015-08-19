@@ -27,7 +27,9 @@ namespace GTAVC_Chaos
         static public bool IsOnMission(string missionName = null)
         {
             if (missionName == null)
+            {
                 return true;
+            }
             return true;
         }
 
