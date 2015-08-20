@@ -30,9 +30,34 @@ The length element is only used for string length (in characters, not bytes!) of
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
+    <name>CarPointer</name>
+    <address>007E49C0</address>
+    <type>int</type>
+  </memoryaddress>
+  <memoryaddress>
     <name>MissionName</name>
     <address>0094B243</address>
     <type>ascii</type>
     <length>8</length>
+  </memoryaddress>
+  <memoryaddress>
+    <name>GameTime</name>
+    <address>007E3F24</address>
+    <type>int</type>
+  </memoryaddress>
+  <memoryaddress>
+    <name>OnMission</name>
+    <address>00821764</address>
+    <type>bool</type>
+  </memoryaddress>
+  <memoryaddress>
+    <name>InMenu</name>
+    <address>00A10B36</address>
+    <type>bool</type>
+  </memoryaddress>
+  <memoryaddress>
+    <name>NotLoadingGame</name>
+    <address>00974B74</address>
+    <type>bool</type>
   </memoryaddress>
 </addresses>
