@@ -15,15 +15,13 @@ namespace GTAVC_Chaos
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
 
-        string baseResourceString     = "GTAVC_Chaos.";
-        string memoryAddressesFile    = "MemoryAddresses.xml";
-        string memoryAddressesSchema  = "MemoryAddressSchema.xsd";
-        string timedEffectsFile       = "TimedEffects.xml";
-        string timedEffectsSchema     = "TimedEffectSchema.xsd";
-        string permanentEffectsFile   = "PermanentEffects.xml";
-        string permanentEffectsSchema = "PermanentEffectSchema.xsd";
-        string staticEffectsFile      = "StaticEffects.xml";
-        string staticEffectsSchema    = "StaticEffectSchema.xsd";
+        string baseResourceString = "GTAVC_Chaos.";
+        string xmlFileExtension = ".xml";
+        string xmlSchemaFileExtension = ".xsd";
+        string memoryAddressesFilename = "MemoryAddresses";
+        string timedEffectsFilename = "TimedEffects";
+        string permanentEffectsFilename = "PermanentEffects";
+        string staticEffectsFilename = "StaticEffects";
 
         public void Init()
         {
@@ -75,7 +73,7 @@ namespace GTAVC_Chaos
         void InitMemoryAddresses()
         {
             Debug.WriteLine("Initializing memory addresses from file.");
-            XmlDocument file = getXmlDocument(memoryAddressesFile, memoryAddressesSchema);
+            XmlDocument file = getXmlDocument(memoryAddressesFilename + xmlFileExtension, memoryAddressesFilename + xmlSchemaFileExtension);
             ReadMemoryAddresses(file);
         }
 
@@ -134,7 +132,7 @@ namespace GTAVC_Chaos
         void InitTimedEffects()
         {
             Debug.WriteLine("Initializing timed effects from file.");
-            XmlDocument file = getXmlDocument(timedEffectsFile, timedEffectsSchema);
+            XmlDocument file = getXmlDocument(timedEffectsFilename + xmlFileExtension, timedEffectsFilename + xmlSchemaFileExtension);
             ReadTimedEffects(file);
         }
 
@@ -185,7 +183,7 @@ namespace GTAVC_Chaos
         void InitPermanentEffects()
         {
             Debug.WriteLine("Initializing permanent effects from file.");
-            XmlDocument file = getXmlDocument(permanentEffectsFile, permanentEffectsSchema);
+            XmlDocument file = getXmlDocument(permanentEffectsFilename + xmlFileExtension, permanentEffectsFilename + xmlSchemaFileExtension);
             ReadPermanentEffects(file);
         }
 
@@ -197,7 +195,7 @@ namespace GTAVC_Chaos
         void InitStaticEffects()
         {
             Debug.WriteLine("Initializing static effects from file.");
-            XmlDocument file = getXmlDocument(staticEffectsFile, staticEffectsSchema);
+            XmlDocument file = getXmlDocument(staticEffectsFilename + xmlFileExtension, staticEffectsFilename + xmlSchemaFileExtension);
             ReadStaticEffects(file);
         }
 
