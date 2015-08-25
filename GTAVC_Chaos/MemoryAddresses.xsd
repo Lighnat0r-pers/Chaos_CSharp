@@ -1,7 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--
- TODO: Enforce a limit on the address element so it actually contains a valid address (eg. 00000000 is not valid, 0082F40D is valid)
--->
 
 <xs:schema id="MemoryAddresses" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
