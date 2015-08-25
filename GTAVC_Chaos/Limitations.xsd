@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Limitations" elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="limitations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="limitation" maxOccurs="unbounded" type="Limitation"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="Limitation">
+    <xs:sequence>
+      <xs:element name="name" type="xs:Name"/>
+      <xs:element ref="checks"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="checks">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="simplecheck" minOccurs="0" maxOccurs="unbounded" type="SimpleCheck"/>
+        <xs:element name="parametercheck" minOccurs="0" maxOccurs="unbounded" type="ParameterCheck"/>
+        <xs:element name="limitationcheck" minOccurs="0" maxOccurs="unbounded" type="LimitationCheck"/>
+        <xs:element name="comparisoncheck" minOccurs="0" maxOccurs="unbounded" type="ComparisonCheck"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <!--Define what a simple check should be-->
+  <xs:complexType name="SimpleCheck">
+    <xs:sequence>
+      <xs:element name="address" type="xs:Name"/>
+      <xs:element name="value"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Define what a parameter check should be-->
+  <xs:complexType name="ParameterCheck">
+    <xs:sequence>
+      <xs:element name="address" type="xs:Name"/>
+      <xs:element name="default" minOccurs="0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Define what a limitation check should be-->
+  <xs:complexType name="LimitationCheck">
+    <xs:sequence>
+      <xs:element name="limitation" type="xs:Name"/>
+      <xs:element name="target" type="xs:boolean"/>
+      <xs:element ref="parameters" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Define what a comparison check should be-->
+  <xs:complexType name="ComparisonCheck">
+    <xs:sequence>
+      <xs:element ref="addresses"/>
+      <xs:element name="equal" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="addresses">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="address" minOccurs="2" maxOccurs="unbounded" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="parameters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="parameter" maxOccurs="unbounded" type="Parameter"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--Define what a parameter should be-->
+  <xs:complexType name="Parameter">
+    <xs:sequence>
+      <xs:element name="name" type="xs:Name"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

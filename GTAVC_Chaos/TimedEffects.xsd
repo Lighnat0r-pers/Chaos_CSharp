@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TimedEffects" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="timedeffects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="timedeffect" maxOccurs="unbounded" type="TimedEffect"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="TimedEffect">
+    <xs:sequence>
+      <xs:element name="name" type="xs:normalizedString"/>
+      <xs:element name="category" type="xs:normalizedString"/>
+      <xs:element name="difficulty" type="Difficulty"/>
+      <xs:element name="duration" type="Duration" minOccurs="0"/>
+      <xs:element ref="limitations" minOccurs="0"/>
+      <xs:element ref="activators"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="limitations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="limitation" maxOccurs="unbounded" type="Limitation"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="activators">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="activator" maxOccurs="unbounded" type="Activator"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--Enforce: 1 <= difficulty <= 10-->
+  <xs:simpleType name="Difficulty">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="10"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--Enforce: 100 <= duration <= 60000-->
+  <xs:simpleType name="Duration">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="100"/>
+      <xs:maxInclusive value="60000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!--Define what a limitation should be-->
+  <xs:complexType name="Limitation">
+    <xs:sequence>
+      <xs:element name="name" type="xs:Name"/>
+      <xs:element name="target" type="xs:boolean"/>
+      <xs:element ref="parameters" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="parameters">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="parameter" maxOccurs="unbounded" type="Parameter"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--Define what a parameter should be-->
+  <xs:complexType name="Parameter">
+    <xs:sequence>
+      <xs:element name="name" type="xs:Name"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Define what an activator should be-->
+  <xs:complexType name="Activator">
+    <xs:sequence>
+      <xs:element name="address" type="xs:Name"/>
+      <xs:element name="target"/>
+    </xs:sequence>
+    <xs:attribute ref="type" use="required"/>
+  </xs:complexType>
+
+  <!--Limit allowed values of type-->
+  <xs:attribute name="type">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="simple"/>
+        <xs:enumeration value="gradual"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+
+</xs:schema>

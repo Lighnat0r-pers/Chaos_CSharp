@@ -13,6 +13,7 @@ Supported types:
 
 The length element is only used for string length (in characters, not bytes!) of ascii/unicode data types and is ignored for other types.
 -->
+
 <addresses gameversion="1.0">
   <memoryaddress>
     <name>Gravity</name>
@@ -30,7 +31,7 @@ The length element is only used for string length (in characters, not bytes!) of
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
-    <name>CarPointer</name>
+    <name>VehiclePointer</name>
     <address>007E49C0</address>
     <type>int</type>
   </memoryaddress>
@@ -59,5 +60,10 @@ The length element is only used for string length (in characters, not bytes!) of
     <name>NotLoadingGame</name>
     <address>00974B74</address>
     <type>bool</type>
+  </memoryaddress>
+  <memoryaddress>
+    <name>DisableRightTurns</name>
+    <address>0069A6A8</address>
+    <type>float</type>
   </memoryaddress>
 </addresses>

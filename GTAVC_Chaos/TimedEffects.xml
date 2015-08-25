@@ -1,38 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!-- 
-     Change difficulties and durations here if you really want.
-     In case of a race, ensure you're all using the same file.
-     EDIT AT YOUR OWN RISK!!
+Change difficulties and durations here if you really want.
+In case of a race, ensure you're all using the same file.
+EDIT AT YOUR OWN RISK!!
+
+Supported activator types:
+* Simple - Changes the address to target value.
+* Gradual - Gradually changes the address from its original value to target value.
 -->
+
 <timedeffects>
   <timedeffect>
-    <name>XtremeDrunkCam</name>
+    <name>Xtreme Drunk Cam</name>
     <category>GUIVisuals</category>
     <difficulty>4</difficulty>
     <duration>15000</duration>
-    <activator type="simple">
-      <address>DrunkCam</address>
-      <target>40</target>
-    </activator>
+    <activators>
+      <activator type="simple">
+        <address>DrunkCam</address>
+        <target>40</target>
+      </activator>
+    </activators>
   </timedeffect>
   <timedeffect>
-    <name>BeamMeUpScotty</name>
+    <name>Beam me up, Scotty</name>
     <category>Gravity</category>
     <difficulty>2</difficulty>
     <duration>5000</duration>
-    <activator type="simple">
-      <address>Gravity</address>
-      <target>-0.002</target>
-    </activator>
+    <activators>
+      <activator type="simple">
+        <address>Gravity</address>
+        <target>-0.002</target>
+      </activator>
+    </activators>
   </timedeffect>
   <timedeffect>
-    <name>ZeroGravity</name>
+    <name>Zero Gravity</name>
     <category>Gravity</category>
     <difficulty>1</difficulty>
     <duration>10000</duration>
-    <activator type="simple">
-      <address>Gravity</address>
-      <target>0.0</target>
-    </activator>
+    <activators>
+      <activator type="simple">
+        <address>Gravity</address>
+        <target>0.0</target>
+      </activator>
+    </activators>
+  </timedeffect>
+  <timedeffect>
+    <name>No Right</name>
+    <category>Controls</category>
+    <difficulty>2</difficulty>
+    <limitations>
+      <limitation>
+        <name>InVehicleType</name>
+        <target>true</target>
+        <parameters>
+          <parameter>
+            <name>CurrentVehicleType</name>
+            <value>0</value> <!-- TODO: We should be able to specify "Car" here, and the program would realize the actual value the game memory address uses for this is 0-->
+          </parameter>
+        </parameters>
+      </limitation>
+    </limitations>
+    <activators>
+      <activator type="simple">
+        <address>NoRight</address>
+        <target>0.0</target>
+      </activator>
+    </activators>
   </timedeffect>
 </timedeffects>

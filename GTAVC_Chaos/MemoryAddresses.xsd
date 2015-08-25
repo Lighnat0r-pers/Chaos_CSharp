@@ -1,18 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="MemoryAddressSchema" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+ TODO: Enforce a limit on the address element so it actually contains a valid address (eg. 00000000 is not valid, 0082F40D is valid)
+-->
+
+<xs:schema id="MemoryAddresses" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:element name="addresses">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="memoryaddress"  maxOccurs="unbounded" type="MemoryAddress"/>
+        <xs:element name="memoryaddress" maxOccurs="unbounded" type="MemoryAddress"/>
       </xs:sequence>
-      <xs:attribute name="gameversion"/>
+      <xs:attribute name="gameversion" type="xs:token"/>
     </xs:complexType>
   </xs:element>
 
   <xs:complexType name="MemoryAddress">
     <xs:sequence>
-      <xs:element name="name" type="xs:string"/>
+      <xs:element name="name" type="xs:Name"/>
       <xs:element name="address" type="xs:hexBinary"/>
       <xs:element name="type" type="Type"/>
       <xs:element name="length" type="xs:unsignedLong" minOccurs="0"/>

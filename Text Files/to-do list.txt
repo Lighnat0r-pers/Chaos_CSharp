@@ -7,5 +7,10 @@ Update checker
 Bit data type support for memory addresses.
 Converter for MemoryAddresses.xml to MHS file and back (also CE?) -> support for giving and converting to different game versions.
 Support for dynamic memory addresses (pointers + offsets).
-Adding in the support for limitations in TimedEffects.xml
 proper documentation of the xml files.
+Make sure the xml schemas give an error if elements are provided but empty. Also make sure other limitations are as restrictive as they can be.
+Validate that addresses used in TimedEffects.xml etc actually exist in MemoryAddresses.xml on startup. Same with limitations.
+Validate that all limitations that expect parameters get those parameters when used in TimedEffects.xml. Also validate that limitations don't get parameters when not expected.
+Add support for limitation based on if permanent effect is active.
+Validate that the datatype of the value element provided in TimedEffects.xml etc match the datatype of the memory address.
+Support for associative arrays type things in xml files so that for example, for the limitation InVehicleType, the name parameter can be given as "Car" which is then translated into the actual value as it is used and read from the game, "0".

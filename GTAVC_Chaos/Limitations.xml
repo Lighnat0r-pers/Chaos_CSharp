@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+All limitations resolve to boolean (true/false) values.
+
+ TODO: The xml for different check types should be cleaned up to use <check type="simple"> instead of <simplecheck>.
+       The problem with this is the schema though, as not all elements are required for all types so how to enforce this needs to be figured out first.
+
+ TODO: Should parameter checks support optional default values?
+
+Supported check types:
+* Simple - Checks if the address has the value provided in value.
+* Parameter - Checks if the address has the value provided by whatever uses this limitation. Syntax to use in caller: CheckAddress:Parameter
+* Limitation - Check if another limitation returns target (boolean). Use this to provide aliases or composite limitations easily without duplicate code.
+* Comparison - Compares if multiple addresses are equal to eachother or not. equal specifies whether they should be or not.
+-->
+
+<limitations>
+  <limitation>
+    <name>OnMission</name>
+    <checks>
+      <simplecheck>
+        <address>OnMission</address>
+        <value>true</value>
+      </simplecheck>
+      <parametercheck>
+        <address>MissionName</address>
+      </parametercheck>
+    </checks>
+  </limitation>
+  <limitation>
+    <name>OnFoot</name>
+    <checks>
+      <limitationcheck>
+        <limitation>InVehicle</limitation>
+        <target>false</target>
+      </limitationcheck>
+    </checks>
+  </limitation>
+  <limitation>
+    <name>InVehicle</name>
+    <checks>
+      <comparisoncheck>
+        <addresses>
+          <address>PlayerPointer</address>
+          <address>VehiclePointer</address>
+        </addresses>
+        <equal>false</equal>
+      </comparisoncheck>
+    </checks>
+  </limitation>
+  <limitation>
+    <name>InVehicleType</name>
+    <checks>
+      <limitationcheck>
+        <limitation>InVehicle</limitation>
+        <target>true</target>
+      </limitationcheck>
+      <parametercheck>
+        <address>CurrentVehicleType</address> <!-- IMPORTANT: This memory address is not defined yet!-->
+      </parametercheck>
+    </checks>
+  </limitation>
+</limitations>
