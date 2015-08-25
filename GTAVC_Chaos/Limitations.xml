@@ -2,9 +2,6 @@
 <!--
 All limitations resolve to boolean (true/false) values.
 
- TODO: The xml for different check types should be cleaned up to use <check type="simple"> instead of <simplecheck>.
-       The problem with this is the schema though, as not all elements are required for all types so how to enforce this needs to be figured out first.
-
  TODO: Should parameter checks support optional default values?
 
 Supported check types:
@@ -14,50 +11,50 @@ Supported check types:
 * Comparison - Compares if multiple addresses are equal to eachother or not. equal specifies whether they should be or not.
 -->
 
-<limitations>
+<limitations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <limitation>
     <name>OnMission</name>
     <checks>
-      <simplecheck>
+      <check xsi:type="simple">
         <address>OnMission</address>
         <value>true</value>
-      </simplecheck>
-      <parametercheck>
+      </check>
+      <check xsi:type="parameter">
         <address>MissionName</address>
-      </parametercheck>
+      </check>
     </checks>
   </limitation>
   <limitation>
     <name>OnFoot</name>
     <checks>
-      <limitationcheck>
+      <check xsi:type="limitation">
         <limitation>InVehicle</limitation>
         <target>false</target>
-      </limitationcheck>
+      </check>
     </checks>
   </limitation>
   <limitation>
     <name>InVehicle</name>
     <checks>
-      <comparisoncheck>
+      <check xsi:type="comparison">
         <addresses>
           <address>PlayerPointer</address>
           <address>VehiclePointer</address>
         </addresses>
         <equal>false</equal>
-      </comparisoncheck>
-    </checks>
+      </check>
+  </checks>
   </limitation>
   <limitation>
     <name>InVehicleType</name>
     <checks>
-      <limitationcheck>
+      <check xsi:type="limitation">
         <limitation>InVehicle</limitation>
         <target>true</target>
-      </limitationcheck>
-      <parametercheck>
+      </check>
+      <check xsi:type="parameter">
         <address>CurrentVehicleType</address>
-      </parametercheck>
-    </checks>
+      </check>
+</checks>
   </limitation>
 </limitations>
