@@ -21,9 +21,19 @@
   <xs:complexType name="MemoryAddress">
     <xs:sequence>
       <xs:element name="name" type="Name" />
-      <xs:element name="address" type="Address"/>
+      <xs:choice>
+        <xs:element name="staticaddress" type="StaticAddress"/>
+        <xs:element name="dynamicaddress" type="DynamicAddress"/>
+      </xs:choice>
       <xs:element name="type" type="Type"/>
       <xs:element name="length" type="Length" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DynamicAddress">
+    <xs:sequence>
+      <xs:element name="baseaddress" type="Name" />
+      <xs:element name="offset" type="Offset"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -38,7 +48,7 @@
   <!-- Enforce that the address contains at least 3 octets.
   What we're looking for is that the address is never below the image base address.
   From what I've read online the lowest allowed base address is 0x010000 so the restriction is based on that. Not 100% confirmed, though.-->
-  <xs:simpleType name="Address">
+  <xs:simpleType name="StaticAddress">
     <xs:restriction base="xs:hexBinary">
       <xs:minLength value="3"/>
     </xs:restriction>
@@ -47,6 +57,12 @@
   <xs:simpleType name="Length">
     <xs:restriction base="xs:unsignedLong">
       <xs:minInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Offset">
+    <xs:restriction base="xs:hexBinary">
+      <xs:minLength value="1"/>
     </xs:restriction>
   </xs:simpleType>
 

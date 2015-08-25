@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
+ TODO: The xml for different address types should be cleaned up to use <address type="static"> instead of <staticaddress>.
+       The problem with this is the schema though, as not all elements are required for all types so how to enforce this needs to be figured out first.
+
 Supported types:
 * bool
 * byte
@@ -17,53 +20,62 @@ The length element is only used for string length (in characters, not bytes!) of
 <addresses gameversion="1.0">
   <memoryaddress>
     <name>Gravity</name>
-    <address>0068F5F0</address>
+    <staticaddress>0068F5F0</staticaddress>
     <type>float</type>
   </memoryaddress>
   <memoryaddress>
     <name>DrunkCam</name>
-    <address>00983B38</address>
+    <staticaddress>00983B38</staticaddress>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>PlayerPointer</name>
-    <address>007E4B8C</address>
+    <staticaddress>007E4B8C</staticaddress>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>VehiclePointer</name>
-    <address>007E49C0</address>
+    <staticaddress>007E49C0</staticaddress>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>MissionName</name>
-    <address>0094B243</address>
+    <staticaddress>0094B243</staticaddress>
     <type>ascii</type>
     <length>8</length>
   </memoryaddress>
   <memoryaddress>
     <name>GameTime</name>
-    <address>007E3F24</address>
+    <staticaddress>007E3F24</staticaddress>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>OnMission</name>
-    <address>00821764</address>
+    <staticaddress>00821764</staticaddress>
     <type>bool</type>
   </memoryaddress>
   <memoryaddress>
     <name>InMenu</name>
-    <address>00A10B36</address>
+    <staticaddress>00A10B36</staticaddress>
     <type>bool</type>
   </memoryaddress>
   <memoryaddress>
     <name>NotLoadingGame</name>
-    <address>00974B74</address>
+    <staticaddress>00974B74</staticaddress>
     <type>bool</type>
   </memoryaddress>
   <memoryaddress>
     <name>DisableRightTurns</name>
-    <address>0069A6A8</address>
+    <staticaddress>0069A6A8</staticaddress>
     <type>float</type>
   </memoryaddress>
+  <memoryaddress>
+    <name>CurrentVehicleType</name>
+    <dynamicaddress>
+      <baseaddress>VehiclePointer</baseaddress>
+      <offset>029C</offset>
+    </dynamicaddress>
+    <type>float</type>
+  </memoryaddress>
+
 </addresses>

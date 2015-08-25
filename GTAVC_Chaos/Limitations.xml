@@ -56,7 +56,7 @@ Supported check types:
         <target>true</target>
       </limitationcheck>
       <parametercheck>
-        <address>CurrentVehicleType</address> <!-- IMPORTANT: This memory address is not defined yet!-->
+        <address>CurrentVehicleType</address>
       </parametercheck>
     </checks>
   </limitation>
