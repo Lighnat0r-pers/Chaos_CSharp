@@ -18,21 +18,36 @@
   <xs:complexType name="MemoryAddress">
     <xs:sequence>
       <xs:element name="name" type="Name" />
-      <xs:choice>
-        <xs:element name="staticaddress" type="StaticAddress"/>
-        <xs:element name="dynamicaddress" type="DynamicAddress"/>
-      </xs:choice>
+      <xs:element name="address" type="Address"/>
       <xs:element name="type" type="Type"/>
       <xs:element name="length" type="Length" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="DynamicAddress">
-    <xs:sequence>
-      <xs:element name="baseaddress" type="Name" />
-      <xs:element name="offset" type="Offset"/>
-    </xs:sequence>
+  <xs:complexType name="dynamic" mixed="true">
+    <xs:complexContent>
+      <xs:extension base="Address">
+        <xs:sequence>
+          <xs:element name="baseaddress" type="Name" />
+          <xs:element name="offset" type="Offset"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="static">
+    <xs:simpleContent>
+      <xs:restriction base="Address">
+        <xs:simpleType>
+          <xs:restriction base="xs:hexBinary">
+            <xs:minLength value="3"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:restriction>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="Address" abstract="true" mixed="true"/>
 
   <!--+++ Simple types -->
 

@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
- TODO: The xml for different address types should be cleaned up to use <address type="static"> instead of <staticaddress>.
-       The problem with this is the schema though, as not all elements are required for all types so how to enforce this needs to be figured out first.
 
 Supported types:
 * bool
@@ -17,64 +15,64 @@ Supported types:
 The length element is only used for string length (in characters, not bytes!) of ascii/unicode data types and is ignored for other types.
 -->
 
-<addresses gameversion="1.0">
+<addresses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gameversion="1.0">
   <memoryaddress>
     <name>Gravity</name>
-    <staticaddress>0068F5F0</staticaddress>
+    <address xsi:type="static">0068F5F0</address>
     <type>float</type>
   </memoryaddress>
   <memoryaddress>
     <name>DrunkCam</name>
-    <staticaddress>00983B38</staticaddress>
+    <address xsi:type="static">00983B38</address>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>PlayerPointer</name>
-    <staticaddress>007E4B8C</staticaddress>
+    <address xsi:type="static">007E4B8C</address>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>VehiclePointer</name>
-    <staticaddress>007E49C0</staticaddress>
+    <address xsi:type="static">007E49C0</address>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>MissionName</name>
-    <staticaddress>0094B243</staticaddress>
+    <address xsi:type="static">0094B243</address>
     <type>ascii</type>
     <length>8</length>
   </memoryaddress>
   <memoryaddress>
     <name>GameTime</name>
-    <staticaddress>007E3F24</staticaddress>
+    <address xsi:type="static">007E3F24</address>
     <type>int</type>
   </memoryaddress>
   <memoryaddress>
     <name>OnMission</name>
-    <staticaddress>00821764</staticaddress>
+    <address xsi:type="static">00821764</address>
     <type>bool</type>
   </memoryaddress>
   <memoryaddress>
     <name>InMenu</name>
-    <staticaddress>00A10B36</staticaddress>
+    <address xsi:type="static">00A10B36</address>
     <type>bool</type>
   </memoryaddress>
   <memoryaddress>
     <name>NotLoadingGame</name>
-    <staticaddress>00974B74</staticaddress>
+    <address xsi:type="static">00974B74</address>
     <type>bool</type>
   </memoryaddress>
   <memoryaddress>
     <name>DisableRightTurns</name>
-    <staticaddress>0069A6A8</staticaddress>
+    <address xsi:type="static">0069A6A8</address>
     <type>float</type>
   </memoryaddress>
   <memoryaddress>
     <name>CurrentVehicleType</name>
-    <dynamicaddress>
+    <address xsi:type="dynamic">
       <baseaddress>VehiclePointer</baseaddress>
       <offset>029C</offset>
-    </dynamicaddress>
+    </address>
     <type>float</type>
   </memoryaddress>
 

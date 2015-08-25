@@ -104,15 +104,17 @@ namespace GTAVC_Chaos
                     size = Int32.Parse(sizeNode.InnerText);
                 }
 
-                if (node.SelectSingleNode("staticaddress") != null)
+                XmlNode addressNode = node.SelectSingleNode("address");
+
+                if (addressNode.Attributes["xsi:type"].Value == "static")
                 {
-                    long address = Int64.Parse(node.SelectSingleNode("staticaddress").InnerText, NumberStyles.HexNumber);
+                    long address = Int64.Parse(addressNode.InnerText, NumberStyles.HexNumber);
                     addressObj = new MemoryAddress(name, address, type, size);
                 }
                 else
                 {
-                    string baseAddressName = node.SelectSingleNode("dynamicaddress/baseaddress").InnerText;
-                    long offset = Int64.Parse(node.SelectSingleNode("dynamicaddress/offset").InnerText, NumberStyles.HexNumber);
+                    string baseAddressName = addressNode.SelectSingleNode("baseaddress").InnerText;
+                    long offset = Int64.Parse(addressNode.SelectSingleNode("offset").InnerText, NumberStyles.HexNumber);
                     addressObj = new MemoryAddress(name, baseAddressName, offset, type, size);
                     memoryAddressesToResolve.Add(addressObj);
                 }
@@ -183,15 +185,15 @@ namespace GTAVC_Chaos
                     duration = Int32.Parse(durationNode.InnerText);
                 }
 
-                XmlNodeList activatornodes = node.SelectNodes("activator");
-                EffectActivator[] activators = new EffectActivator[activatornodes.Count];
+                XmlNodeList activatorNodes = node.SelectNodes("activators/activator");
+                EffectActivator[] activators = new EffectActivator[activatorNodes.Count];
 
                 int count2 = 0;
-                foreach (XmlNode activatornode in activatornodes)
+                foreach (XmlNode activatorNode in activatorNodes)
                 {
-                    string type = activatornode.Attributes["type"].Value;
-                    string target = activatornode.SelectSingleNode("target").InnerText;
-                    string address = activatornode.SelectSingleNode("address").InnerText;
+                    string type = activatorNode.Attributes["type"].Value;
+                    string target = activatorNode.SelectSingleNode("target").InnerText;
+                    string address = activatorNode.SelectSingleNode("address").InnerText;
 
                     activators[count2] = new EffectActivator(type, target, address);
 
