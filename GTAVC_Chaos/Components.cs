@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -15,13 +16,15 @@ namespace GTAVC_Chaos
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
 
-        string baseResourceString = "GTAVC_Chaos.";
-        string xmlFileExtension = ".xml";
-        string xmlSchemaFileExtension = ".xsd";
-        string memoryAddressesFilename = "MemoryAddresses";
-        string timedEffectsFilename = "TimedEffects";
-        string permanentEffectsFilename = "PermanentEffects";
-        string staticEffectsFilename = "StaticEffects";
+        private List<MemoryAddress> memoryAddressesToResolve = new List<MemoryAddress>();
+
+        private string baseResourceString = "GTAVC_Chaos.";
+        private string xmlFileExtension = ".xml";
+        private string xmlSchemaFileExtension = ".xsd";
+        private string memoryAddressesFilename = "MemoryAddresses";
+        private string timedEffectsFilename = "TimedEffects";
+        private string permanentEffectsFilename = "PermanentEffects";
+        private string staticEffectsFilename = "StaticEffects";
 
         public void Init()
         {
@@ -31,7 +34,7 @@ namespace GTAVC_Chaos
             //InitStaticEffects();
         }
 
-        void xmlValidationEventHandler(object sender, ValidationEventArgs e)
+        private void xmlValidationEventHandler(object sender, ValidationEventArgs e)
         {
             if (e.Severity == XmlSeverityType.Warning)
             {
@@ -43,7 +46,7 @@ namespace GTAVC_Chaos
             }
         }
 
-        XmlSchemaSet getXmlSchemaSet(string filename)
+        private XmlSchemaSet getXmlSchemaSet(string filename)
         {
             XmlSchemaSet schemas = new XmlSchemaSet();
 
@@ -58,7 +61,7 @@ namespace GTAVC_Chaos
             return schemas;
         }
 
-        XmlDocument getXmlDocument(string xmlFilename, string xsdFilename)
+        private XmlDocument getXmlDocument(string xmlFilename, string xsdFilename)
         {
             // TODO(Ligh): Deal with errors (file not found etc) here.
 
@@ -70,14 +73,14 @@ namespace GTAVC_Chaos
             return document;
         }
 
-        void InitMemoryAddresses()
+        private void InitMemoryAddresses()
         {
             Debug.WriteLine("Initializing memory addresses from file.");
             XmlDocument file = getXmlDocument(memoryAddressesFilename + xmlFileExtension, memoryAddressesFilename + xmlSchemaFileExtension);
             ReadMemoryAddresses(file);
         }
 
-        void ReadMemoryAddresses(XmlDocument file)
+        private void ReadMemoryAddresses(XmlDocument file)
         {
             // TODO(Ligh): Properly catch errors here.
 
@@ -90,10 +93,10 @@ namespace GTAVC_Chaos
             int count = 0;
             foreach (XmlNode node in nodes)
             {
-                string name = node.SelectSingleNode("name").InnerText;
-                long address = Int64.Parse(node.SelectSingleNode("address").InnerText, NumberStyles.HexNumber);
-                string type = node.SelectSingleNode("type").InnerText;
+                MemoryAddress addressObj;
 
+                string name = node.SelectSingleNode("name").InnerText;
+                string type = node.SelectSingleNode("type").InnerText;
                 int size = 0;
                 XmlNode sizeNode = node.SelectSingleNode("length");
                 if (sizeNode != null)
@@ -101,12 +104,35 @@ namespace GTAVC_Chaos
                     size = Int32.Parse(sizeNode.InnerText);
                 }
 
-                memoryAddresses[count] = new MemoryAddress(name, address, type, size);
+                if (node.SelectSingleNode("staticaddress") != null)
+                {
+                    long address = Int64.Parse(node.SelectSingleNode("staticaddress").InnerText, NumberStyles.HexNumber);
+                    addressObj = new MemoryAddress(name, address, type, size);
+                }
+                else
+                {
+                    string baseAddressName = node.SelectSingleNode("dynamicaddress/baseaddress").InnerText;
+                    long offset = Int64.Parse(node.SelectSingleNode("dynamicaddress/offset").InnerText, NumberStyles.HexNumber);
+                    addressObj = new MemoryAddress(name, baseAddressName, offset, type, size);
+                    memoryAddressesToResolve.Add(addressObj);
+                }
+
+                memoryAddresses[count] = addressObj;
 
                 count++;
             }
 
             Debug.WriteLine("Read " + count + " memory addresses from file.");
+
+            ResolveDynamicMemoryAddressBases();
+        }
+
+        private void ResolveDynamicMemoryAddressBases()
+        {
+            foreach (MemoryAddress addressObj in memoryAddressesToResolve)
+            {
+                addressObj.ResolveBaseAddress();
+            }
         }
 
         public MemoryAddress findMemoryAddressByName(string name)
@@ -129,14 +155,14 @@ namespace GTAVC_Chaos
             return result;
         }
 
-        void InitTimedEffects()
+        private void InitTimedEffects()
         {
             Debug.WriteLine("Initializing timed effects from file.");
             XmlDocument file = getXmlDocument(timedEffectsFilename + xmlFileExtension, timedEffectsFilename + xmlSchemaFileExtension);
             ReadTimedEffects(file);
         }
 
-        void ReadTimedEffects(XmlDocument file)
+        private void ReadTimedEffects(XmlDocument file)
         {
             // TODO(Ligh): Properly catch errors here.
 
@@ -180,26 +206,26 @@ namespace GTAVC_Chaos
             Debug.WriteLine("Read " + count1 + " timed effects from file.");
         }
 
-        void InitPermanentEffects()
+        private void InitPermanentEffects()
         {
             Debug.WriteLine("Initializing permanent effects from file.");
             XmlDocument file = getXmlDocument(permanentEffectsFilename + xmlFileExtension, permanentEffectsFilename + xmlSchemaFileExtension);
             ReadPermanentEffects(file);
         }
 
-        void ReadPermanentEffects(XmlDocument file)
+        private void ReadPermanentEffects(XmlDocument file)
         {
 
         }
 
-        void InitStaticEffects()
+        private void InitStaticEffects()
         {
             Debug.WriteLine("Initializing static effects from file.");
             XmlDocument file = getXmlDocument(staticEffectsFilename + xmlFileExtension, staticEffectsFilename + xmlSchemaFileExtension);
             ReadStaticEffects(file);
         }
 
-        void ReadStaticEffects(XmlDocument file)
+        private void ReadStaticEffects(XmlDocument file)
         {
 
         }

@@ -96,22 +96,7 @@ namespace GTAVC_Chaos
                 Debug.WriteLine("Game handle found");
             else
                 Debug.WriteLine("Search for game handle aborted");
-
-            //byte read = ReadWriteTest<byte>();
-            //Debug.WriteLine(String.Format("Read value: {0}", read));
         }
-
-        /*
-        static T ReadWriteTest<T>()
-        {
-            int address = 0x00A0FB75; // TimeHours
-            T readValue;
-            byte writeValue = 14;
-            readValue = game.Read<T>(address, 1);
-            game.Write<byte>(address, writeValue, 1);
-            return readValue;
-        }
-        */
 
         /// <summary>
         /// Create the tray icon.
@@ -149,15 +134,17 @@ namespace GTAVC_Chaos
         /// </summary>
         private static void menuItemExit_Click(object Sender, EventArgs e)
         {
+            // TODO(Ligh): Due to changes is handling the application, this no longer shuts down the program. It should.
             Debug.WriteLine("Context menu item Exit clicked");
             Application.Exit();
         }
 
         /// <summary>
-        /// Triggered when the user clicks the Exit button in the context menu.
+        /// Triggered when the user clicks the Restart Program button in the context menu.
         /// </summary>
         private static void menuItemRestart_Click(object Sender, EventArgs e)
         {
+            // TODO(Ligh): Due to changes is handling the application, this no longer works correctly. It should.
             Debug.WriteLine("Context menu item Restart Program clicked");
             Application.Restart();
         }
@@ -186,6 +173,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static void OnApplicationExit(object Sender, EventArgs e)
         {
+            // TODO(Ligh): Due to changes is handling the application, this is no longer called on exit. It should be.
             _shouldStop = true;
             if (game != null && game.gameFound == true)
             {

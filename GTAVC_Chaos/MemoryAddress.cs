@@ -7,14 +7,40 @@ namespace GTAVC_Chaos
     class MemoryAddress
     {
         public string name;
+
         public long address;
+
+        private string baseAddressName;
+        public MemoryAddress baseAddress;
+
+        public long offset;
+
         public string type;
         public int size = 0;
 
         /// <summary>
-        /// Constructor
+        /// Constructor for static memory address
         /// </summary>
         public MemoryAddress(string _name, long _address, string _type, int length = 0)
+            : this(_name, _type, length)
+        {
+            address = _address;
+        }
+
+        /// <summary>
+        /// Constructor for dynamic memory address
+        /// </summary>
+        public MemoryAddress(string _name, string _baseAddressName, long _offset, string _type, int length = 0)
+            : this(_name, _type, length)
+        {
+            baseAddressName = _baseAddressName;
+            offset = _offset;
+        }
+
+        /// <summary>
+        /// Generic constructor
+        /// </summary>
+        private MemoryAddress(string _name, string _type, int length = 0)
         {
             Dictionary<string, int> sizes = new Dictionary<string, int>();
             sizes.Add("bool", sizeof(bool));
@@ -28,7 +54,7 @@ namespace GTAVC_Chaos
             sizes.Add("unicode", length * 2);
 
             name = _name;
-            address = _address;
+
             if (!sizes.ContainsKey(_type))
             {
                 throw new Exception("Invalid type of memory address.");
@@ -42,6 +68,16 @@ namespace GTAVC_Chaos
             {
                 throw new Exception("Invalid size of memory address.");
             }
+        }
+
+        public void ResolveBaseAddress()
+        {
+            if (baseAddressName == null)
+            {
+                throw new Exception("Tried to resolve base address but no base address name set.");
+            }
+
+            baseAddress = Program.components.findMemoryAddressByName(baseAddressName);
         }
     }
 }
