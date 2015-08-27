@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema id="Games" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--+++ Elements -->
+
+  <xs:element name="games">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="game" maxOccurs="unbounded" type="Game"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="versions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="version" maxOccurs="unbounded" type="Version"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="offsets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="offset" maxOccurs="unbounded" type="Offset"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <!--+++ Complex types -->
+
+  <xs:complexType name="Game">
+    <xs:sequence>
+      <xs:element name="name" type="xs:token"/>
+      <xs:element name="abbreviation" type="Name"/>
+      <xs:element name="windowname" type="xs:token"/>
+      <xs:element name="windowclass" type="xs:token"/>
+      <xs:element name="versionaddress" type="Address"/>
+      <xs:element name="baseversion" type="xs:token"/>
+      <xs:element ref="versions"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Version">
+    <xs:sequence>
+      <xs:element name="name" type="xs:token"/>
+      <xs:element name="addressvalue" type="AddressValue"/>
+      <xs:element ref="offsets" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Offset">
+    <xs:sequence>
+      <xs:element name="startaddress" type="Address"/>
+      <xs:element name="amount" type="OffsetAmount"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OffsetAmount">
+    <xs:simpleContent>
+      <xs:extension base="Amount">
+        <xs:attribute name="negative" type="xs:boolean"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!--+++ Simple types -->
+
+  <xs:simpleType name="Name">
+    <xs:restriction base="xs:Name">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Address">
+    <xs:restriction base="xs:hexBinary">
+      <xs:minLength value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="AddressValue">
+    <xs:restriction base="xs:hexBinary">
+      <xs:length value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Amount">
+    <xs:restriction base="xs:hexBinary">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

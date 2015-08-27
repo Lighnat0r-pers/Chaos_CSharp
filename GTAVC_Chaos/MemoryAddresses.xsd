@@ -9,6 +9,7 @@
       <xs:sequence>
         <xs:element name="memoryaddress" maxOccurs="unbounded" type="MemoryAddress"/>
       </xs:sequence>
+      <xs:attribute name="game" type="xs:token" use="required"/>
       <xs:attribute name="gameversion" type="xs:token" use="required"/>
     </xs:complexType>
   </xs:element>

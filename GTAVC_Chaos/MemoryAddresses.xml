@@ -15,7 +15,7 @@ Supported types:
 The length element is only used for string length (in characters, not bytes!) of ascii/unicode data types and is ignored for other types.
 -->
 
-<addresses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gameversion="1.0">
+<addresses game="GTAVC" gameversion="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <memoryaddress>
     <name>Gravity</name>
     <address xsi:type="static">0068F5F0</address>
