@@ -41,16 +41,20 @@ namespace GTAVC_Chaos
         /// </summary>
         private MemoryAddress(string _name, string _type, int length = 0)
         {
-            Dictionary<string, int> sizes = new Dictionary<string, int>();
-            sizes.Add("bool", sizeof(bool));
-            sizes.Add("byte", sizeof(byte));
-            sizes.Add("short", sizeof(short));
-            sizes.Add("int", sizeof(int));
-            sizes.Add("long", sizeof(long));
-            sizes.Add("float", sizeof(float));
-            sizes.Add("double", sizeof(double));
-            sizes.Add("ascii", length);
-            sizes.Add("unicode", length * 2);
+            // TODO(Ligh): Handle size differently so we don't have to spend time
+            // creating this dictionary again for every memory address.
+            Dictionary<string, int> sizes = new Dictionary<string, int>()
+            {
+                {"bool", sizeof(bool)},
+                {"byte", sizeof(byte)},
+                {"short", sizeof(short)},
+                {"int", sizeof(int)},
+                {"long", sizeof(long)},
+                {"float", sizeof(float)},
+                {"double", sizeof(double)},
+                {"ascii", length},
+                {"unicode", length * 2},
+            };
 
             name = _name;
 
