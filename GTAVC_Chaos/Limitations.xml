@@ -43,7 +43,7 @@ Supported check types:
         </addresses>
         <equal>false</equal>
       </check>
-  </checks>
+    </checks>
   </limitation>
   <limitation>
     <name>InVehicleType</name>
@@ -55,6 +55,21 @@ Supported check types:
       <check xsi:type="parameter">
         <address>CurrentVehicleType</address>
       </check>
-</checks>
+    </checks>
+  </limitation>
+  <limitation>
+    <name>InCar</name>
+    <checks>
+      <check xsi:type="limitation">
+        <limitation>InVehicleType</limitation>
+        <target>true</target>
+        <parameters>
+          <parameter>
+            <name>CurrentVehicleType</name>
+            <value>0</value>
+          </parameter>
+        </parameters>
+      </check>
+    </checks>
   </limitation>
 </limitations>

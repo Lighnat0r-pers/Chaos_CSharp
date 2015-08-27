@@ -51,7 +51,7 @@
       <xs:extension base="Check">
         <xs:sequence>
           <xs:element name="address" type="Name"/>
-          <xs:element name="value"/>
+          <xs:element name="value" type="xs:string"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -103,6 +103,7 @@
   </xs:complexType>
 
   <xs:complexType name="Check" abstract="true"/>
+
   <!--+++ Simple types -->
 
   <xs:simpleType name="Name">

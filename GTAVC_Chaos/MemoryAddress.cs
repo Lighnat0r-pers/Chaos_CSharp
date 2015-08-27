@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace GTAVC_Chaos
 {
@@ -77,7 +76,7 @@ namespace GTAVC_Chaos
                 throw new Exception("Tried to resolve base address but no base address name set.");
             }
 
-            baseAddress = Program.components.findMemoryAddressByName(baseAddressName);
+            baseAddress = Program.components.FindMemoryAddressByName(baseAddressName);
         }
     }
 }

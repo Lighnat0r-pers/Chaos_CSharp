@@ -64,7 +64,7 @@ Supported activator types:
     </limitations>
     <activators>
       <activator type="simple">
-        <address>NoRight</address>
+        <address>DisableRightTurns</address>
         <target>0.0</target>
       </activator>
     </activators>

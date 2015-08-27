@@ -82,18 +82,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEffect.cs" />
+    <Compile Include="ICheck.cs" />
+    <Compile Include="ComparisonCheck.cs" />
     <Compile Include="EffectActivator.cs" />
     <Compile Include="Components.cs" />
     <Compile Include="DoTimedEffects.cs" />
     <Compile Include="GameFunctions.cs" />
     <Compile Include="GameHandler.cs" />
+    <Compile Include="Limitation.cs" />
+    <Compile Include="LimitationCheck.cs" />
     <Compile Include="MemoryAddress.cs" />
     <Compile Include="ModsLoop.cs" />
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ParameterCheck.cs" />
     <Compile Include="PermanentEffect.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SimpleCheck.cs" />
     <Compile Include="StaticEffect.cs" />
     <Compile Include="TimedEffect.cs" />
     <Compile Include="TimedEffectLimitations.cs" />
@@ -169,17 +175,23 @@
   <ItemGroup>
     <Content Include="TimedEffects.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Limitations.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="MemoryAddresses.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>(if exist "$(TargetDir)*old.pdb" del "$(TargetDir)*old.pdb") &amp; (if exist "$(TargetDir)*.pdb" ren "$(TargetDir)*.pdb" *.old.pdb)</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -11,7 +11,7 @@ namespace GTAVC_Chaos
         {
             type = _type;
             target = _target;
-            address = Program.components.findMemoryAddressByName(_address);
+            address = Program.components.FindMemoryAddressByName(_address);
         }
     }
 }

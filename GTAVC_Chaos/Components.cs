@@ -12,16 +12,19 @@ namespace GTAVC_Chaos
     class Components
     {
         public MemoryAddress[] memoryAddresses;
+        public Limitation[] limitations;
         public TimedEffect[] timedEffects;
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
 
         private List<MemoryAddress> memoryAddressesToResolve = new List<MemoryAddress>();
+        private List<LimitationCheck> limitationChecksToResolve = new List<LimitationCheck>();
 
         private string baseResourceString = "GTAVC_Chaos.";
         private string xmlFileExtension = ".xml";
         private string xmlSchemaFileExtension = ".xsd";
         private string memoryAddressesFilename = "MemoryAddresses";
+        private string limitationsFilename = "Limitations";
         private string timedEffectsFilename = "TimedEffects";
         private string permanentEffectsFilename = "PermanentEffects";
         private string staticEffectsFilename = "StaticEffects";
@@ -29,6 +32,7 @@ namespace GTAVC_Chaos
         public void Init()
         {
             InitMemoryAddresses();
+            InitLimitations();
             InitTimedEffects();
             //InitPermanentEffects();
             //InitStaticEffects();
@@ -137,7 +141,7 @@ namespace GTAVC_Chaos
             }
         }
 
-        public MemoryAddress findMemoryAddressByName(string name)
+        public MemoryAddress FindMemoryAddressByName(string name)
         {
             MemoryAddress result = null;
             foreach (MemoryAddress address in memoryAddresses)
@@ -152,6 +156,128 @@ namespace GTAVC_Chaos
             if (result == null)
             {
                 throw new Exception("Memory address " + name + " not found.");
+            }
+
+            return result;
+        }
+
+        private void InitLimitations()
+        {
+            Debug.WriteLine("Initializing limitations from file.");
+            XmlDocument file = getXmlDocument(limitationsFilename + xmlFileExtension, limitationsFilename + xmlSchemaFileExtension);
+            ReadLimitations(file);
+        }
+
+        private void ReadLimitations(XmlDocument file)
+        {
+            // TODO(Ligh): Properly catch errors here.
+
+            XmlNodeList nodes = file.SelectNodes("//limitations/limitation");
+            limitations = new Limitation[nodes.Count];
+
+            int count = 0;
+            foreach (XmlNode node in nodes)
+            {
+                ICheck check;
+                string name = node.SelectSingleNode("name").InnerText;
+
+                XmlNodeList checkNodes = node.SelectNodes("checks/check");
+
+                ICheck[] checks = new ICheck[checkNodes.Count];
+
+                int count2 = 0;
+                foreach (XmlNode checkNode in checkNodes)
+                {
+                    MemoryAddress address;
+                    switch (checkNode.Attributes["xsi:type"].Value)
+                    {
+                        case "simple":
+                            address = FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
+                            string value = checkNode.SelectSingleNode("value").InnerText;
+                            check = new SimpleCheck(address, value);
+                            break;
+                        case "parameter":
+                            string defaultValue = null;
+                            address = FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
+                            if (checkNode.SelectSingleNode("default") != null)
+                            {
+                                defaultValue = checkNode.SelectSingleNode("default").InnerText;
+                            }
+
+                            check = new ParameterCheck(address, defaultValue);
+                            break;
+                        case "limitation":
+                            string limitation = checkNode.SelectSingleNode("limitation").InnerText;
+                            bool target = Boolean.Parse(checkNode.SelectSingleNode("target").InnerText);
+                            Dictionary<string, dynamic> parameters = null;
+
+                            XmlNodeList parameterNodes = checkNode.SelectNodes("parameters/parameter");
+                            if (parameterNodes.Count != 0)
+                            {
+                                parameters = new Dictionary<string, object>();
+
+                                foreach (XmlNode parameterNode in parameterNodes)
+                                {
+                                    string parameterName = parameterNode.SelectSingleNode("name").InnerText;
+                                    string parameterValue = parameterNode.SelectSingleNode("value").InnerText;
+                                    parameters.Add(parameterName, parameterValue);
+                                }
+                            }
+
+                            check = new LimitationCheck(limitation, target, parameters);
+                            limitationChecksToResolve.Add((LimitationCheck)check);
+                            break;
+                        case "comparison":
+                            XmlNodeList addressNodes = checkNode.SelectNodes("addresses/address");
+                            MemoryAddress[] addresses = new MemoryAddress[addressNodes.Count];
+                            int count3 = 0;
+                            foreach (XmlNode addressNode in addressNodes)
+                            {
+                                addresses[count3++] = FindMemoryAddressByName(addressNode.InnerText);
+                            }
+                            bool equal = Boolean.Parse(checkNode.SelectSingleNode("equal").InnerText);
+                            check = new ComparisonCheck(addresses, equal);
+                            break;
+                        default:
+                            throw new Exception("Tried to process unknown limitation check type" + checkNode.Attributes["xsi:type"].Value);
+                    }
+
+                    checks[count2++] = check;
+
+                }
+
+                limitations[count++] = new Limitation(name, checks);
+
+            }
+
+            Debug.WriteLine("Read " + count + " limitations from file.");
+
+            ResolveLimitationChecks();
+        }
+
+        private void ResolveLimitationChecks()
+        {
+            foreach (LimitationCheck limitationCheck in limitationChecksToResolve)
+            {
+                limitationCheck.ResolveLimitation();
+            }
+        }
+
+        public Limitation FindLimitationByName(string name)
+        {
+            Limitation result = null;
+            foreach (Limitation limitation in limitations)
+            {
+                if (limitation.name == name)
+                {
+                    result = limitation.Clone();
+                    break;
+                }
+            }
+
+            if (result == null)
+            {
+                throw new Exception("Limitation " + name + " not found.");
             }
 
             return result;
@@ -195,14 +321,39 @@ namespace GTAVC_Chaos
                     string target = activatorNode.SelectSingleNode("target").InnerText;
                     string address = activatorNode.SelectSingleNode("address").InnerText;
 
-                    activators[count2] = new EffectActivator(type, target, address);
-
-                    count2++;
+                    activators[count2++] = new EffectActivator(type, target, address);
                 }
 
-                timedEffects[count1] = new TimedEffect(name, category, difficulty, duration);
+                XmlNodeList limitationNodes = node.SelectNodes("limitations/limitation");
+                Limitation[] effectLimitations = new Limitation[limitationNodes.Count];
 
-                count1++;
+                int count3 = 0;
+                foreach (XmlNode limitationNode in limitationNodes)
+                {
+                    string limitationName = limitationNode.SelectSingleNode("name").InnerText;
+                    Limitation limitation = FindLimitationByName(limitationName);
+
+                    limitation.setTarget(Boolean.Parse(limitationNode.SelectSingleNode("target").InnerText));
+
+                    XmlNodeList parameterNodes = limitationNode.SelectNodes("parameters/parameter");
+                    if (parameterNodes.Count != 0)
+                    {
+                        Dictionary<string, dynamic> parameters = new Dictionary<string, object>();
+
+                        foreach (XmlNode parameterNode in parameterNodes)
+                        {
+                            string parameterName = parameterNode.SelectSingleNode("name").InnerText;
+                            string parameterValue = parameterNode.SelectSingleNode("value").InnerText;
+                            parameters.Add(parameterName, parameterValue);
+                        }
+
+                        limitation.setParameters(parameters);
+                    }
+
+                    effectLimitations[count3++] = limitation;
+                }
+
+                timedEffects[count1++] = new TimedEffect(name, category, difficulty, duration, effectLimitations);
             }
 
             Debug.WriteLine("Read " + count1 + " timed effects from file.");
