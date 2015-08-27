@@ -21,8 +21,6 @@ namespace GTAVC_Chaos
         private List<LimitationCheck> limitationChecksToResolve = new List<LimitationCheck>();
 
         private string baseResourceString = "GTAVC_Chaos.";
-        private string xmlFileExtension = ".xml";
-        private string xmlSchemaFileExtension = ".xsd";
         private string memoryAddressesFilename = "MemoryAddresses";
         private string limitationsFilename = "Limitations";
         private string timedEffectsFilename = "TimedEffects";
@@ -65,13 +63,13 @@ namespace GTAVC_Chaos
             return schemas;
         }
 
-        private XmlDocument getXmlDocument(string xmlFilename, string xsdFilename)
+        private XmlDocument getXmlDocument(string Filename)
         {
             // TODO(Ligh): Deal with errors (file not found etc) here.
 
             XmlDocument document = new XmlDocument();
-            document.Load(xmlFilename);
-            document.Schemas = getXmlSchemaSet(xsdFilename);
+            document.Load(Filename + ".xml");
+            document.Schemas = getXmlSchemaSet(Filename + ".xsd");
             document.Validate(new ValidationEventHandler(xmlValidationEventHandler));
 
             return document;
@@ -80,7 +78,7 @@ namespace GTAVC_Chaos
         private void InitMemoryAddresses()
         {
             Debug.WriteLine("Initializing memory addresses from file.");
-            XmlDocument file = getXmlDocument(memoryAddressesFilename + xmlFileExtension, memoryAddressesFilename + xmlSchemaFileExtension);
+            XmlDocument file = getXmlDocument(memoryAddressesFilename);
             ReadMemoryAddresses(file);
         }
 
@@ -164,7 +162,7 @@ namespace GTAVC_Chaos
         private void InitLimitations()
         {
             Debug.WriteLine("Initializing limitations from file.");
-            XmlDocument file = getXmlDocument(limitationsFilename + xmlFileExtension, limitationsFilename + xmlSchemaFileExtension);
+            XmlDocument file = getXmlDocument(limitationsFilename);
             ReadLimitations(file);
         }
 
@@ -286,7 +284,7 @@ namespace GTAVC_Chaos
         private void InitTimedEffects()
         {
             Debug.WriteLine("Initializing timed effects from file.");
-            XmlDocument file = getXmlDocument(timedEffectsFilename + xmlFileExtension, timedEffectsFilename + xmlSchemaFileExtension);
+            XmlDocument file = getXmlDocument(timedEffectsFilename);
             ReadTimedEffects(file);
         }
 
@@ -362,7 +360,7 @@ namespace GTAVC_Chaos
         private void InitPermanentEffects()
         {
             Debug.WriteLine("Initializing permanent effects from file.");
-            XmlDocument file = getXmlDocument(permanentEffectsFilename + xmlFileExtension, permanentEffectsFilename + xmlSchemaFileExtension);
+            XmlDocument file = getXmlDocument(permanentEffectsFilename);
             ReadPermanentEffects(file);
         }
 
@@ -374,7 +372,7 @@ namespace GTAVC_Chaos
         private void InitStaticEffects()
         {
             Debug.WriteLine("Initializing static effects from file.");
-            XmlDocument file = getXmlDocument(staticEffectsFilename + xmlFileExtension, staticEffectsFilename + xmlSchemaFileExtension);
+            XmlDocument file = getXmlDocument(staticEffectsFilename);
             ReadStaticEffects(file);
         }
 
