@@ -317,7 +317,7 @@ namespace GTAVC_Chaos
                 {
                     string type = activatorNode.Attributes["type"].Value;
                     string target = activatorNode.SelectSingleNode("target").InnerText;
-                    string address = activatorNode.SelectSingleNode("address").InnerText;
+                    MemoryAddress address = Program.components.FindMemoryAddressByName(activatorNode.SelectSingleNode("address").InnerText);
 
                     activators[count2++] = new EffectActivator(type, target, address);
                 }
