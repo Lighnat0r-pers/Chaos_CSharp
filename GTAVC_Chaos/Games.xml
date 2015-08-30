@@ -158,6 +158,740 @@
       <version>
         <name>Steam</name>
         <addressvalue>5B</addressvalue>
+        <offsets>
+          <offset>
+            <startaddress>00400000</startaddress>
+            <amount>00</amount>
+          </offset>
+          <offset>
+            <startaddress>0041CB7B</startaddress>
+            <amount negative="true">04</amount>
+          </offset>
+          <offset>
+            <startaddress>0041CBCA</startaddress>
+            <amount negative="true">3B</amount>
+          </offset>
+          <offset>
+            <startaddress>0041CBD0</startaddress>
+            <amount negative="true">37</amount>
+          </offset>
+          <offset>
+            <startaddress>0041CBF0</startaddress>
+            <amount negative="true">30</amount>
+          </offset>
+          <offset>
+            <startaddress>004346F0</startaddress>
+            <amount negative="true">40</amount>
+          </offset>
+          <offset>
+            <startaddress>00434FA6</startaddress>
+            <amount negative="true">83</amount>
+          </offset>
+          <offset>
+            <startaddress>00434FB0</startaddress>
+            <amount negative="true">90</amount>
+          </offset>
+          <offset>
+            <startaddress>00443504</startaddress>
+            <amount negative="true">DA</amount>
+          </offset>
+          <offset>
+            <startaddress>004435D0</startaddress>
+            <amount negative="true">E0</amount>
+          </offset>
+          <offset>
+            <startaddress>004436F1</startaddress>
+            <amount negative="true">E3</amount>
+          </offset>
+          <offset>
+            <startaddress>00443701</startaddress>
+            <amount negative="true">E6</amount>
+          </offset>
+          <offset>
+            <startaddress>004439E0</startaddress>
+            <amount negative="true">E0</amount>
+          </offset>
+          <offset>
+            <startaddress>00443AD4</startaddress>
+            <amount negative="true">E3</amount>
+          </offset>
+          <offset>
+            <startaddress>00443AE4</startaddress>
+            <amount negative="true">E6</amount>
+          </offset>
+          <offset>
+            <startaddress>00443D04</startaddress>
+            <amount negative="true">EC</amount>
+          </offset>
+          <offset>
+            <startaddress>00443D10</startaddress>
+            <amount negative="true">F0</amount>
+          </offset>
+          <offset>
+            <startaddress>004517AF</startaddress>
+            <amount negative="true">0124</amount>
+          </offset>
+          <offset>
+            <startaddress>004517C0</startaddress>
+            <amount negative="true">0120</amount>
+          </offset>
+          <offset>
+            <startaddress>00489BF0</startaddress>
+            <amount negative="true">011C</amount>
+          </offset>
+          <offset>
+            <startaddress>00489BFD</startaddress>
+            <amount negative="true">0113</amount>
+          </offset>
+          <offset>
+            <startaddress>00489C70</startaddress>
+            <amount negative="true">0112</amount>
+          </offset>
+          <offset>
+            <startaddress>00489D00</startaddress>
+            <amount negative="true">0110</amount>
+          </offset>
+          <offset>
+            <startaddress>0048E5EF</startaddress>
+            <amount negative="true">010E</amount>
+          </offset>
+          <offset>
+            <startaddress>0048E628</startaddress>
+            <amount negative="true">ED</amount>
+          </offset>
+          <offset>
+            <startaddress>0048E670</startaddress>
+            <amount negative="true">F0</amount>
+          </offset>
+          <offset>
+            <startaddress>00498F14</startaddress>
+            <amount negative="true">DF</amount>
+          </offset>
+          <offset>
+            <startaddress>0049B8A6</startaddress>
+            <amount negative="true">E1</amount>
+          </offset>
+          <offset>
+            <startaddress>0049B8B7</startaddress>
+            <amount negative="true">F6</amount>
+          </offset>
+          <offset>
+            <startaddress>0049BA57</startaddress>
+            <amount negative="true">0132</amount>
+          </offset>
+          <offset>
+            <startaddress>0049BA5D</startaddress>
+            <amount negative="true">012F</amount>
+          </offset>
+          <offset>
+            <startaddress>0049BA5B</startaddress>
+            <amount negative="true">0134</amount>
+          </offset>
+          <offset>
+            <startaddress>0049BA60</startaddress>
+            <amount negative="true">0131</amount>
+          </offset>
+          <offset>
+            <startaddress>0049BBBF</startaddress>
+            <amount negative="true">0141</amount>
+          </offset>
+          <offset>
+            <startaddress>004A4220</startaddress>
+            <amount negative="true">0140</amount>
+          </offset>
+          <offset>
+            <startaddress>004A42FD</startaddress>
+            <amount negative="true">018D</amount>
+          </offset>
+          <offset>
+            <startaddress>004A4400</startaddress>
+            <amount negative="true">0186</amount>
+          </offset>
+          <offset>
+            <startaddress>004A44F0</startaddress>
+            <amount negative="true">0180</amount>
+          </offset>
+          <offset>
+            <startaddress>004A45F0</startaddress>
+            <amount negative="true">0144</amount>
+          </offset>
+          <offset>
+            <startaddress>004A4670</startaddress>
+            <amount negative="true">0140</amount>
+          </offset>
+          <offset>
+            <startaddress>004A4AAA</startaddress>
+            <amount negative="true">0139</amount>
+          </offset>
+          <offset>
+            <startaddress>004A4BC0</startaddress>
+            <amount negative="true">0133</amount>
+          </offset>
+          <offset>
+            <startaddress>004A4EA0</startaddress>
+            <amount negative="true">0130</amount>
+          </offset>
+          <offset>
+            <startaddress>004C40F0</startaddress>
+            <amount negative="true">0140</amount>
+          </offset>
+          <offset>
+            <startaddress>00516E76</startaddress>
+            <amount negative="true">0111</amount>
+          </offset>
+          <offset>
+            <startaddress>00516F50</startaddress>
+            <amount negative="true">0110</amount>
+          </offset>
+          <offset>
+            <startaddress>0057BD70</startaddress>
+            <amount negative="true">01D0</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC56E</startaddress>
+            <amount negative="true">01D3</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC579</startaddress>
+            <amount negative="true">01D6</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC57B</startaddress>
+            <amount negative="true">01D9</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC5C4</startaddress>
+            <amount negative="true">0201</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC5CE</startaddress>
+            <amount negative="true">0204</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC609</startaddress>
+            <amount negative="true">0205</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC615</startaddress>
+            <amount negative="true">020B</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC64D</startaddress>
+            <amount negative="true">020C</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC66D</startaddress>
+            <amount negative="true">020D</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC672</startaddress>
+            <amount negative="true">020E</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC6AE</startaddress>
+            <amount negative="true">020F</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC6B6</startaddress>
+            <amount negative="true">0210</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC6BC</startaddress>
+            <amount negative="true">0217</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC6BF</startaddress>
+            <amount negative="true">0218</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC6DB</startaddress>
+            <amount negative="true">0225</amount>
+          </offset>
+          <offset>
+            <startaddress>005CC7B0</startaddress>
+            <amount negative="true">0230</amount>
+          </offset>
+          <offset>
+            <startaddress>005D6FA0</startaddress>
+            <amount negative="true">02D0</amount>
+          </offset>
+          <offset>
+            <startaddress>005D7670</startaddress>
+            <amount negative="true">03A2</amount>
+          </offset>
+          <offset>
+            <startaddress>005D76A0</startaddress>
+            <amount negative="true">03A0</amount>
+          </offset>
+          <offset>
+            <startaddress>00600C20</startaddress>
+            <amount negative="true">0390</amount>
+          </offset>
+          <offset>
+            <startaddress>00601BB6</startaddress>
+            <amount negative="true">0392</amount>
+          </offset>
+          <offset>
+            <startaddress>00601BB8</startaddress>
+            <amount negative="true">0398</amount>
+          </offset>
+          <offset>
+            <startaddress>00601BC3</startaddress>
+            <amount negative="true">039A</amount>
+          </offset>
+          <offset>
+            <startaddress>00601BF0</startaddress>
+            <amount negative="true">039C</amount>
+          </offset>
+          <offset>
+            <startaddress>00601BF2</startaddress>
+            <amount negative="true">03DE</amount>
+          </offset>
+          <offset>
+            <startaddress>00601C07</startaddress>
+            <amount negative="true">03E5</amount>
+          </offset>
+          <offset>
+            <startaddress>00601C10</startaddress>
+            <amount negative="true">03E7</amount>
+          </offset>
+          <offset>
+            <startaddress>00601C20</startaddress>
+            <amount negative="true">03E0</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C227</startaddress>
+            <amount negative="true">03D1</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C22A</startaddress>
+            <amount negative="true">03D6</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C24F</startaddress>
+            <amount negative="true">03CD</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C350</startaddress>
+            <amount negative="true">03CA</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C360</startaddress>
+            <amount negative="true">03C3</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C380</startaddress>
+            <amount negative="true">03C2</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C399</startaddress>
+            <amount negative="true">03C1</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C39E</startaddress>
+            <amount negative="true">03C0</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C3D9</startaddress>
+            <amount negative="true">03BF</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C3E1</startaddress>
+            <amount negative="true">03BE</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C3E9</startaddress>
+            <amount negative="true">03BD</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C3ED</startaddress>
+            <amount negative="true">03BC</amount>
+          </offset>
+          <offset>
+            <startaddress>0061C510</startaddress>
+            <amount negative="true">03C0</amount>
+          </offset>
+          <offset>
+            <startaddress>00620E6C</startaddress>
+            <amount negative="true">03AF</amount>
+          </offset>
+          <offset>
+            <startaddress>00620E80</startaddress>
+            <amount negative="true">03B0</amount>
+          </offset>
+          <offset>
+            <startaddress>00626E7B</startaddress>
+            <amount negative="true">038F</amount>
+          </offset>
+          <offset>
+            <startaddress>00626E8C</startaddress>
+            <amount negative="true">0388</amount>
+          </offset>
+          <offset>
+            <startaddress>00626E9A</startaddress>
+            <amount negative="true">0381</amount>
+          </offset>
+          <offset>
+            <startaddress>00626F60</startaddress>
+            <amount negative="true">0380</amount>
+          </offset>
+          <offset>
+            <startaddress>00627064</startaddress>
+            <amount negative="true">036D</amount>
+          </offset>
+          <offset>
+            <startaddress>006270E0</startaddress>
+            <amount negative="true">0368</amount>
+          </offset>
+          <offset>
+            <startaddress>00627106</startaddress>
+            <amount negative="true">036A</amount>
+          </offset>
+          <offset>
+            <startaddress>00627150</startaddress>
+            <amount negative="true">0366</amount>
+          </offset>
+          <offset>
+            <startaddress>00627160</startaddress>
+            <amount negative="true">0370</amount>
+          </offset>
+          <offset>
+            <startaddress>00627226</startaddress>
+            <amount negative="true">034A</amount>
+          </offset>
+          <offset>
+            <startaddress>00627250</startaddress>
+            <amount negative="true">0340</amount>
+          </offset>
+          <offset>
+            <startaddress>006372DA</startaddress>
+            <amount negative="true">0341</amount>
+          </offset>
+          <offset>
+            <startaddress>0063759A</startaddress>
+            <amount negative="true">0343</amount>
+          </offset>
+          <offset>
+            <startaddress>006375B6</startaddress>
+            <amount negative="true">0344</amount>
+          </offset>
+          <offset>
+            <startaddress>006375C8</startaddress>
+            <amount negative="true">0347</amount>
+          </offset>
+          <offset>
+            <startaddress>006375F2</startaddress>
+            <amount negative="true">034A</amount>
+          </offset>
+          <offset>
+            <startaddress>006375FA</startaddress>
+            <amount negative="true">034D</amount>
+          </offset>
+          <offset>
+            <startaddress>006376C0</startaddress>
+            <amount negative="true">0350</amount>
+          </offset>
+          <offset>
+            <startaddress>00637722</startaddress>
+            <amount negative="true">0353</amount>
+          </offset>
+          <offset>
+            <startaddress>0063773F</startaddress>
+            <amount negative="true">0356</amount>
+          </offset>
+          <offset>
+            <startaddress>00637747</startaddress>
+            <amount negative="true">0359</amount>
+          </offset>
+          <offset>
+            <startaddress>0063774B</startaddress>
+            <amount negative="true">035C</amount>
+          </offset>
+          <offset>
+            <startaddress>00637755</startaddress>
+            <amount negative="true">035F</amount>
+          </offset>
+          <offset>
+            <startaddress>0063777D</startaddress>
+            <amount negative="true">0362</amount>
+          </offset>
+          <offset>
+            <startaddress>00637788</startaddress>
+            <amount negative="true">0365</amount>
+          </offset>
+          <offset>
+            <startaddress>0063778C</startaddress>
+            <amount negative="true">0368</amount>
+          </offset>
+          <offset>
+            <startaddress>00637791</startaddress>
+            <amount negative="true">036B</amount>
+          </offset>
+          <offset>
+            <startaddress>0063779F</startaddress>
+            <amount negative="true">036E</amount>
+          </offset>
+          <offset>
+            <startaddress>006377A6</startaddress>
+            <amount negative="true">0371</amount>
+          </offset>
+          <offset>
+            <startaddress>006377B0</startaddress>
+            <amount negative="true">0370</amount>
+          </offset>
+          <offset>
+            <startaddress>0063785E</startaddress>
+            <amount negative="true">0372</amount>
+          </offset>
+          <offset>
+            <startaddress>006378D0</startaddress>
+            <amount negative="true">0370</amount>
+          </offset>
+          <offset>
+            <startaddress>006378E8</startaddress>
+            <amount negative="true">0372</amount>
+          </offset>
+          <offset>
+            <startaddress>006378FC</startaddress>
+            <amount negative="true">0374</amount>
+          </offset>
+          <offset>
+            <startaddress>00637906</startaddress>
+            <amount negative="true">0376</amount>
+          </offset>
+          <offset>
+            <startaddress>00637978</startaddress>
+            <amount negative="true">0378</amount>
+          </offset>
+          <offset>
+            <startaddress>00637990</startaddress>
+            <amount negative="true">037A</amount>
+          </offset>
+          <offset>
+            <startaddress>006379A4</startaddress>
+            <amount negative="true">037C</amount>
+          </offset>
+          <offset>
+            <startaddress>006379AE</startaddress>
+            <amount negative="true">037E</amount>
+          </offset>
+          <offset>
+            <startaddress>00637A8D</startaddress>
+            <amount negative="true">0380</amount>
+          </offset>
+          <offset>
+            <startaddress>00637AAE</startaddress>
+            <amount negative="true">0383</amount>
+          </offset>
+          <offset>
+            <startaddress>00637AB2</startaddress>
+            <amount negative="true">0386</amount>
+          </offset>
+          <offset>
+            <startaddress>00637BC9</startaddress>
+            <amount negative="true">0387</amount>
+          </offset>
+          <offset>
+            <startaddress>00637C20</startaddress>
+            <amount negative="true">0381</amount>
+          </offset>
+          <offset>
+            <startaddress>00637C34</startaddress>
+            <amount negative="true">0383</amount>
+          </offset>
+          <offset>
+            <startaddress>00637C40</startaddress>
+            <amount negative="true">0380</amount>
+          </offset>
+          <offset>
+            <startaddress>00637CB6</startaddress>
+            <amount negative="true">0382</amount>
+          </offset>
+          <offset>
+            <startaddress>00637CFD</startaddress>
+            <amount negative="true">0384</amount>
+          </offset>
+          <offset>
+            <startaddress>00637D8E</startaddress>
+            <amount negative="true">0385</amount>
+          </offset>
+          <offset>
+            <startaddress>00637DD0</startaddress>
+            <amount negative="true">0386</amount>
+          </offset>
+          <offset>
+            <startaddress>00637DD9</startaddress>
+            <amount negative="true">0387</amount>
+          </offset>
+          <offset>
+            <startaddress>00637E55</startaddress>
+            <amount negative="true">0389</amount>
+          </offset>
+          <offset>
+            <startaddress>00637E60</startaddress>
+            <amount negative="true">0384</amount>
+          </offset>
+          <offset>
+            <startaddress>0063805F</startaddress>
+            <amount negative="true">0387</amount>
+          </offset>
+          <offset>
+            <startaddress>0063806A</startaddress>
+            <amount negative="true">038A</amount>
+          </offset>
+          <offset>
+            <startaddress>00638072</startaddress>
+            <amount negative="true">038D</amount>
+          </offset>
+          <offset>
+            <startaddress>00638079</startaddress>
+            <amount negative="true">0390</amount>
+          </offset>
+          <offset>
+            <startaddress>00638080</startaddress>
+            <amount negative="true">0393</amount>
+          </offset>
+          <offset>
+            <startaddress>00638084</startaddress>
+            <amount negative="true">0396</amount>
+          </offset>
+          <offset>
+            <startaddress>00638093</startaddress>
+            <amount negative="true">0399</amount>
+          </offset>
+          <offset>
+            <startaddress>00638097</startaddress>
+            <amount negative="true">039C</amount>
+          </offset>
+          <offset>
+            <startaddress>0063809B</startaddress>
+            <amount negative="true">039F</amount>
+          </offset>
+          <offset>
+            <startaddress>006380B5</startaddress>
+            <amount negative="true">03A2</amount>
+          </offset>
+          <offset>
+            <startaddress>006380B9</startaddress>
+            <amount negative="true">03A5</amount>
+          </offset>
+          <offset>
+            <startaddress>006380BD</startaddress>
+            <amount negative="true">03A8</amount>
+          </offset>
+          <offset>
+            <startaddress>006380D1</startaddress>
+            <amount negative="true">03AB</amount>
+          </offset>
+          <offset>
+            <startaddress>006380D5</startaddress>
+            <amount negative="true">03AE</amount>
+          </offset>
+          <offset>
+            <startaddress>006380E4</startaddress>
+            <amount negative="true">03B1</amount>
+          </offset>
+          <offset>
+            <startaddress>00638116</startaddress>
+            <amount negative="true">03B4</amount>
+          </offset>
+          <offset>
+            <startaddress>0063811A</startaddress>
+            <amount negative="true">03B7</amount>
+          </offset>
+          <offset>
+            <startaddress>006381A6</startaddress>
+            <amount negative="true">03B9</amount>
+          </offset>
+          <offset>
+            <startaddress>006381CD</startaddress>
+            <amount negative="true">03C3</amount>
+          </offset>
+          <offset>
+            <startaddress>006381D6</startaddress>
+            <amount negative="true">03C4</amount>
+          </offset>
+          <offset>
+            <startaddress>006381E2</startaddress>
+            <amount negative="true">1041</amount>
+          </offset>
+          <offset>
+            <startaddress>006381F0</startaddress>
+            <amount negative="true">1040</amount>
+          </offset>
+          <offset>
+            <startaddress>00638217</startaddress>
+            <amount negative="true">1050</amount>
+          </offset>
+          <offset>
+            <startaddress>0067D000</startaddress>
+            <amount negative="true">1000</amount>
+          </offset>
+          <offset>
+            <startaddress>0068CD84</startaddress>
+            <amount negative="true">0FF8</amount>
+          </offset>
+          <offset>
+            <startaddress>0069901C</startaddress>
+            <amount negative="true">1004</amount>
+          </offset>
+          <offset>
+            <startaddress>006990C8</startaddress>
+            <amount negative="true">1000</amount>
+          </offset>
+          <offset>
+            <startaddress>006A457C</startaddress>
+            <amount negative="true">1004</amount>
+          </offset>
+          <offset>
+            <startaddress>006A4738</startaddress>
+            <amount negative="true">1008</amount>
+          </offset>
+          <offset>
+            <startaddress>006D5654</startaddress>
+            <amount negative="true">1034</amount>
+          </offset>
+          <offset>
+            <startaddress>006D5AF8</startaddress>
+            <amount negative="true">1030</amount>
+          </offset>
+          <offset>
+            <startaddress>006DA8B8</startaddress>
+            <amount negative="true">1038</amount>
+          </offset>
+          <offset>
+            <startaddress>006DA90C</startaddress>
+            <amount negative="true">1018</amount>
+          </offset>
+          <offset>
+            <startaddress>006DB9E0</startaddress>
+            <amount negative="true">1038</amount>
+          </offset>
+          <offset>
+            <startaddress>006DBA74</startaddress>
+            <amount negative="true">1068</amount>
+          </offset>
+          <offset>
+            <startaddress>006DF000</startaddress>
+            <amount negative="true">1000</amount>
+          </offset>
+          <offset>
+            <startaddress>00785BAC</startaddress>
+            <amount negative="true">0FFC</amount>
+          </offset>
+          <offset>
+            <startaddress>00785D48</startaddress>
+            <amount negative="true">0FF8</amount>
+          </offset>
+          <offset>
+            <startaddress>00A0FB29</startaddress>
+            <amount negative="true">0FF7</amount>
+          </offset>
+          <offset>
+            <startaddress>00A0FB58</startaddress>
+            <amount negative="true">0FF6</amount>
+          </offset>
+        </offsets>
       </version>
       <version>
         <name>Japanese</name>
