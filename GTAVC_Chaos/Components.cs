@@ -27,8 +27,10 @@ namespace GTAVC_Chaos
         private string permanentEffectsFilename = "PermanentEffects";
         private string staticEffectsFilename = "StaticEffects";
 
-        public Components()
+        // NOTE(Ligh): This cannot be done in the constructor as it requires the reference to this object to already be set in the Program class.
+        public void Init()
         {
+            InitGames();
             InitMemoryAddresses();
             InitLimitations();
             InitTimedEffects();
