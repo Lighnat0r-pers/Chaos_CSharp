@@ -7,16 +7,16 @@ namespace GTAVC_Chaos
         public MemoryAddress address;
         public dynamic value;
 
-        public SimpleCheck(MemoryAddress _address, dynamic _value)
+        public SimpleCheck(MemoryAddress address, dynamic value)
         {
-            address = _address;
-            value = _value;
+            this.address = address;
+            this.value = value;
         }
 
         private SimpleCheck(SimpleCheck check)
         {
-            address = check.address;
-            value = check.value;
+            this.address = check.address;
+            this.value = check.value;
         }
 
         public Object Clone()

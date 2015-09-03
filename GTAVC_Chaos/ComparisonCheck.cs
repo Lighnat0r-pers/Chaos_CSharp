@@ -7,16 +7,16 @@ namespace GTAVC_Chaos
         public MemoryAddress[] addresses;
         public bool equal;
 
-        public ComparisonCheck(MemoryAddress[] _addresses, dynamic _equal)
+        public ComparisonCheck(MemoryAddress[] addresses, dynamic equal)
         {
-            addresses = _addresses;
-            equal = _equal;
+            this.addresses = addresses;
+            this.equal = equal;
         }
 
         private ComparisonCheck(ComparisonCheck check)
         {
-            addresses = check.addresses;
-            equal = check.equal;
+            this.addresses = check.addresses;
+            this.equal = check.equal;
         }
 
         public Object Clone()

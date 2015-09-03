@@ -7,11 +7,11 @@ namespace GTAVC_Chaos
         public object target;
         public MemoryAddress address;
 
-        public EffectActivator(string _type, string _target, MemoryAddress _address)
+        public EffectActivator(string type, string target, MemoryAddress address)
         {
-            type = _type;
-            target = _target;
-            address = _address;
+            this.type = type;
+            this.target = target;
+            this.address = address;
         }
     }
 }

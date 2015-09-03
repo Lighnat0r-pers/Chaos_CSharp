@@ -7,19 +7,19 @@ namespace GTAVC_Chaos
         public MemoryAddress address;
         public dynamic parameter;
 
-        public ParameterCheck(MemoryAddress _address, dynamic _parameter = null)
+        public ParameterCheck(MemoryAddress address, dynamic parameter = null)
         {
-            address = _address;
-            if (_parameter != null)
+            this.address = address;
+            if (parameter != null)
             {
-                parameter = _parameter;
+                this.parameter = parameter;
             }
         }
 
         private ParameterCheck(ParameterCheck check)
         {
-            address = check.address;
-            parameter = check.parameter;
+            this.address = check.address;
+            this.parameter = check.parameter;
         }
 
         public Object Clone()
@@ -27,9 +27,9 @@ namespace GTAVC_Chaos
             return new ParameterCheck(this);
         }
 
-        public void SetParameter(dynamic _parameter)
+        public void SetParameter(dynamic parameter)
         {
-            parameter = _parameter;
+            this.parameter = parameter;
         }
 
         public bool Check()

@@ -23,10 +23,10 @@ namespace GTAVC_Chaos
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="_name">Game name</param>
-        public GameHandler(string _name)
+        /// <param name="name">Game name</param>
+        public GameHandler(string name)
         {
-            name = _name;
+            this.name = name;
             memory = OpenProcess();
             if (gameFound)
             {
@@ -46,7 +46,7 @@ namespace GTAVC_Chaos
             string gameWindowName = Settings.gameWindowNameArray[name];
             string gameClassName = Settings.gameWindowClassNameArray[name];
 
-            Memory _memory = null;
+            Memory memory = null;
 
             do
             {
@@ -59,16 +59,16 @@ namespace GTAVC_Chaos
                         GameHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, gameClassName.Length + 1);
                         if (foundClassName.ToString() == gameClassName)
                         {
-                            _memory = new Memory(process);
+                            memory = new Memory(process);
                             gameFound = true;
                             break;
                         }
                     }
                 }
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
-            } while (gameFound == false && Program._shouldStop == false);
+            } while (gameFound == false && Program.shouldStop == false);
 
-            return _memory;
+            return memory;
         }
 
         public void CloseProcess()
@@ -81,7 +81,7 @@ namespace GTAVC_Chaos
 
         private string GetVersion()
         {
-            string _version = "";
+            string version = "";
             switch (name)
             {
                 case "GTAVC":
@@ -89,16 +89,16 @@ namespace GTAVC_Chaos
                     switch (value)
                     {
                         case 0x5D:
-                            _version = "1.0";
+                            version = "1.0";
                             break;
                         case 0x81:
-                            _version = "1.1";
+                            version = "1.1";
                             break;
                         case 0x5B:
-                            _version = "Steam";
+                            version = "Steam";
                             break;
                         case 0x44:
-                            _version = "Japanese";
+                            version = "Japanese";
                             break;
                         default:
                             throw new Exception("Unsupported version of GTA Vice City.");
@@ -108,7 +108,7 @@ namespace GTAVC_Chaos
                     throw new Exception("Unsupported game.");
             }
 
-            return _version;
+            return version;
         }
 
         public dynamic Read(MemoryAddress address)

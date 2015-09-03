@@ -20,26 +20,26 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Constructor for static memory address
         /// </summary>
-        public MemoryAddress(string _name, long _address, string _type, int length = 0)
-            : this(_name, _type, length)
+        public MemoryAddress(string name, long address, string type, int length = 0)
+            : this(name, type, length)
         {
-            address = _address;
+            this.address = address;
         }
 
         /// <summary>
         /// Constructor for dynamic memory address
         /// </summary>
-        public MemoryAddress(string _name, string _baseAddressName, long _offset, string _type, int length = 0)
-            : this(_name, _type, length)
+        public MemoryAddress(string name, string baseAddressName, long offset, string type, int length = 0)
+            : this(name, type, length)
         {
-            baseAddressName = _baseAddressName;
-            offset = _offset;
+            this.baseAddressName = baseAddressName;
+            this.offset = offset;
         }
 
         /// <summary>
         /// Generic constructor
         /// </summary>
-        private MemoryAddress(string _name, string _type, int length = 0)
+        private MemoryAddress(string name, string type, int length = 0)
         {
             // TODO(Ligh): Handle size differently so we don't have to spend time
             // creating this dictionary again for every memory address.
@@ -56,14 +56,14 @@ namespace GTAVC_Chaos
                 {"unicode", length * 2},
             };
 
-            name = _name;
+            this.name = name;
 
-            if (!sizes.ContainsKey(_type))
+            if (!sizes.ContainsKey(type))
             {
                 throw new Exception("Invalid type of memory address.");
             }
 
-            type = _type;
+            this.type = type;
 
             size = sizes[type];
 

@@ -8,7 +8,7 @@ namespace GTAVC_Chaos
 {
     static class Program
     {
-        static public bool _shouldStop = false;
+        static public bool shouldStop = false;
         static public Form currentForm = null;
 
         static public WelcomeWindow welcomeWindow;
@@ -49,7 +49,7 @@ namespace GTAVC_Chaos
 
             // Wait until the thread that gets the game handle is finished before continuing.
             gameAccessThread.Join();
-            if (_shouldStop == true) // Exit the application if the welcome window was exited by returning in the main method.
+            if (shouldStop == true) // Exit the application if the welcome window was exited by returning in the main method.
             {
                 Debug.WriteLine("Exiting application as stop signal was given");
                 return;
@@ -64,7 +64,7 @@ namespace GTAVC_Chaos
                 Debug.WriteLine(GameFunctions.GetCurrentMission());
                 ModsLoop.Update();
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
-            } while (_shouldStop == false);
+            } while (shouldStop == false);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static void GetGame()
         {
-            _shouldStop = false;
+            shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
             game = new GameHandler(Settings.gameName);
             if (game.gameFound == true)
@@ -173,7 +173,7 @@ namespace GTAVC_Chaos
         static void OnApplicationExit(object Sender, EventArgs e)
         {
             // TODO(Ligh): Due to changes is handling the application, this is no longer called on exit. It should be.
-            _shouldStop = true;
+            shouldStop = true;
             if (game != null && game.gameFound == true)
             {
                 game.CloseProcess();

@@ -11,17 +11,17 @@ namespace GTAVC_Chaos
         public Limitation limitation;
         public bool target;
 
-        public LimitationCheck(string _limitationName, dynamic _target, Dictionary<string, dynamic> _parameters = null)
+        public LimitationCheck(string limitationName, dynamic target, Dictionary<string, dynamic> parameters = null)
         {
-            limitationName = _limitationName;
-            target = _target;
-            parameters = _parameters;
+            this.limitationName = limitationName;
+            this.target = target;
+            this.parameters = parameters;
         }
 
         private LimitationCheck(LimitationCheck check)
         {
-            limitationName = check.limitationName;
-            target = check.target;
+            this.limitationName = check.limitationName;
+            this.target = check.target;
             this.ResolveLimitation();
         }
 

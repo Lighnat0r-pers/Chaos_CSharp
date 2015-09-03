@@ -10,21 +10,21 @@ namespace GTAVC_Chaos
         public ICheck[] checks;
         public bool target;
 
-        public Limitation(string _name, ICheck[] _checks)
+        public Limitation(string name, ICheck[] checks)
         {
-            name = _name;
-            checks = _checks;
+            this.name = name;
+            this.checks = checks;
         }
 
         private Limitation(Limitation limitation)
         {
-            name = limitation.name;
-            checks = new ICheck[limitation.checks.Length];
+            this.name = limitation.name;
+            this.checks = new ICheck[limitation.checks.Length];
 
             int count = 0;
             foreach (ICheck check in limitation.checks)
             {
-                checks[count++] = (ICheck) check.Clone();
+                this.checks[count++] = (ICheck) check.Clone();
             }
         }
 
@@ -67,9 +67,9 @@ namespace GTAVC_Chaos
             }
         }
 
-        public void setTarget(bool _target)
+        public void setTarget(bool target)
         {
-            target = _target;
+            this.target = target;
         }
 
         public bool Check()

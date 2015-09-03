@@ -23,15 +23,15 @@ namespace GTAVC_Chaos
         /// Constructor for TimedEffect class specifying the name and duration.
         /// The name is passed onto the constructor of the base class (BaseEffect).
         /// </summary>
-        public TimedEffect(string _name, string _category, int _difficulty, int duration = 0, Limitation[] _limitations = null)
-            : base(_name, _category, _difficulty)
+        public TimedEffect(string name, string category, int difficulty, int duration = 0, Limitation[] limitations = null)
+            : base(name, category, difficulty)
         {
             effectLength = (duration == 0) ? defaultEffectLength : duration;
 
             // Process the limitations string array and for each element convert it to a method in TimedEffectLimitations.cs
             // then add it to a multicast delegate which can be called when needed to check all limitations.
             // If no limitations are put in, generate an empty string array so the foreach loop is effectively skipped but doesn't return an exception.
-            limitations = _limitations;
+            this.limitations = limitations;
         }
 
         // Activate the effect

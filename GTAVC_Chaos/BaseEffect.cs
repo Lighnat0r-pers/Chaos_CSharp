@@ -13,19 +13,19 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Constructor for BaseEffect class specifying only the name.
         /// </summary>
-        public BaseEffect(string _name)
+        public BaseEffect(string name)
         {
-            name = _name;
+            this.name = name;
         }
 
         /// <summary>
         /// Constructor for BaseEffect class.
         /// </summary>
-        public BaseEffect(string _name, string _category, int _difficulty)
+        public BaseEffect(string name, string category, int difficulty)
         {
-            name = _name;
-            category = _category;
-            difficulty = _difficulty;
+            this.name = name;
+            this.category = category;
+            this.difficulty = difficulty;
         }
 
         // Activate the effect

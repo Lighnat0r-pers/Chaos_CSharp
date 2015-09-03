@@ -39,7 +39,7 @@ namespace GTAVC_Chaos
             {
                 e.Cancel = true;
             }
-            Program._shouldStop = true;
+            Program.shouldStop = true;
         }
 
         private void WelcomeWindow_FormClosed(object sender, FormClosedEventArgs e)
