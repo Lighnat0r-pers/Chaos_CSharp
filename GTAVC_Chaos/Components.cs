@@ -16,11 +16,14 @@ namespace GTAVC_Chaos
         public TimedEffect[] timedEffects;
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
+        public Game[] games;
 
         private List<MemoryAddress> memoryAddressesToResolve = new List<MemoryAddress>();
         private List<LimitationCheck> limitationChecksToResolve = new List<LimitationCheck>();
 
         private string baseResourceString = "GTAVC_Chaos.";
+
+        private string gamesFilename = "Games";
         private string memoryAddressesFilename = "MemoryAddresses";
         private string limitationsFilename = "Limitations";
         private string timedEffectsFilename = "TimedEffects";
@@ -77,6 +80,99 @@ namespace GTAVC_Chaos
             return document;
         }
 
+        private void InitGames()
+        {
+            Debug.WriteLine("Initializing games from file.");
+            XmlDocument file = getXmlDocument(gamesFilename);
+            ReadGames(file);
+        }
+
+        private void ReadGames(XmlDocument file)
+        {
+            bool baseVersionDefined;
+
+            // TODO(Ligh): Properly catch errors here.
+
+            XmlNodeList nodes = file.SelectNodes("//games/game");
+            games = new Game[nodes.Count];
+
+            int count = 0;
+            foreach (XmlNode node in nodes)
+            {
+                baseVersionDefined = false;
+
+                // TODO(Ligh): Properly catch errors here.
+
+                string name = node.SelectSingleNode("name").InnerText;
+                string abbreviation = node.SelectSingleNode("abbreviation").InnerText;
+                string windowName = node.SelectSingleNode("windowname").InnerText;
+                string windowClass = node.SelectSingleNode("windowclass").InnerText;
+                long versionAddress = Int64.Parse(node.SelectSingleNode("versionaddress").InnerText, NumberStyles.HexNumber);
+                string baseVersion = node.SelectSingleNode("baseversion").InnerText;
+
+                XmlNodeList versionNodes = node.SelectNodes("versions/version");
+
+                GameVersion[] versions = new GameVersion[versionNodes.Count];
+
+                int count2 = 0;
+                foreach (XmlNode versionNode in versionNodes)
+                {
+                    string versionName = versionNode.SelectSingleNode("name").InnerText;
+                    int addressValue = Int32.Parse(versionNode.SelectSingleNode("addressvalue").InnerText, NumberStyles.HexNumber);
+
+                    SortedList<long, int> offsets = new SortedList<long, int>();
+
+                    if (versionName == baseVersion)
+                    {
+                        baseVersionDefined = true;
+
+                        offsets.Add(0, 0); // Dummy offset
+
+                        Debug.WriteLine("Read default version from file for " + name + ".");
+                    }
+                    else
+                    {
+                        XmlNodeList offsetNodes = versionNode.SelectNodes("offsets/offset");
+
+                        foreach (XmlNode offsetNode in offsetNodes)
+                        {
+                            long startAddress = Int64.Parse(offsetNode.SelectSingleNode("startaddress").InnerText, NumberStyles.HexNumber);
+
+                            XmlNode amountNode = offsetNode.SelectSingleNode("amount");
+                            int offsetAmount = Int32.Parse(amountNode.InnerText, NumberStyles.HexNumber);
+
+                            if (amountNode.Attributes["negative"] != null && amountNode.Attributes["negative"].Value == "true")
+                            {
+                                offsetAmount = -offsetAmount;
+                            }
+
+                            offsets.Add(startAddress, offsetAmount);
+                        }
+
+                        Debug.WriteLine("Read " + offsetNodes.Count + " offsets from file for version " + versionName + " of " + name + ".");
+
+                        if (offsetNodes.Count == 0)
+                        {
+                            throw new Exception("No offsets defined in the list of versions  for version " + versionName + " of " + name + ".");
+                        }
+                    }
+
+                    versions[count2++] = new GameVersion(versionName, addressValue, offsets);
+                }
+
+                Debug.WriteLine("Read " + count2 + " versions from file for " + name + ".");
+
+                if (!baseVersionDefined)
+                {
+                    throw new Exception("Base version not defined in the list of versions  for " + name + ".");
+                }
+
+                games[count++] = new Game(name, abbreviation, windowName, windowClass, versionAddress, baseVersion, versions);
+            }
+
+            Debug.WriteLine("Read " + count + " games from file.");
+        }
+
         private void InitMemoryAddresses()
         {
             Debug.WriteLine("Initializing memory addresses from file.");
@@ -123,9 +219,7 @@ namespace GTAVC_Chaos
                     memoryAddressesToResolve.Add(addressObj);
                 }
 
-                memoryAddresses[count] = addressObj;
-
-                count++;
+                memoryAddresses[count++] = addressObj;
             }
 
             Debug.WriteLine("Read " + count + " memory addresses from file.");

@@ -82,6 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEffect.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameVersion.cs" />
     <Compile Include="ICheck.cs" />
     <Compile Include="ComparisonCheck.cs" />
     <Compile Include="EffectActivator.cs" />
