@@ -10,7 +10,7 @@ proper documentation of the xml files.
 Validate that addresses used in TimedEffects.xml etc actually exist in MemoryAddresses.xml on startup. Same with limitations.
 Validate that all limitations that expect parameters get those parameters when used in TimedEffects.xml. Also validate that limitations don't get parameters when not expected.
 Add support for limitation based on if permanent effect is active.
-Validate that the datatype of the value element provided in TimedEffects.xml etc match the datatype of the memory address.
+Validate that the datatype of the value element provided in TimedEffects.xml etc matches the datatype of the memory address.
 Support for associative arrays type things in xml files so that for example, for the limitation InVehicleType, the name parameter can be given as "Car" which is then translated into the actual value as it is used and read from the game, "0".
 Validate that there are no duplicate names for memory addresses, limitations etc.
 Prevent an endless loop of limitation checks.

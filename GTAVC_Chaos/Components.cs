@@ -27,7 +27,7 @@ namespace GTAVC_Chaos
         private string permanentEffectsFilename = "PermanentEffects";
         private string staticEffectsFilename = "StaticEffects";
 
-        public void Init()
+        public Components()
         {
             InitMemoryAddresses();
             InitLimitations();
@@ -63,13 +63,13 @@ namespace GTAVC_Chaos
             return schemas;
         }
 
-        private XmlDocument getXmlDocument(string Filename)
+        private XmlDocument getXmlDocument(string filename)
         {
             // TODO(Ligh): Deal with errors (file not found etc) here.
 
             XmlDocument document = new XmlDocument();
-            document.Load(Filename + ".xml");
-            document.Schemas = getXmlSchemaSet(Filename + ".xsd");
+            document.Load(filename + ".xml");
+            document.Schemas = getXmlSchemaSet(filename + ".xsd");
             document.Validate(new ValidationEventHandler(xmlValidationEventHandler));
 
             return document;

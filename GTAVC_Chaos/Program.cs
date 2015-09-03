@@ -43,7 +43,6 @@ namespace GTAVC_Chaos
 
             // Read addresses and effects from xml files.
             components = new Components();
-            components.Init();
 
             // Show the welcome window.
             InitWelcomeWindow();
