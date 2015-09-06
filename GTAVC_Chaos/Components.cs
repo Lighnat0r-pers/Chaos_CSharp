@@ -379,7 +379,7 @@ namespace GTAVC_Chaos
                     effectLimitations[count3++] = limitation;
                 }
 
-                timedEffects[count1++] = new TimedEffect(name, category, difficulty, duration, effectLimitations);
+                timedEffects[count1++] = new TimedEffect(name, category, difficulty, activators, duration, effectLimitations);
             }
 
             Debug.WriteLine("Read " + count1 + " timed effects from file.");
