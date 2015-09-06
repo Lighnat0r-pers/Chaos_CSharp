@@ -37,7 +37,7 @@ namespace GTAVC_Chaos
 
         public void ResolveLimitation()
         {
-            limitation = Program.components.FindLimitationByName(limitationName);
+            limitation = Program.game.FindLimitationByName(limitationName);
             if (parameters != null)
             {
                 limitation.setParameters(parameters);

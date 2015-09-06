@@ -27,7 +27,13 @@ namespace GTAVC_Chaos
         public Memory memory;
         public GameVersion currentVersion;
 
-        public GameVersion[] gameVersions;
+        private GameVersion[] gameVersions;
+        public MemoryAddress[] memoryAddresses;
+
+        public Limitation[] limitations;
+        public TimedEffect[] timedEffects;
+        public PermanentEffect[] permanentEffects;
+        public StaticEffect[] staticEffects;
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, GameVersion[] gameVersions)
         {
@@ -142,6 +148,46 @@ namespace GTAVC_Chaos
             }
 
             return currentVersion.GetAddressForVersion(address);
+        }
+
+        public MemoryAddress FindMemoryAddressByName(string name)
+        {
+            MemoryAddress result = null;
+            foreach (MemoryAddress address in memoryAddresses)
+            {
+                if (address.name == name)
+                {
+                    result = address;
+                    break;
+                }
+            }
+
+            if (result == null)
+            {
+                throw new Exception("Memory address " + name + " not found.");
+            }
+
+            return result;
+        }
+
+        public Limitation FindLimitationByName(string name)
+        {
+            Limitation result = null;
+            foreach (Limitation limitation in limitations)
+            {
+                if (limitation.name == name)
+                {
+                    result = limitation.Clone();
+                    break;
+                }
+            }
+
+            if (result == null)
+            {
+                throw new Exception("Limitation " + name + " not found.");
+            }
+
+            return result;
         }
     }
 }

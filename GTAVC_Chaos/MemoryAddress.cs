@@ -80,7 +80,7 @@ namespace GTAVC_Chaos
                 throw new Exception("Tried to resolve base address but no base address name set.");
             }
 
-            baseAddress = Program.components.FindMemoryAddressByName(baseAddressName);
+            baseAddress = Program.game.FindMemoryAddressByName(baseAddressName);
         }
     }
 }
