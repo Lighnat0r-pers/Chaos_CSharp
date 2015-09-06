@@ -143,7 +143,7 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Initializing memory addresses from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
-            game.memoryAddresses = ReadMemoryAddresses(file);
+            game.SetMemoryAddresses(ReadMemoryAddresses(file));
         }
 
         private MemoryAddress[] ReadMemoryAddresses(XmlDocument file)
@@ -152,7 +152,6 @@ namespace GTAVC_Chaos
 
             XmlNodeList nodes = file.SelectNodes("//addresses/memoryaddress");
             MemoryAddress[] memoryAddresses = new MemoryAddress[nodes.Count];
-            List<MemoryAddress> memoryAddressesToResolve = new List<MemoryAddress>();
 
             // TODO(Ligh): Make use of the game version gotten here so that the GameHandler knows about it.
             string gameVersion = file.SelectSingleNode("//addresses").Attributes["gameversion"].Value;
@@ -183,7 +182,6 @@ namespace GTAVC_Chaos
                     string baseAddressName = addressNode.SelectSingleNode("baseaddress").InnerText;
                     long offset = Int64.Parse(addressNode.SelectSingleNode("offset").InnerText, NumberStyles.HexNumber);
                     addressObj = new MemoryAddress(name, baseAddressName, offset, type, size);
-                    memoryAddressesToResolve.Add(addressObj);
                 }
 
                 memoryAddresses[count++] = addressObj;
@@ -191,24 +189,14 @@ namespace GTAVC_Chaos
 
             Debug.WriteLine("Read " + count + " memory addresses from file.");
 
-            ResolveDynamicMemoryAddressBases(memoryAddressesToResolve);
-
             return memoryAddresses;
-        }
-
-        private void ResolveDynamicMemoryAddressBases(List<MemoryAddress> memoryAddressesToResolve)
-        {
-            foreach (MemoryAddress addressObj in memoryAddressesToResolve)
-            {
-                addressObj.ResolveBaseAddress();
-            }
         }
 
         private void InitLimitations(Game game)
         {
             Debug.WriteLine("Initializing limitations from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
-            game.limitations = ReadLimitations(file, game);
+            game.SetLimitations(ReadLimitations(file, game));
         }
 
         private Limitation[] ReadLimitations(XmlDocument file, Game game)
@@ -217,7 +205,6 @@ namespace GTAVC_Chaos
 
             XmlNodeList nodes = file.SelectNodes("//limitations/limitation");
             Limitation[] limitations = new Limitation[nodes.Count];
-            List<LimitationCheck> limitationChecksToResolve = new List<LimitationCheck>();
 
             int count = 0;
             foreach (XmlNode node in nodes)
@@ -269,7 +256,6 @@ namespace GTAVC_Chaos
                             }
 
                             check = new LimitationCheck(limitation, target, parameters);
-                            limitationChecksToResolve.Add((LimitationCheck)check);
                             break;
                         case "comparison":
                             XmlNodeList addressNodes = checkNode.SelectNodes("addresses/address");
@@ -296,17 +282,7 @@ namespace GTAVC_Chaos
 
             Debug.WriteLine("Read " + count + " limitations from file.");
 
-            ResolveLimitationChecks(limitationChecksToResolve);
-
             return limitations;
-        }
-
-        private void ResolveLimitationChecks(List<LimitationCheck> limitationChecksToResolve)
-        {
-            foreach (LimitationCheck limitationCheck in limitationChecksToResolve)
-            {
-                limitationCheck.ResolveLimitation();
-            }
         }
 
         private void InitTimedEffects(Game game)

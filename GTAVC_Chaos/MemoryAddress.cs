@@ -73,6 +73,16 @@ namespace GTAVC_Chaos
             }
         }
 
+        public void UpdateForVersion(GameVersion version)
+        {
+            if (version == null)
+            {
+                throw new Exception("Tried to update address for version but version is not defined.");
+            }
+
+            address = version.GetAddressForVersion(address);
+        }
+
         public void ResolveBaseAddress()
         {
             if (baseAddressName == null)

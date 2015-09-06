@@ -28,9 +28,9 @@ namespace GTAVC_Chaos
         public GameVersion currentVersion;
 
         private GameVersion[] gameVersions;
-        public MemoryAddress[] memoryAddresses;
+        private MemoryAddress[] memoryAddresses;
+        private Limitation[] limitations;
 
-        public Limitation[] limitations;
         public TimedEffect[] timedEffects;
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
@@ -44,6 +44,42 @@ namespace GTAVC_Chaos
             this.versionAddress = versionAddress;
             this.baseVersion = baseVersion;
             this.gameVersions = gameVersions;
+        }
+
+        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses)
+        {
+            this.memoryAddresses = memoryAddresses;
+
+            for (int i = 0; i < this.memoryAddresses.Length; i++)
+            {
+                if (this.memoryAddresses[i].address != 0)
+                {
+                    // NOTE(Ligh): Static address
+                    this.memoryAddresses[i].UpdateForVersion(currentVersion);
+                }
+                else
+                {
+                    // NOTE(Ligh): Dynamic address
+                    this.memoryAddresses[i].ResolveBaseAddress();
+                }
+            }
+        }
+
+        public void SetLimitations(Limitation[] limitations)
+        {
+            this.limitations = limitations;
+
+            foreach (Limitation limitation in limitations)
+            {
+                for (int i = 0; i < limitation.checks.Length; i++)
+                {
+                    if (limitation.checks[i] is LimitationCheck)
+                    {
+                        (limitation.checks[i] as LimitationCheck).ResolveLimitation();
+                    }
+                }
+            }
+
         }
 
         public void GetHandle()
@@ -125,7 +161,7 @@ namespace GTAVC_Chaos
                 throw new Exception("Tried to read the game memory without a handle to the game.");
             }
 
-            return memory.Read(getAddressForVersion(address.address), address.type, address.size);
+            return memory.Read(address.address, address.type, address.size);
         }
 
         public void Write(MemoryAddress address, dynamic input)
@@ -137,17 +173,7 @@ namespace GTAVC_Chaos
                 throw new Exception("Tried to write to the game memory without a handle to the game.");
             }
 
-            memory.Write(getAddressForVersion(address.address), input, address.type, address.size);
-        }
-
-        private long getAddressForVersion(long address)
-        {
-            if (currentVersion == null)
-            {
-                throw new Exception("Tried to get address for version but version is not defined.");
-            }
-
-            return currentVersion.GetAddressForVersion(address);
+            memory.Write(address.address, input, address.type, address.size);
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)

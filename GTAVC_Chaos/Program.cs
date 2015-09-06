@@ -57,7 +57,6 @@ namespace GTAVC_Chaos
             }
             Debug.WriteLine("Continuing main thread as game handle thread is done");
 
-
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
             do
@@ -66,6 +65,8 @@ namespace GTAVC_Chaos
                 ModsLoop.Update();
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
             } while (shouldStop == false);
+
+            Debug.WriteLine("ModsLoop ended.");
         }
 
         /// <summary>
@@ -101,13 +102,13 @@ namespace GTAVC_Chaos
             if (game.hasHandle == true)
             {
                 Debug.WriteLine("Game handle found");
+                components.ReadFilesForGame(game);
+                Debug.WriteLine("Done reading files for game.");
             }
             else
             {
                 Debug.WriteLine("Search for game handle aborted");
             }
-
-            components.ReadFilesForGame(game);
         }
 
         /// <summary>
