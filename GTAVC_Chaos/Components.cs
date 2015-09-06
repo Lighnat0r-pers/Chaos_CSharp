@@ -173,6 +173,26 @@ namespace GTAVC_Chaos
             Debug.WriteLine("Read " + count + " games from file.");
         }
 
+        public Game FindGameByName(string name)
+        {
+            Game result = null;
+            foreach (Game game in games)
+            {
+                if (game.name == name)
+                {
+                    result = game;
+                    break;
+                }
+            }
+
+            if (result == null)
+            {
+                throw new Exception("Game " + name + " not found.");
+            }
+
+            return result;
+        }
+
         private void InitMemoryAddresses()
         {
             Debug.WriteLine("Initializing memory addresses from file.");

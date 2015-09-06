@@ -15,9 +15,9 @@ namespace GTAVC_Chaos
         static public bool timedEffectsEnabledDefault = true;
         static public bool staticEffectsEnabledDefault = true;
         static public bool sanicModeEnabledDefault = false;
-        static public string gameName = "GTAVC";
         static public int difficultyDefault = difficultyMedium;
 
+        static public string gameName;
         static public bool timedEffectsEnabled;
         static public bool staticEffectsEnabled;
         static public bool sanicModeEnabled;
@@ -32,7 +32,7 @@ namespace GTAVC_Chaos
         public const int DEFAULT_WAIT_TIME = 250;
         public const int SEED_VALID_LENGTH = 4;
         public const float PROGRAM_VERSION = 2.0f; // Converted in interface to 2 decimal places.
-        public const string PROGRAM_NAME = "GTA VC Chaos%";
+        public const string PROGRAM_NAME = "Chaos%";
 
 #if DEBUG
         const bool DEBUG_MODE_ENABLED = true;
@@ -59,11 +59,16 @@ namespace GTAVC_Chaos
         /// </summary>
         static Settings()
         {
-            gameWindowNameArray.Add(gameName, "GTA: Vice City");
-            gameWindowClassNameArray.Add(gameName, "Grand theft auto 3");
             difficultiesArray.Add("Easy", difficultyEasy);
             difficultiesArray.Add("Medium", difficultyMedium);
             difficultiesArray.Add("Hard", difficultyHard);
+        }
+
+        static public void SetGame(Game game)
+        {
+            gameName = game.abbreviation;
+            gameWindowNameArray.Add(gameName, game.windowName);
+            gameWindowClassNameArray.Add(gameName, game.windowClass);
         }
     }
 }

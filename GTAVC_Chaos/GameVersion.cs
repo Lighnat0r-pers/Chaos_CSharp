@@ -5,10 +5,10 @@ namespace GTAVC_Chaos
 {
     class GameVersion
     {
-        private int addressValue;
         private SortedList<long, int> offsets;
 
         public string name;
+        public int addressValue;
 
         public GameVersion(string name, int addressValue, SortedList<long, int> offsets)
         {
@@ -19,7 +19,7 @@ namespace GTAVC_Chaos
             System.Diagnostics.Debug.WriteLine("Version " + name + " debug address test: " + GetAddressForVersion(0x00A10B50));
         }
 
-        public int GetAddressForVersion(int address)
+        public long GetAddressForVersion(long address)
         {
             long key = FindLastKeySmallerThanOrEqualTo<long>(offsets.Keys, address);
 

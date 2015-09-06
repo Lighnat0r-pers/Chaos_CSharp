@@ -15,7 +15,7 @@ namespace GTAVC_Chaos
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
         static public Components components;
-        static public GameHandler game;
+        static public Game game;
 
         /// <summary>
         /// The main entry point for the application.
@@ -32,6 +32,11 @@ namespace GTAVC_Chaos
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Read xml files.
+            components = new Components();
+            components.Init();
+            Settings.SetGame(components.FindGameByName("Grand Theft Auto: Vice City")); // TODO(Ligh): Allow the user to select a game instead of hardcoding.
+
             // While the user will be shown the welcome window in this thread, start another thread which will start
             // trying to get a handle to the game.
             Thread gameAccessThread = new Thread(GetGame);
@@ -40,10 +45,6 @@ namespace GTAVC_Chaos
 
             // Create the tray icon and context menu.
             InitTrayIcon();
-
-            // Read addresses and effects from xml files.
-            components = new Components();
-            components.Init();
 
             // Show the welcome window.
             InitWelcomeWindow();
@@ -89,13 +90,23 @@ namespace GTAVC_Chaos
         /// </summary>
         static void GetGame()
         {
+            string name = "Grand Theft Auto: Vice City";
             shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
-            game = new GameHandler(Settings.gameName);
-            if (game.gameFound == true)
+            game = components.FindGameByName(name); // TODO(Ligh): Allow the user to select a game instead of hardcoding.
+            if (game == null)
+            {
+                throw new Exception("Game information not found in XML for " + name);
+            }
+            game.GetHandle();
+            if (game.hasHandle == true)
+            {
                 Debug.WriteLine("Game handle found");
+            }
             else
+            {
                 Debug.WriteLine("Search for game handle aborted");
+            }
         }
 
         /// <summary>
@@ -175,7 +186,7 @@ namespace GTAVC_Chaos
         {
             // TODO(Ligh): Due to changes is handling the application, this is no longer called on exit. It should be.
             shouldStop = true;
-            if (game != null && game.gameFound == true)
+            if (game != null && game.hasHandle == true)
             {
                 game.CloseProcess();
             }

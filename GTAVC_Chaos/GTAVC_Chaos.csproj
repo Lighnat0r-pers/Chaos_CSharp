@@ -90,7 +90,6 @@
     <Compile Include="Components.cs" />
     <Compile Include="DoTimedEffects.cs" />
     <Compile Include="GameFunctions.cs" />
-    <Compile Include="GameHandler.cs" />
     <Compile Include="Limitation.cs" />
     <Compile Include="LimitationCheck.cs" />
     <Compile Include="MemoryAddress.cs" />
