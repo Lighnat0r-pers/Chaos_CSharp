@@ -32,14 +32,8 @@ namespace GTAVC_Chaos
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Get the information for the supported games before we can try to get a handle to the game we want.
+            // Get information about supported games.
             gameList = new GameList(DataFileHandler.InitGamesFromFile());
-
-            // While the user will be shown the welcome window in this thread, start another thread which will start
-            // trying to get a handle to the game.
-            Thread gameAccessThread = new Thread(GetGame);
-            gameAccessThread.IsBackground = true;
-            gameAccessThread.Start();
 
             // Create the tray icon and context menu.
             InitTrayIcon();
@@ -47,14 +41,16 @@ namespace GTAVC_Chaos
             // Show the welcome window.
             InitWelcomeWindow();
 
-            // Wait until the thread that gets the game handle is finished before continuing.
-            gameAccessThread.Join();
             if (shouldStop == true) // Exit the application if the welcome window was exited by returning in the main method.
             {
                 Debug.WriteLine("Exiting application as stop signal was given");
                 return;
             }
-            Debug.WriteLine("Continuing main thread as game handle thread is done");
+
+            // Get the information we need about the game selected.
+            // TODO(Ligh): Allow the user to select a game instead of hardcoding.
+            string gameName = "Grand Theft Auto: Vice City";
+            GetGame(gameName);
 
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
@@ -85,17 +81,16 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// Method that gets us access to the game.
+        /// Method that gets us access to the game and information for that game.
         /// </summary>
-        static void GetGame()
+        static void GetGame(string name)
         {
-            string name = "Grand Theft Auto: Vice City";
             shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
-            game = gameList.FindGameByName(name); // TODO(Ligh): Allow the user to select a game instead of hardcoding.
+            game = gameList.FindGameByName(name);
             if (game == null)
             {
-                throw new Exception("Game information not found in XML for " + name);
+                throw new Exception("Invalid game chosen, not in games list. Game: " + name);
             }
             game.GetHandle();
             if (game.hasHandle == true)
