@@ -11,10 +11,10 @@ namespace GTAVC_Chaos
         static public bool shouldStop = false;
         static public Form currentForm = null;
 
+        static private GameList gameList;
         static public WelcomeWindow welcomeWindow;
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
-        static public Components components;
         static public Game game;
 
         /// <summary>
@@ -33,8 +33,7 @@ namespace GTAVC_Chaos
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Get the information for the supported games before we can try to get a handle to the game we want.
-            components = new Components();
-            components.InitGamesFromFile();
+            gameList = new GameList(DataFileHandler.InitGamesFromFile());
 
             // While the user will be shown the welcome window in this thread, start another thread which will start
             // trying to get a handle to the game.
@@ -93,7 +92,7 @@ namespace GTAVC_Chaos
             string name = "Grand Theft Auto: Vice City";
             shouldStop = false;
             Debug.WriteLine("Started attempts to get game handle");
-            game = components.FindGameByName(name); // TODO(Ligh): Allow the user to select a game instead of hardcoding.
+            game = gameList.FindGameByName(name); // TODO(Ligh): Allow the user to select a game instead of hardcoding.
             if (game == null)
             {
                 throw new Exception("Game information not found in XML for " + name);
@@ -102,7 +101,7 @@ namespace GTAVC_Chaos
             if (game.hasHandle == true)
             {
                 Debug.WriteLine("Game handle found");
-                components.ReadFilesForGame(game);
+                DataFileHandler.ReadFilesForGame(game);
                 Debug.WriteLine("Done reading files for game.");
             }
             else

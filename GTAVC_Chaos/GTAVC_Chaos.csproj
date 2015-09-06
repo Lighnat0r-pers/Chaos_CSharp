@@ -83,11 +83,12 @@
   <ItemGroup>
     <Compile Include="BaseEffect.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameList.cs" />
     <Compile Include="GameVersion.cs" />
     <Compile Include="ICheck.cs" />
     <Compile Include="ComparisonCheck.cs" />
     <Compile Include="EffectActivator.cs" />
-    <Compile Include="Components.cs" />
+    <Compile Include="DataFileHandler.cs" />
     <Compile Include="DoTimedEffects.cs" />
     <Compile Include="GameFunctions.cs" />
     <Compile Include="Limitation.cs" />

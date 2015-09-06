@@ -6,18 +6,16 @@ using System.Xml;
 
 namespace GTAVC_Chaos
 {
-    class Components
+    static class DataFileHandler
     {
-        public Game[] games;
+        static private string gamesFilename = "Games";
+        static private string memoryAddressesFilename = "MemoryAddresses";
+        static private string limitationsFilename = "Limitations";
+        static private string timedEffectsFilename = "TimedEffects";
+        static private string permanentEffectsFilename = "PermanentEffects";
+        static private string staticEffectsFilename = "StaticEffects";
 
-        private string gamesFilename = "Games";
-        private string memoryAddressesFilename = "MemoryAddresses";
-        private string limitationsFilename = "Limitations";
-        private string timedEffectsFilename = "TimedEffects";
-        private string permanentEffectsFilename = "PermanentEffects";
-        private string staticEffectsFilename = "StaticEffects";
-
-        public void ReadFilesForGame(Game game)
+        static public void ReadFilesForGame(Game game)
         {
             InitMemoryAddresses(game);
             InitLimitations(game);
@@ -26,21 +24,21 @@ namespace GTAVC_Chaos
             //InitStaticEffects(game);
         }
 
-        public void InitGamesFromFile()
+        static public Game[] InitGamesFromFile()
         {
             Debug.WriteLine("Initializing games from file.");
             XmlDocument file = XmlUtils.getXmlDocument("", gamesFilename);
-            ReadGames(file);
+            return ReadGames(file);
         }
 
-        private void ReadGames(XmlDocument file)
+        static private Game[] ReadGames(XmlDocument file)
         {
             bool baseVersionDefined;
 
             // TODO(Ligh): Properly catch errors here.
 
             XmlNodeList nodes = file.SelectNodes("//games/game");
-            games = new Game[nodes.Count];
+            Game[] games = new Game[nodes.Count];
 
             int count = 0;
             foreach (XmlNode node in nodes)
@@ -117,36 +115,18 @@ namespace GTAVC_Chaos
             }
 
             Debug.WriteLine("Read " + count + " games from file.");
+
+            return games;
         }
 
-        public Game FindGameByName(string name)
-        {
-            Game result = null;
-            foreach (Game game in games)
-            {
-                if (game.name == name)
-                {
-                    result = game;
-                    break;
-                }
-            }
-
-            if (result == null)
-            {
-                throw new Exception("Game " + name + " not found.");
-            }
-
-            return result;
-        }
-
-        private void InitMemoryAddresses(Game game)
+        static private void InitMemoryAddresses(Game game)
         {
             Debug.WriteLine("Initializing memory addresses from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
             game.SetMemoryAddresses(ReadMemoryAddresses(file));
         }
 
-        private MemoryAddress[] ReadMemoryAddresses(XmlDocument file)
+        static private MemoryAddress[] ReadMemoryAddresses(XmlDocument file)
         {
             // TODO(Ligh): Properly catch errors here.
 
@@ -192,14 +172,14 @@ namespace GTAVC_Chaos
             return memoryAddresses;
         }
 
-        private void InitLimitations(Game game)
+        static private void InitLimitations(Game game)
         {
             Debug.WriteLine("Initializing limitations from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
             game.SetLimitations(ReadLimitations(file, game));
         }
 
-        private Limitation[] ReadLimitations(XmlDocument file, Game game)
+        static private Limitation[] ReadLimitations(XmlDocument file, Game game)
         {
             // TODO(Ligh): Properly catch errors here.
 
@@ -285,14 +265,14 @@ namespace GTAVC_Chaos
             return limitations;
         }
 
-        private void InitTimedEffects(Game game)
+        static private void InitTimedEffects(Game game)
         {
             Debug.WriteLine("Initializing timed effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
             game.timedEffects = ReadTimedEffects(file, game);
         }
 
-        private TimedEffect[] ReadTimedEffects(XmlDocument file, Game game)
+        static private TimedEffect[] ReadTimedEffects(XmlDocument file, Game game)
         {
             // TODO(Ligh): Properly catch errors here.
 
@@ -363,26 +343,26 @@ namespace GTAVC_Chaos
             return timedEffects;
         }
 
-        private void InitPermanentEffects(Game game)
+        static private void InitPermanentEffects(Game game)
         {
             Debug.WriteLine("Initializing permanent effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, permanentEffectsFilename);
             game.permanentEffects = ReadPermanentEffects(file);
         }
 
-        private PermanentEffect[] ReadPermanentEffects(XmlDocument file)
+        static private PermanentEffect[] ReadPermanentEffects(XmlDocument file)
         {
             return new PermanentEffect[0];
         }
 
-        private void InitStaticEffects(Game game)
+        static private void InitStaticEffects(Game game)
         {
             Debug.WriteLine("Initializing static effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, staticEffectsFilename);
             game.staticEffects = ReadStaticEffects(file);
         }
 
-        private StaticEffect[] ReadStaticEffects(XmlDocument file)
+        static private StaticEffect[] ReadStaticEffects(XmlDocument file)
         {
             return new StaticEffect[0];
         }
