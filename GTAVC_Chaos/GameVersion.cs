@@ -16,7 +16,7 @@ namespace GTAVC_Chaos
             this.addressValue = addressValue;
             this.offsets = offsets;
 
-            System.Diagnostics.Debug.WriteLine("Version " + name + " debug address test: " + GetAddressForVersion(0x00A10B50));
+            //System.Diagnostics.Debug.WriteLine("Version " + name + " debug address test: " + GetAddressForVersion(0x00A10B50));
         }
 
         public long GetAddressForVersion(long address)

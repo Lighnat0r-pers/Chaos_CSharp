@@ -8,10 +8,11 @@ namespace GTAVC_Chaos
 {
     static class Program
     {
+        static private GameList gameList;
+
         static public bool shouldStop = false;
         static public Form currentForm = null;
 
-        static private GameList gameList;
         static public WelcomeWindow welcomeWindow;
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
@@ -50,6 +51,7 @@ namespace GTAVC_Chaos
             // Get the information we need about the game selected.
             // TODO(Ligh): Allow the user to select a game instead of hardcoding.
             string gameName = "Grand Theft Auto: Vice City";
+            Debug.WriteLine("Game chosen: " + gameName);
             GetGame(gameName);
 
             // Start the ModsLoop which will be in charge of activating the different modules.

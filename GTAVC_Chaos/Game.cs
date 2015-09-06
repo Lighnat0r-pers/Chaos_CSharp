@@ -141,6 +141,7 @@ namespace GTAVC_Chaos
             {
                 if (gameVersion.addressValue == value)
                 {
+                    Debug.WriteLine("Detected game version: " + gameVersion.name);
                     currentVersion = gameVersion;
                     break;
                 }
