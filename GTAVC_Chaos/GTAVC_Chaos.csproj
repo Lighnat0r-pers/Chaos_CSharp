@@ -126,13 +126,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="MemoryAddresses.xsd">
+    <EmbeddedResource Include="Resources\MemoryAddresses.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Limitations.xsd">
+    <EmbeddedResource Include="Resources\Limitations.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Games.xsd">
+    <EmbeddedResource Include="Resources\Games.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -144,7 +144,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="TimedEffects.xsd">
+    <EmbeddedResource Include="Resources\TimedEffects.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -169,7 +169,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sunrise %28Logo%29.ico" />
+    <EmbeddedResource Include="Resources\Sunrise %28Logo%29.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccessProcessMemory\AccessProcessMemory.csproj">
@@ -178,20 +178,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Games.xml">
+    <Content Include="Data\Games.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TimedEffects.xml">
+    <Content Include="Data\GTAVCTimedEffects.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Limitations.xml">
+    <Content Include="Data\GTAVCLimitations.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="MemoryAddresses.xml">
+    <Content Include="Data\GTAVCMemoryAddresses.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>

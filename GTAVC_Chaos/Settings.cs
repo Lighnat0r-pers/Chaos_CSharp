@@ -4,6 +4,11 @@ namespace GTAVC_Chaos
 {
     static class Settings
     {
+        public const int DEFAULT_WAIT_TIME = 250;
+        public const int SEED_VALID_LENGTH = 4;
+        public const float PROGRAM_VERSION = 2.0f; // Converted in interface to 2 decimal places.
+        public const string PROGRAM_NAME = "Chaos%";
+
         // Define private variables.
         static int sanicModeMultiplier = 10;
         static int baseTimeMultiplier = 1;
@@ -17,22 +22,13 @@ namespace GTAVC_Chaos
         static public bool sanicModeEnabledDefault = false;
         static public int difficultyDefault = difficultyMedium;
 
-        static public string gameName;
         static public bool timedEffectsEnabled;
         static public bool staticEffectsEnabled;
         static public bool sanicModeEnabled;
         static public uint seed;
         static public int difficulty;
 
-        static public Dictionary<string, string> gameWindowNameArray = new Dictionary<string, string>();
-        static public Dictionary<string, string> gameWindowClassNameArray = new Dictionary<string, string>();
         static public Dictionary<string, int> difficultiesArray = new Dictionary<string, int>();
-
-
-        public const int DEFAULT_WAIT_TIME = 250;
-        public const int SEED_VALID_LENGTH = 4;
-        public const float PROGRAM_VERSION = 2.0f; // Converted in interface to 2 decimal places.
-        public const string PROGRAM_NAME = "Chaos%";
 
 #if DEBUG
         const bool DEBUG_MODE_ENABLED = true;
@@ -62,13 +58,6 @@ namespace GTAVC_Chaos
             difficultiesArray.Add("Easy", difficultyEasy);
             difficultiesArray.Add("Medium", difficultyMedium);
             difficultiesArray.Add("Hard", difficultyHard);
-        }
-
-        static public void SetGame(Game game)
-        {
-            gameName = game.abbreviation;
-            gameWindowNameArray.Add(gameName, game.windowName);
-            gameWindowClassNameArray.Add(gameName, game.windowClass);
         }
     }
 }

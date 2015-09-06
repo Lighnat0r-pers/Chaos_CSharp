@@ -32,10 +32,9 @@ namespace GTAVC_Chaos
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Read xml files.
+            // Get the information for the supported games before we can try to get a handle to the game we want.
             components = new Components();
-            components.Init();
-            Settings.SetGame(components.FindGameByName("Grand Theft Auto: Vice City")); // TODO(Ligh): Allow the user to select a game instead of hardcoding.
+            components.InitGamesFromFile();
 
             // While the user will be shown the welcome window in this thread, start another thread which will start
             // trying to get a handle to the game.
@@ -107,6 +106,8 @@ namespace GTAVC_Chaos
             {
                 Debug.WriteLine("Search for game handle aborted");
             }
+
+            components.ReadFilesForGame(game);
         }
 
         /// <summary>

@@ -8,12 +8,12 @@ namespace GTAVC_Chaos
 {
     class Components
     {
+        public Game[] games;
         public MemoryAddress[] memoryAddresses;
         public Limitation[] limitations;
         public TimedEffect[] timedEffects;
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
-        public Game[] games;
 
         private List<MemoryAddress> memoryAddressesToResolve = new List<MemoryAddress>();
         private List<LimitationCheck> limitationChecksToResolve = new List<LimitationCheck>();
@@ -26,20 +26,19 @@ namespace GTAVC_Chaos
         private string staticEffectsFilename = "StaticEffects";
 
         // NOTE(Ligh): This cannot be done in the constructor as it requires the reference to this object to already be set in the Program class.
-        public void Init()
+        public void ReadFilesForGame(Game game)
         {
-            InitGames();
-            InitMemoryAddresses();
-            InitLimitations();
-            InitTimedEffects();
-            //InitPermanentEffects();
-            //InitStaticEffects();
+            InitMemoryAddresses(game);
+            InitLimitations(game);
+            InitTimedEffects(game);
+            //InitPermanentEffects(game);
+            //InitStaticEffects(game);
         }
 
-        private void InitGames()
+        public void InitGamesFromFile()
         {
             Debug.WriteLine("Initializing games from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(gamesFilename);
+            XmlDocument file = XmlUtils.getXmlDocument("", gamesFilename);
             ReadGames(file);
         }
 
@@ -149,10 +148,10 @@ namespace GTAVC_Chaos
             return result;
         }
 
-        private void InitMemoryAddresses()
+        private void InitMemoryAddresses(Game game)
         {
             Debug.WriteLine("Initializing memory addresses from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(memoryAddressesFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
             ReadMemoryAddresses(file);
         }
 
@@ -231,10 +230,10 @@ namespace GTAVC_Chaos
             return result;
         }
 
-        private void InitLimitations()
+        private void InitLimitations(Game game)
         {
             Debug.WriteLine("Initializing limitations from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(limitationsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
             ReadLimitations(file);
         }
 
@@ -353,10 +352,10 @@ namespace GTAVC_Chaos
             return result;
         }
 
-        private void InitTimedEffects()
+        private void InitTimedEffects(Game game)
         {
             Debug.WriteLine("Initializing timed effects from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(timedEffectsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
             ReadTimedEffects(file);
         }
 
@@ -429,10 +428,10 @@ namespace GTAVC_Chaos
             Debug.WriteLine("Read " + count1 + " timed effects from file.");
         }
 
-        private void InitPermanentEffects()
+        private void InitPermanentEffects(Game game)
         {
             Debug.WriteLine("Initializing permanent effects from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(permanentEffectsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, permanentEffectsFilename);
             ReadPermanentEffects(file);
         }
 
@@ -441,10 +440,10 @@ namespace GTAVC_Chaos
 
         }
 
-        private void InitStaticEffects()
+        private void InitStaticEffects(Game game)
         {
             Debug.WriteLine("Initializing static effects from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(staticEffectsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, staticEffectsFilename);
             ReadStaticEffects(file);
         }
 

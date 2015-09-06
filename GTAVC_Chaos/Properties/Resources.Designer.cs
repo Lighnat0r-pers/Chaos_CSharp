@@ -62,7 +62,35 @@ namespace GTAVC_Chaos.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///
+        ///&lt;xs:schema id=&quot;Games&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///
+        ///  &lt;!--+++ Elements --&gt;
+        ///
+        ///  &lt;xs:element name=&quot;games&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;game&quot; maxOccurs=&quot;unbounded&quot; type=&quot;Game&quot;/&gt;
+        ///      &lt;/xs:sequence&gt;
+        ///    &lt;/xs:complexType&gt;
+        ///  &lt;/xs:element&gt;
+        ///
+        ///  &lt;xs:element name=&quot;versions&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;version&quot; maxOccurs=&quot;unbounded&quot; type=&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Games {
+            get {
+                return ResourceManager.GetString("Games", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xs:schema id=&quot;Limitations&quot; elementFormDefault=&quot;qualified&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///
+        ///  &lt;!--+++ Elements --&gt;
         ///
         ///  &lt;xs:element name=&quot;limitations&quot;&gt;
         ///    &lt;xs:complexType&gt;
@@ -72,9 +100,9 @@ namespace GTAVC_Chaos.Properties {
         ///    &lt;/xs:complexType&gt;
         ///  &lt;/xs:element&gt;
         ///
-        ///  &lt;xs:complexType name=&quot;Limitation&quot;&gt;
-        ///    &lt;xs:sequence&gt;
-        ///      &lt;xs:element name=&quot;name&quot; t [rest of string was truncated]&quot;;.
+        ///  &lt;xs:element name=&quot;checks&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs: [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Limitations {
             get {
@@ -85,17 +113,18 @@ namespace GTAVC_Chaos.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///
-        ///&lt;!--
-        /// TODO: Enforce a limit on the address element so it actually contains a valid address (eg. 00000000 is not valid, 0082F40D is valid)
-        ///--&gt;
         ///&lt;xs:schema id=&quot;MemoryAddresses&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///
+        ///  &lt;!--+++ Elements --&gt;
         ///
         ///  &lt;xs:element name=&quot;addresses&quot;&gt;
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:sequence&gt;
         ///        &lt;xs:element name=&quot;memoryaddress&quot; maxOccurs=&quot;unbounded&quot; type=&quot;MemoryAddress&quot;/&gt;
         ///      &lt;/xs:sequence&gt;
-        ///      &lt;xs:attribute name=&quot;gam [rest of string was truncated]&quot;;.
+        ///      &lt;xs:attribute name=&quot;game&quot; type=&quot;xs:token&quot; use=&quot;required&quot;/&gt;
+        ///      &lt;xs:attribute name=&quot;gameversion&quot; type=&quot;xs:token&quot; use=&quot;required&quot;/&gt;
+        ///    &lt;/xs: [rest of string was truncated]&quot;;.
         /// </summary>
         public static string MemoryAddresses {
             get {
@@ -117,6 +146,8 @@ namespace GTAVC_Chaos.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xs:schema id=&quot;TimedEffects&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
         ///
+        ///  &lt;!--+++ Elements --&gt;
+        ///
         ///  &lt;xs:element name=&quot;timedeffects&quot;&gt;
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:sequence&gt;
@@ -125,10 +156,10 @@ namespace GTAVC_Chaos.Properties {
         ///    &lt;/xs:complexType&gt;
         ///  &lt;/xs:element&gt;
         ///
-        ///  &lt;xs:complexType name=&quot;TimedEffect&quot;&gt;
-        ///    &lt;xs:sequence&gt;
-        ///      &lt;xs:element name=&quot;name&quot; type=&quot;xs:normalizedString&quot;/&gt;
-        ///      &lt;xs:element na [rest of string was truncated]&quot;;.
+        ///  &lt;xs:element name=&quot;limitations&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;limitati [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TimedEffects {
             get {

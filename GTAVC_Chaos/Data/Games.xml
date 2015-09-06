@@ -896,6 +896,13 @@
       <version>
         <name>Japanese</name>
         <addressvalue>44</addressvalue>
+        <offsets>
+          <offset>
+            <!--Dummy offset so the file can be read successfully-->
+            <startaddress>00000000</startaddress>
+            <amount>00</amount>
+          </offset>
+        </offsets>
       </version>
     </versions>
   </game>

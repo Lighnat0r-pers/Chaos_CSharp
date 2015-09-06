@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace GTAVC_Chaos
 {
-    static class ProcessHandler
+    static class ProcessHandlerApi
     {
         [DllImport("user32.dll", CharSet = CharSet.Unicode)] // GetClassName
         public static extern int GetClassName(IntPtr hwnd, StringBuilder lpClassName, int MaxCount);
@@ -43,15 +43,17 @@ namespace GTAVC_Chaos
         public void GetHandle()
         {
             OpenProcess();
-            InitVersion();
+            if (hasHandle)
+            {
+                InitVersion();
+            }
         }
 
         /// <summary>
-        /// This function gets all processes. It will then check if any of the processes has the window
-        /// name gameWindowName and the window class name gameClassName. If this is the case, it will 
-        /// instantiate the Memory class for the (first) matching process to be used for reading and 
-        /// writing the memory of the process. In no matching process is found, the method will sleep 
-        /// and keep trying until a matching process is found.
+        /// This function gets all processes. It will then check if any of the processes has the right
+        /// window name and window class. If this is the case, it will instantiate the Memory class for
+        /// the (first) matching process to be used for reading and writing the memory of the process.
+        /// If no matching process is found, the method will sleep and keep trying until a matching process is found.
         /// </summary>
         private void OpenProcess()
         {
@@ -63,7 +65,7 @@ namespace GTAVC_Chaos
                     if (process.MainWindowTitle == windowName)
                     {
                         StringBuilder foundClassName = new StringBuilder();
-                        ProcessHandler.GetClassName(process.MainWindowHandle, foundClassName, windowClass.Length + 1);
+                        ProcessHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, windowClass.Length + 1);
                         if (foundClassName.ToString() == windowClass)
                         {
                             memory = new Memory(process);
