@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Reflection;
 using System.Xml;
-using System.Xml.Schema;
 
 namespace GTAVC_Chaos
 {
@@ -20,8 +17,6 @@ namespace GTAVC_Chaos
 
         private List<MemoryAddress> memoryAddressesToResolve = new List<MemoryAddress>();
         private List<LimitationCheck> limitationChecksToResolve = new List<LimitationCheck>();
-
-        private string baseResourceString = "GTAVC_Chaos.";
 
         private string gamesFilename = "Games";
         private string memoryAddressesFilename = "MemoryAddresses";
@@ -41,49 +36,10 @@ namespace GTAVC_Chaos
             //InitStaticEffects();
         }
 
-        private void xmlValidationEventHandler(object sender, ValidationEventArgs e)
-        {
-            if (e.Severity == XmlSeverityType.Warning)
-            {
-                Debug.WriteLine("WARNING: " + e.Message);
-            }
-            else
-            {
-                Debug.WriteLine("ERROR: " + e.Message);
-            }
-        }
-
-        private XmlSchemaSet getXmlSchemaSet(string filename)
-        {
-            XmlSchemaSet schemas = new XmlSchemaSet();
-
-            // NOTE(Ligh): Gets the schema from an external file.
-            //XmlReader x = new XmlTextReader(filename);
-
-            // NOTE(Ligh): Gets the schema from an embedded resource.
-            Stream x = Assembly.GetExecutingAssembly().GetManifestResourceStream(baseResourceString + filename);
-
-            schemas.Add(XmlSchema.Read(x, null));
-
-            return schemas;
-        }
-
-        private XmlDocument getXmlDocument(string filename)
-        {
-            // TODO(Ligh): Deal with errors (file not found etc) here.
-
-            XmlDocument document = new XmlDocument();
-            document.Load(filename + ".xml");
-            document.Schemas = getXmlSchemaSet(filename + ".xsd");
-            document.Validate(new ValidationEventHandler(xmlValidationEventHandler));
-
-            return document;
-        }
-
         private void InitGames()
         {
             Debug.WriteLine("Initializing games from file.");
-            XmlDocument file = getXmlDocument(gamesFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(gamesFilename);
             ReadGames(file);
         }
 
@@ -196,7 +152,7 @@ namespace GTAVC_Chaos
         private void InitMemoryAddresses()
         {
             Debug.WriteLine("Initializing memory addresses from file.");
-            XmlDocument file = getXmlDocument(memoryAddressesFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(memoryAddressesFilename);
             ReadMemoryAddresses(file);
         }
 
@@ -278,7 +234,7 @@ namespace GTAVC_Chaos
         private void InitLimitations()
         {
             Debug.WriteLine("Initializing limitations from file.");
-            XmlDocument file = getXmlDocument(limitationsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(limitationsFilename);
             ReadLimitations(file);
         }
 
@@ -400,7 +356,7 @@ namespace GTAVC_Chaos
         private void InitTimedEffects()
         {
             Debug.WriteLine("Initializing timed effects from file.");
-            XmlDocument file = getXmlDocument(timedEffectsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(timedEffectsFilename);
             ReadTimedEffects(file);
         }
 
@@ -476,7 +432,7 @@ namespace GTAVC_Chaos
         private void InitPermanentEffects()
         {
             Debug.WriteLine("Initializing permanent effects from file.");
-            XmlDocument file = getXmlDocument(permanentEffectsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(permanentEffectsFilename);
             ReadPermanentEffects(file);
         }
 
@@ -488,7 +444,7 @@ namespace GTAVC_Chaos
         private void InitStaticEffects()
         {
             Debug.WriteLine("Initializing static effects from file.");
-            XmlDocument file = getXmlDocument(staticEffectsFilename);
+            XmlDocument file = XmlUtils.getXmlDocument(staticEffectsFilename);
             ReadStaticEffects(file);
         }
 
