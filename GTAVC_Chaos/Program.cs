@@ -26,8 +26,8 @@ namespace GTAVC_Chaos
         {
             SetThreadCulture();
 
-            // Enable registering when the application closes.
-            Application.ApplicationExit += new EventHandler(OnApplicationExit);
+            // Enable registering when the process closes.
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit); 
 
             // Set some application settings BEFORE creating any type of System.Windows.Forms object.
             Application.EnableVisualStyles();
@@ -37,7 +37,8 @@ namespace GTAVC_Chaos
             gameList = new GameList(DataFileHandler.InitGamesFromFile());
 
             // Create the tray icon and context menu.
-            InitTrayIcon();
+            // TODO(Ligh): Do we really need/want a tray icon assuming there will always be a window open anyway?
+            // InitTrayIcon();
 
             // Show the welcome window.
             InitWelcomeWindow();
@@ -58,7 +59,6 @@ namespace GTAVC_Chaos
             // Keep repeating the Update method until the program should stop.
             do
             {
-                //Debug.WriteLine(GameFunctions.GetCurrentMission());
                 ModsLoop.Update();
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
             } while (shouldStop == false);
@@ -175,14 +175,10 @@ namespace GTAVC_Chaos
             }
         }
 
-        /// <summary>
-        /// When the program exits, we need to release and remove some objects manually to ensure correct behaviour.
-        /// Later on, we also need to do some 'garbage collection' to restore the game to its normal values.
-        /// This will be extended when the program is in a further stage of development where it actually changes the game.
-        /// </summary>
-        static void OnApplicationExit(object Sender, EventArgs e)
+        static void OnProcessExit(object Sender, EventArgs e)
         {
-            // TODO(Ligh): Due to changes is handling the application, this is no longer called on exit. It should be.
+            // TODO(Ligh): Deactivate active effects here.
+
             shouldStop = true;
             if (game != null && game.hasHandle == true)
             {
@@ -191,8 +187,9 @@ namespace GTAVC_Chaos
             if (trayIcon != null)
             {
                 trayIcon.Visible = false;
+                trayIcon.Dispose();
             }
-            Debug.WriteLine("Event OnApplicationExit fired");
+            Debug.WriteLine("Event OnProcessExit fired");
         }
     }
 }
