@@ -54,7 +54,7 @@ The length element is only used for string length (in characters, not bytes!) of
   </memoryaddress>
   <memoryaddress>
     <name>InMenu</name>
-    <address xsi:type="static">00A10B36</address>
+    <address xsi:type="static">00A10B36</address> <!-- TODO(Ligh): This doesn't seem correct (on steam)-->
     <datatype>bool</datatype>
   </memoryaddress>
   <memoryaddress>
@@ -73,7 +73,23 @@ The length element is only used for string length (in characters, not bytes!) of
       <baseaddress>VehiclePointer</baseaddress>
       <offset>029C</offset>
     </address>
-    <datatype>float</datatype>
+    <datatype>byte</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>PlayerControllable</name>
+    <address xsi:type="dynamic">
+      <baseaddress>PlayerPointer</baseaddress>
+      <offset>063D</offset>
+    </address>
+    <datatype>bool</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>PlayerStatus</name>
+    <address xsi:type="dynamic">
+      <baseaddress>PlayerPointer</baseaddress>
+      <offset>0244</offset>
+    </address>
+    <datatype>byte</datatype>
   </memoryaddress>
 
 </addresses>
