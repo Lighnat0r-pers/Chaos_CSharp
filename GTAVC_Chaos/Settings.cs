@@ -10,16 +10,18 @@ namespace GTAVC_Chaos
         public const string PROGRAM_NAME = "Chaos%";
 
         // Define private variables.
-        static int sanicModeMultiplier = 10;
-        static int baseTimeMultiplier = 1;
+        static private int sanicModeMultiplier = 10;
+        static private int baseTimeMultiplier = 1;
 
         // Define public variables.
         static public bool timedEffectsEnabledDefault = true;
+        static public bool permanentEffectsEnabledDefault = true;
         static public bool staticEffectsEnabledDefault = true;
         static public bool sanicModeEnabledDefault = false;
 
         static public int defaultDifficulty;
         static public bool timedEffectsEnabled;
+        static public bool permanentEffectsEnabled;
         static public bool staticEffectsEnabled;
         static public bool sanicModeEnabled;
         static public int seed;
@@ -29,9 +31,9 @@ namespace GTAVC_Chaos
         static public Dictionary<string, int> difficultiesArray;
 
 #if DEBUG
-        const bool DEBUG_MODE_ENABLED = true;
+        public const bool DEBUG_MODE_ENABLED = true;
 #else
-        const bool DEBUG_MODE_ENABLED = false;
+        public const bool DEBUG_MODE_ENABLED = false;
 #endif
 
         /// <summary>

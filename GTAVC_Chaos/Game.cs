@@ -18,6 +18,8 @@ namespace GTAVC_Chaos
         private long versionAddress;
         private string baseVersion;
 
+        private GameVersion memoryAddressesVersion;
+
         public string name;
         public string abbreviation;
         public string windowName;
@@ -31,8 +33,7 @@ namespace GTAVC_Chaos
         public MemoryAddress[] memoryAddresses;
         private Limitation[] limitations;
 
-        public PermanentEffect[] permanentEffects;
-        public StaticEffect[] staticEffects;
+        public Modules modules;
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, GameVersion[] gameVersions)
         {
@@ -45,12 +46,23 @@ namespace GTAVC_Chaos
             this.gameVersions = gameVersions;
         }
 
-        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string oldVersionName)
+        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string memoryAddressesVersionName)
         {
             this.memoryAddresses = memoryAddresses;
+            this.memoryAddressesVersion = FindGameVersionByName(memoryAddressesVersionName);
 
-            GameVersion oldVersion = FindGameVersionByName(oldVersionName);
+            for (int i = 0; i < this.memoryAddresses.Length; i++)
+            {
+                if (this.memoryAddresses[i].address == 0)
+                {
+                    // NOTE(Ligh): Dynamic address
+                    this.memoryAddresses[i].ResolveBaseAddress();
+                }
+            }
+        }
 
+        public void InitializeMemoryAddressesForVersion()
+        {
             for (int i = 0; i < this.memoryAddresses.Length; i++)
             {
                 this.memoryAddresses[i].SetMemoryHandle(memory);
@@ -58,12 +70,7 @@ namespace GTAVC_Chaos
                 if (this.memoryAddresses[i].address != 0)
                 {
                     // NOTE(Ligh): Static address
-                    this.memoryAddresses[i].UpdateForVersion(currentVersion, oldVersion);
-                }
-                else
-                {
-                    // NOTE(Ligh): Dynamic address
-                    this.memoryAddresses[i].ResolveBaseAddress();
+                    this.memoryAddresses[i].UpdateForVersion(currentVersion, memoryAddressesVersion);
                 }
             }
         }
@@ -87,10 +94,17 @@ namespace GTAVC_Chaos
 
         public void GetHandle()
         {
+            Debug.WriteLine("Starting attempts to get game handle");
             OpenProcess();
             if (hasHandle)
             {
+                Debug.WriteLine("Game handle found");
                 InitVersion();
+                InitializeMemoryAddressesForVersion();
+            }
+            else
+            {
+                Debug.WriteLine("Search for game handle aborted");
             }
         }
 
@@ -155,6 +169,23 @@ namespace GTAVC_Chaos
             if (currentVersion == null)
             {
                 throw new Exception("Failed to determine the game version: Unknown version. Version address value was " + value);
+            }
+        }
+
+        public void InitModules()
+        {
+            modules = new Modules();
+            if (Settings.timedEffectsEnabled)
+            {
+                modules.InitTimedEffectsModule();
+            }
+            if (Settings.permanentEffectsEnabled)
+            {
+                modules.InitPermanentEffectsModule();
+            }
+            if (Settings.staticEffectsEnabled)
+            {
+                modules.InitStaticEffectsModule();
             }
         }
 

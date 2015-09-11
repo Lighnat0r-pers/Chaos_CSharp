@@ -16,7 +16,6 @@ namespace GTAVC_Chaos
         static public WelcomeWindow welcomeWindow;
         static public OutputWindow outputWindow;
         static public Game game;
-        static public Modules modules;
 
         /// <summary>
         /// The main entry point for the application.
@@ -36,8 +35,6 @@ namespace GTAVC_Chaos
             // Get information about supported games.
             gameList = new GameList(DataFileHandler.InitGamesFromFile());
 
-            modules = new Modules();
-
             // Show the welcome window.
             InitWelcomeWindow();
 
@@ -47,27 +44,27 @@ namespace GTAVC_Chaos
                 return;
             }
 
-            // Get the information we need about the game selected.
             // TODO(Ligh): Allow the user to select a game instead of hardcoding.
             string gameName = "Grand Theft Auto: Vice City";
             Debug.WriteLine("Game chosen: " + gameName);
-            GetGame(gameName);
 
             InitOutputWindow();
 
-            Thread modsLoopThread = new Thread(modules.Update);
+            // Get the information we need about the game selected.
+            GetGame(gameName);
+            game.InitModules();
+
+            Thread modsLoopThread = new Thread(game.modules.Update);
             modsLoopThread.IsBackground = true;
             modsLoopThread.Start();
 
-            // Start the ModsLoop which will be in charge of activating the different modules.
-            // Keep repeating the Update method until the program should stop.
-            do
+            while (shouldStop == false)
             {
                 Thread.Sleep(1);
                 Application.DoEvents();
-            } while (shouldStop == false);
+            }
 
-            Debug.WriteLine("ModsLoop ended.");
+            Debug.WriteLine("Chaos% shutting down: reached end of Main().");
         }
 
         /// <summary>
@@ -91,26 +88,13 @@ namespace GTAVC_Chaos
         /// </summary>
         static void GetGame(string name)
         {
-            shouldStop = false;
-            Debug.WriteLine("Started attempts to get game handle");
+            
             game = gameList.FindGameByName(name);
             if (game == null)
             {
                 throw new Exception("Invalid game chosen, not in games list. Game: " + name);
             }
-            game.GetHandle();
-            if (game.hasHandle == true)
-            {
-                Debug.WriteLine("Game handle found");
-                DataFileHandler.ReadFilesForGame(game);
-                Debug.WriteLine("Done reading files for game.");
-            }
-            else
-            {
-                Debug.WriteLine("Search for game handle aborted");
-            }
-        }
-
+            DataFileHandler.ReadFilesForGame(game);
         }
 
         static void InitWelcomeWindow()

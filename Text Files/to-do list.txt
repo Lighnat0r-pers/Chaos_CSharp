@@ -2,7 +2,6 @@ Chaos% To-do:
 
 Debug log
 Get memory offsets for Japanese version
-Output window
 Update checker
 Bit data type support for memory addresses.
 Converter for MemoryAddresses.xml to MHS file and back (also CE?) -> support for giving and converting to different game versions.

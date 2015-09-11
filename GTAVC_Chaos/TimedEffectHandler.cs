@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GTAVC_Chaos
 {
-    class TimedEffectHandler
+    class TimedEffectHandler : IModuleHandler
     {
         private Random debugRandom;
 
         public TimedEffect[] timedEffects;
+
+        public bool effectActive = false;
+        public TimedEffect currentEffect;
 
         public TimedEffectHandler(TimedEffect[] timedEffects)
         {
@@ -20,6 +19,28 @@ namespace GTAVC_Chaos
         public void InitEffectPicker()
         {
             debugRandom = new Random(Settings.seed);
+        }
+
+        public void Update()
+        {
+            if (!effectActive)
+            {
+                TimedEffect effect = DebugGetNextEffect();
+                bool succeeded = effect.Activate();
+                if (succeeded)
+                {
+                    effectActive = true;
+                    currentEffect = effect;
+                }
+            }
+        }
+
+        public void Shutdown()
+        {
+            if (currentEffect != null)
+            {
+                currentEffect.Deactivate();
+            }
         }
 
         public TimedEffect DebugGetNextEffect()

@@ -1,18 +1,29 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 
 namespace GTAVC_Chaos
 {
     class Modules
     {
-        private TimedEffectHandler timedEffectHandler;
+        private List<IModuleHandler> moduleHandlers = new List<IModuleHandler>();
 
-        public bool effectActive = false;
-        public TimedEffect currentEffect;
-
-        public void InitTimedEffectsModule(TimedEffect[] timedEffects)
+        public void InitTimedEffectsModule()
         {
-            timedEffectHandler = new TimedEffectHandler(timedEffects);
+            Debug.WriteLine("Initializing timed effects module.");
+            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.InitTimedEffects(Program.game));
+            timedEffectHandler.InitEffectPicker();
+            moduleHandlers.Add(timedEffectHandler);
+        }
+
+        public void InitPermanentEffectsModule()
+        {
+            Debug.WriteLine("Initializing permanent effects module.");
+        }
+
+        public void InitStaticEffectsModule()
+        {
+            Debug.WriteLine("Initializing static effects module.");
         }
 
         /// <summary>
@@ -20,28 +31,30 @@ namespace GTAVC_Chaos
         /// </summary>
         public void Update()
         {
-            timedEffectHandler.InitEffectPicker();
+            Program.game.GetHandle();
 
-            do
+            while (GameIsRunning() && !Program.shouldStop)
             {
                 DebugReadAddresses();
-                //UpdateTimedEffects();
+                foreach (IModuleHandler moduleHandler in moduleHandlers)
+                {
+                    moduleHandler.Update();
+                }
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME * 2);
 
-            } while (IsGameRunning() && !Program.shouldStop);
+            }
 
-            //Deactivate everything here
-            if (IsGameRunning())
+            // Deactivate everything here
+            if (GameIsRunning())
             {
-                if (currentEffect != null)
+                foreach (IModuleHandler moduleHandler in moduleHandlers)
                 {
-                    currentEffect.Deactivate();
+                    moduleHandler.Shutdown();
                 }
-
             }
         }
 
-        public bool IsGameRunning()
+        public bool GameIsRunning()
         {
             return true;
         }
@@ -50,25 +63,6 @@ namespace GTAVC_Chaos
         {
 
             return 0;
-        }
-
-        public void UpdateTimedEffects()
-        {
-            if (!Settings.timedEffectsEnabled)
-            {
-                return;
-            }
-
-            if (!effectActive)
-            {
-                TimedEffect effect = timedEffectHandler.DebugGetNextEffect();
-                bool succeeded = effect.Activate();
-                if (succeeded)
-                {
-                    effectActive = true;
-                    currentEffect = effect;
-                }
-            }
         }
 
         public void UpdateOutputWindow()

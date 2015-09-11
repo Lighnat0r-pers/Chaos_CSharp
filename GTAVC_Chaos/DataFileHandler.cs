@@ -17,11 +17,10 @@ namespace GTAVC_Chaos
 
         static public void ReadFilesForGame(Game game)
         {
+            Debug.WriteLine("Starting to read files for game.");
             InitMemoryAddresses(game);
             InitLimitations(game);
-            InitTimedEffects(game);
-            //InitPermanentEffects(game);
-            //InitStaticEffects(game);
+            Debug.WriteLine("Done reading files for game.");
         }
 
         static public Game[] InitGamesFromFile()
@@ -270,11 +269,11 @@ namespace GTAVC_Chaos
             return limitations;
         }
 
-        static private void InitTimedEffects(Game game)
+        static public TimedEffect[] InitTimedEffects(Game game)
         {
             Debug.WriteLine("Reading timed effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
-            Program.modules.InitTimedEffectsModule(ReadTimedEffects(file, game));
+            return ReadTimedEffects(file, game);
         }
 
         static private TimedEffect[] ReadTimedEffects(XmlDocument file, Game game)
@@ -349,11 +348,11 @@ namespace GTAVC_Chaos
             return timedEffects;
         }
 
-        static private void InitPermanentEffects(Game game)
+        static public PermanentEffect[] InitPermanentEffects(Game game)
         {
             Debug.WriteLine("Reading permanent effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, permanentEffectsFilename);
-            game.permanentEffects = ReadPermanentEffects(file);
+            return ReadPermanentEffects(file);
         }
 
         static private PermanentEffect[] ReadPermanentEffects(XmlDocument file)
@@ -361,11 +360,11 @@ namespace GTAVC_Chaos
             return new PermanentEffect[0];
         }
 
-        static private void InitStaticEffects(Game game)
+        static public StaticEffect[] InitStaticEffects(Game game)
         {
             Debug.WriteLine("Reading static effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, staticEffectsFilename);
-            game.staticEffects = ReadStaticEffects(file);
+            return ReadStaticEffects(file);
         }
 
         static private StaticEffect[] ReadStaticEffects(XmlDocument file)

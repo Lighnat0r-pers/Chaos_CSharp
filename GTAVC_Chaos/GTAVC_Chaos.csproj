@@ -91,6 +91,7 @@
     <Compile Include="DataFileHandler.cs" />
     <Compile Include="DoTimedEffects.cs" />
     <Compile Include="GameFunctions.cs" />
+    <Compile Include="IModuleHandler.cs" />
     <Compile Include="Limitation.cs" />
     <Compile Include="LimitationCheck.cs" />
     <Compile Include="MemoryAddress.cs" />
