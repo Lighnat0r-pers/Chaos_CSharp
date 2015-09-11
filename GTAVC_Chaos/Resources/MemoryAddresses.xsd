@@ -20,7 +20,7 @@
     <xs:sequence>
       <xs:element name="name" type="Name" />
       <xs:element name="address" type="Address"/>
-      <xs:element name="type" type="Type"/>
+      <xs:element name="datatype" type="DataType"/>
       <xs:element name="length" type="Length" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -79,8 +79,8 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <!--Limit type to the supported values-->
-  <xs:simpleType name="Type">
+  <!--Limit datatype to the supported values-->
+  <xs:simpleType name="DataType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="bool"/>
       <xs:enumeration value="byte"/>

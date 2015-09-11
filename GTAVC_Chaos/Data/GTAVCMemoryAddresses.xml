@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!--
 
-Supported types:
+Supported datatypes:
 * bool
 * byte
 * short
@@ -12,60 +12,60 @@ Supported types:
 * ascii
 * unicode
 
-The length element is only used for string length (in characters, not bytes!) of ascii/unicode data types and is ignored for other types.
+The length element is only used for string length (in characters, not bytes!) of ascii/unicode datatypes and is ignored for other datatypes.
 -->
 
 <addresses game="GTAVC" gameversion="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <memoryaddress>
     <name>Gravity</name>
     <address xsi:type="static">0068F5F0</address>
-    <type>float</type>
+    <datatype>float</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>DrunkCam</name>
     <address xsi:type="static">00983B38</address>
-    <type>int</type>
+    <datatype>int</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>PlayerPointer</name>
     <address xsi:type="static">007E4B8C</address>
-    <type>int</type>
+    <datatype>int</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>VehiclePointer</name>
     <address xsi:type="static">007E49C0</address>
-    <type>int</type>
+    <datatype>int</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>MissionName</name>
     <address xsi:type="static">0094B243</address>
-    <type>ascii</type>
+    <datatype>ascii</datatype>
     <length>8</length>
   </memoryaddress>
   <memoryaddress>
     <name>GameTime</name>
     <address xsi:type="static">007E3F24</address>
-    <type>int</type>
+    <datatype>int</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>OnMission</name>
     <address xsi:type="static">00821764</address>
-    <type>bool</type>
+    <datatype>bool</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>InMenu</name>
     <address xsi:type="static">00A10B36</address>
-    <type>bool</type>
+    <datatype>bool</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>NotLoadingGame</name>
     <address xsi:type="static">00974B74</address>
-    <type>bool</type>
+    <datatype>bool</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>DisableRightTurns</name>
     <address xsi:type="static">0069A6A8</address>
-    <type>float</type>
+    <datatype>float</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>CurrentVehicleType</name>
@@ -73,7 +73,7 @@ The length element is only used for string length (in characters, not bytes!) of
       <baseaddress>VehiclePointer</baseaddress>
       <offset>029C</offset>
     </address>
-    <type>float</type>
+    <datatype>float</datatype>
   </memoryaddress>
 
 </addresses>

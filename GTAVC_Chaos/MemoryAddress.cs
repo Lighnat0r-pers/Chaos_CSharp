@@ -14,7 +14,7 @@ namespace GTAVC_Chaos
         public string name;
         public long address;
         public long offset;
-        public string type;
+        public string dataType;
         public int size = 0;
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Generic constructor
         /// </summary>
-        private MemoryAddress(string name, string type, int length = 0)
+        private MemoryAddress(string name, string dataType, int length = 0)
         {
             // TODO(Ligh): Handle size differently so we don't have to spend time
             // creating this dictionary again for every memory address.
@@ -58,14 +58,14 @@ namespace GTAVC_Chaos
 
             this.name = name;
 
-            if (!sizes.ContainsKey(type))
+            if (!sizes.ContainsKey(dataType))
             {
-                throw new Exception("Invalid type of memory address.");
+                throw new Exception("Invalid datatype of memory address.");
             }
 
-            this.type = type;
+            this.dataType = dataType;
 
-            size = sizes[type];
+            size = sizes[dataType];
 
             if (size == 0)
             {
@@ -111,7 +111,7 @@ namespace GTAVC_Chaos
                 address = GetDynamicAddress();
             }
 
-            return memory.Read(address, type, size);
+            return memory.Read(address, dataType, size);
         }
 
         public void Write(dynamic input)
@@ -127,7 +127,7 @@ namespace GTAVC_Chaos
                 address = GetDynamicAddress();
             }
 
-            memory.Write(address, input, type, size);
+            memory.Write(address, input, dataType, size);
         }
 
         /// <summary>
@@ -146,9 +146,9 @@ namespace GTAVC_Chaos
                 throw new Exception("Tried to get the dynamic address of a static memory address.");
             }
 
-            if (baseAddress.type != "int" && baseAddress.type != "long")
+            if (baseAddress.dataType != "int" && baseAddress.dataType != "long")
             {
-                throw new Exception("Tried to use an address with a non-pointer type ( " + baseAddress.type + " ) as a pointer address.");
+                throw new Exception("Tried to use an address with a non-pointer datatype ( " + baseAddress.dataType + " ) as a pointer address.");
             }
 
             return baseAddress.Read() + offset;
