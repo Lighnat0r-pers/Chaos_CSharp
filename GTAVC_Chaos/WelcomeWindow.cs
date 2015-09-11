@@ -102,7 +102,7 @@ namespace GTAVC_Chaos
             Settings.sanicModeEnabled = checkboxSanicModeEnabled.Checked;
 
             Debug.WriteLine(String.Format("Seed: {0}", Settings.seed));
-            Debug.WriteLine(String.Concat("Difficulty: ", checkedButton.Text));
+            Debug.WriteLine(String.Concat("Difficulty: ", Settings.difficultyName));
             Debug.WriteLine(String.Format("Static Effects Enabled: {0}", Settings.staticEffectsEnabled));
             Debug.WriteLine(String.Format("Permanent Effects Enabled: {0}", Settings.permanentEffectsEnabled));
             Debug.WriteLine(String.Format("Timed Effects Enabled: {0}", Settings.timedEffectsEnabled));

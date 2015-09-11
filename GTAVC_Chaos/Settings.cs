@@ -27,6 +27,8 @@ namespace GTAVC_Chaos
         static public int difficulty;
         static public string difficultyName;
 
+        static public string gameName;
+
         static public Dictionary<string, int> difficultiesArray;
 
 #if DEBUG

@@ -44,9 +44,6 @@ namespace GTAVC_Chaos
             return canActivate;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <returns>True if successful, false otherwise.</returns>
         public override bool Activate()
         {

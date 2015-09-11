@@ -12,6 +12,6 @@ Add support for limitation based on if permanent effect is active.
 Validate that the datatype of the value element provided in TimedEffects.xml etc matches the datatype of the memory address.
 Support for associative arrays type things in xml files so that for example, for the limitation InVehicleType, the name parameter can be given as "Car" which is then translated into the actual value as it is used and read from the game, "0".
 Validate that there are no duplicate names for memory addresses, limitations etc.
-Prevent an endless loop of limitation checks.
+Prevent an endless loop of limitation checks. Also memory addresses.
 Once the program is finished further, clean up access modifiers.
 Add a checksum to make it easier to confirm everyone is using the same .xml files in a race?

@@ -23,7 +23,7 @@ namespace GTAVC_Chaos
                 e.Cancel = false;
                 return;
             }
-            if (MessageBox.Show("Are you sure you want to exit the program?", "Chaos%", MessageBoxButtons.YesNo) == DialogResult.No)
+            if (MessageBox.Show("Are you sure you want to exit the program?", Settings.PROGRAM_NAME, MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 e.Cancel = true;
             }

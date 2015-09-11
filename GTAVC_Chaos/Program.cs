@@ -45,12 +45,12 @@ namespace GTAVC_Chaos
             }
 
             // TODO(Ligh): Allow the user to select a game instead of hardcoding.
-            string gameName = "Grand Theft Auto: Vice City";
+            Settings.gameName = "Grand Theft Auto: Vice City";
 
             InitOutputWindow();
 
             // Get the information we need about the game selected.
-            GetGame(gameName);
+            GetGame(Settings.gameName);
 
             // Run the modules in a separate thread.
             Thread modulesThread = new Thread(game.InitModules);
