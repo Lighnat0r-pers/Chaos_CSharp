@@ -46,16 +46,18 @@ namespace GTAVC_Chaos
             this.gameVersions = gameVersions;
         }
 
-        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses)
+        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string oldVersionName)
         {
             this.memoryAddresses = memoryAddresses;
+
+            GameVersion oldVersion = FindGameVersionByName(oldVersionName);
 
             for (int i = 0; i < this.memoryAddresses.Length; i++)
             {
                 if (this.memoryAddresses[i].address != 0)
                 {
                     // NOTE(Ligh): Static address
-                    this.memoryAddresses[i].UpdateForVersion(currentVersion);
+                    this.memoryAddresses[i].UpdateForVersion(currentVersion, oldVersion);
                 }
                 else
                 {

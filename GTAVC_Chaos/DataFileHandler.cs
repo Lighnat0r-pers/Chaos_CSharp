@@ -125,7 +125,13 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Reading memory addresses from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
-            game.SetMemoryAddresses(ReadMemoryAddresses(file));
+            game.SetMemoryAddresses(ReadMemoryAddresses(file), ReadMemoryAddressesGameVersion(file));
+        }
+
+        static private string ReadMemoryAddressesGameVersion(XmlDocument file)
+        {
+            // TODO(Ligh): Properly catch errors here.
+            return file.SelectSingleNode("//addresses").Attributes["gameversion"].Value;
         }
 
         static private MemoryAddress[] ReadMemoryAddresses(XmlDocument file)
@@ -134,9 +140,6 @@ namespace GTAVC_Chaos
 
             XmlNodeList nodes = file.SelectNodes("//addresses/memoryaddress");
             MemoryAddress[] memoryAddresses = new MemoryAddress[nodes.Count];
-
-            // TODO(Ligh): Make use of the game version gotten here so that the GameHandler knows about it.
-            string gameVersion = file.SelectSingleNode("//addresses").Attributes["gameversion"].Value;
 
             int count = 0;
             foreach (XmlNode node in nodes)

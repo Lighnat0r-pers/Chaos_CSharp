@@ -19,11 +19,24 @@ namespace GTAVC_Chaos
             //System.Diagnostics.Debug.WriteLine("Version " + name + " debug address test: " + GetAddressForVersion(0x00A10B50));
         }
 
-        public long GetAddressForVersion(long address)
+        public long GetOffsetForVersion(long address)
         {
             long key = FindLastKeySmallerThanOrEqualTo<long>(offsets.Keys, address);
 
-            return address + offsets[key];
+            return offsets[key];
+        }
+
+        public long GetAddressForVersion(long address, GameVersion oldVersion)
+        {
+            long offset = GetOffsetForVersion(address);
+
+            if (oldVersion != null)
+            {
+                // NOTE(Ligh): Convert the offset to be from oldVersion instead of the base version.
+                offset -= oldVersion.GetOffsetForVersion(address);
+            }
+
+            return address + offset;
         }
 
         public static T FindLastKeySmallerThanOrEqualTo<T>(IList<T> sortedCollection, T key) where T : IComparable<T>
