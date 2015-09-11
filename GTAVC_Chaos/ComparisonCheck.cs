@@ -30,7 +30,7 @@ namespace GTAVC_Chaos
             dynamic value = Program.game.Read(addresses[0]);
             for (int i = 1; i < addresses.Length; i++)
             {
-                result = result && (value == Program.game.Read(addresses[0]));
+                result = result && (value == Program.game.Read(addresses[i]));
             }
 
             return result == equal;
