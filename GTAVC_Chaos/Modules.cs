@@ -8,6 +8,22 @@ namespace GTAVC_Chaos
     {
         private List<IModuleHandler> moduleHandlers = new List<IModuleHandler>();
 
+        public Modules()
+        {
+            if (Settings.timedEffectsEnabled)
+            {
+                InitTimedEffectsModule();
+            }
+            if (Settings.permanentEffectsEnabled)
+            {
+                InitPermanentEffectsModule();
+            }
+            if (Settings.staticEffectsEnabled)
+            {
+                InitStaticEffectsModule();
+            }
+        }
+
         public void InitTimedEffectsModule()
         {
             Debug.WriteLine("Initializing timed effects module.");
@@ -29,47 +45,25 @@ namespace GTAVC_Chaos
         /// <summary>
         /// This method is in charge of activating the different modules in the mod (e.g. TimedEffects, StaticEffects etc)
         /// </summary>
-        public void Update()
+        public void Update(int gameStatus)
         {
-            Program.game.GetHandle();
-
-            while (GameIsRunning() && !Program.shouldStop)
+            DebugReadAddresses();
+            foreach (IModuleHandler moduleHandler in moduleHandlers)
             {
-                DebugReadAddresses();
-                foreach (IModuleHandler moduleHandler in moduleHandlers)
-                {
-                    moduleHandler.Update();
-                }
-                Thread.Sleep(Settings.DEFAULT_WAIT_TIME * 2);
-
+                moduleHandler.Update();
             }
+            Thread.Sleep(Settings.DEFAULT_WAIT_TIME * 2);
+        }
 
-            // Deactivate everything here
-            if (GameIsRunning())
+        public void Shutdown(bool gameStillRunning)
+        {
+            // Deactivate all modules here
+            if (gameStillRunning)
             {
                 foreach (IModuleHandler moduleHandler in moduleHandlers)
                 {
                     moduleHandler.Shutdown();
                 }
-            }
-        }
-
-        public bool GameIsRunning()
-        {
-            return true;
-        }
-
-        public int CheckGameStatus()
-        {
-
-            return 0;
-        }
-
-        public void UpdateOutputWindow()
-        {
-            if (Program.outputWindow != null)
-            {
-
             }
         }
 

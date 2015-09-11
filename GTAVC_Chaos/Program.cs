@@ -26,9 +26,9 @@ namespace GTAVC_Chaos
             SetThreadCulture();
 
             // Enable registering when the process closes.
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit); 
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
-            // Set some application settings BEFORE creating any type of System.Windows.Forms object.
+            // Set these application settings before creating any type of System.Windows.Forms object.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -38,7 +38,7 @@ namespace GTAVC_Chaos
             // Show the welcome window.
             InitWelcomeWindow();
 
-            if (shouldStop == true) // Exit the application if the welcome window was exited by returning in the main method.
+            if (shouldStop == true) // Exit the application if the welcome window was exited.
             {
                 Debug.WriteLine("Exiting application as stop signal was given");
                 return;
@@ -46,17 +46,16 @@ namespace GTAVC_Chaos
 
             // TODO(Ligh): Allow the user to select a game instead of hardcoding.
             string gameName = "Grand Theft Auto: Vice City";
-            Debug.WriteLine("Game chosen: " + gameName);
 
             InitOutputWindow();
 
             // Get the information we need about the game selected.
             GetGame(gameName);
-            game.InitModules();
 
-            Thread modsLoopThread = new Thread(game.modules.Update);
-            modsLoopThread.IsBackground = true;
-            modsLoopThread.Start();
+            // Run the modules in a separate thread.
+            Thread modulesThread = new Thread(game.InitModules);
+            modulesThread.IsBackground = true;
+            modulesThread.Start();
 
             while (shouldStop == false)
             {
@@ -88,7 +87,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static void GetGame(string name)
         {
-            
+            Debug.WriteLine("Game chosen: " + name);
             game = gameList.FindGameByName(name);
             if (game == null)
             {

@@ -174,19 +174,26 @@ namespace GTAVC_Chaos
 
         public void InitModules()
         {
+            GetHandle();
+
             modules = new Modules();
-            if (Settings.timedEffectsEnabled)
+
+            while (GameIsRunning() && !Program.shouldStop)
             {
-                modules.InitTimedEffectsModule();
+                modules.Update(GetGameStatus());
             }
-            if (Settings.permanentEffectsEnabled)
-            {
-                modules.InitPermanentEffectsModule();
-            }
-            if (Settings.staticEffectsEnabled)
-            {
-                modules.InitStaticEffectsModule();
-            }
+
+            modules.Shutdown(GameIsRunning());
+        }
+
+        public bool GameIsRunning()
+        {
+            return true;
+        }
+
+        public int GetGameStatus()
+        {
+            return 0;
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)
