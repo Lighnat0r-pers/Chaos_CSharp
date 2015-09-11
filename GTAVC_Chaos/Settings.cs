@@ -12,23 +12,21 @@ namespace GTAVC_Chaos
         // Define private variables.
         static int sanicModeMultiplier = 10;
         static int baseTimeMultiplier = 1;
-        static int difficultyEasy = 4;
-        static int difficultyMedium = 7;
-        static int difficultyHard = 10;
 
         // Define public variables.
         static public bool timedEffectsEnabledDefault = true;
         static public bool staticEffectsEnabledDefault = true;
         static public bool sanicModeEnabledDefault = false;
-        static public int difficultyDefault = difficultyMedium;
 
+        static public int defaultDifficulty;
         static public bool timedEffectsEnabled;
         static public bool staticEffectsEnabled;
         static public bool sanicModeEnabled;
         static public uint seed;
         static public int difficulty;
+        static public string difficultyName;
 
-        static public Dictionary<string, int> difficultiesArray = new Dictionary<string, int>();
+        static public Dictionary<string, int> difficultiesArray;
 
 #if DEBUG
         const bool DEBUG_MODE_ENABLED = true;
@@ -55,9 +53,14 @@ namespace GTAVC_Chaos
         /// </summary>
         static Settings()
         {
-            difficultiesArray.Add("Easy", difficultyEasy);
-            difficultiesArray.Add("Medium", difficultyMedium);
-            difficultiesArray.Add("Hard", difficultyHard);
+            difficultiesArray = new Dictionary<string, int>()
+            {
+                {"Easy", 4},
+                {"Medium", 7},
+                {"Hard", 10},
+            };
+
+            defaultDifficulty = difficultiesArray["Medium"];
         }
     }
 }

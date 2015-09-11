@@ -14,6 +14,7 @@ namespace GTAVC_Chaos
         static public Form currentForm = null;
 
         static public WelcomeWindow welcomeWindow;
+        static public OutputWindow outputWindow;
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
         static public Game game;
@@ -55,6 +56,7 @@ namespace GTAVC_Chaos
             Debug.WriteLine("Game chosen: " + gameName);
             GetGame(gameName);
 
+            InitOutputWindow();
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
             do
@@ -67,7 +69,7 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// To ensure the decimal separator is always a period and stuff like that, we set the culture 
+        /// To ensure the decimal separator is always a period and stuff like that, set the culture 
         /// to en-UK if it isn't already.
         /// </summary>
         private static void SetThreadCulture()
@@ -158,9 +160,6 @@ namespace GTAVC_Chaos
             Application.Restart();
         }
 
-        /// <summary>
-        /// Initialise an instance of the welcome window class and make it visible.
-        /// </summary>
         static void InitWelcomeWindow()
         {
             Debug.WriteLine("Initializing Welcome Window");
@@ -175,10 +174,17 @@ namespace GTAVC_Chaos
             }
         }
 
+        static void InitOutputWindow()
+        {
+            Debug.WriteLine("Initializing Output Window");
+            outputWindow = new OutputWindow();
+            outputWindow.Show();
+            outputWindow.Refresh();
+        }
+
+
         static void OnProcessExit(object Sender, EventArgs e)
         {
-            // TODO(Ligh): Deactivate active effects here.
-
             shouldStop = true;
             if (game != null && game.hasHandle == true)
             {

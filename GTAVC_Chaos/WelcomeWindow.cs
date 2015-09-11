@@ -15,27 +15,9 @@ namespace GTAVC_Chaos
             Show();
         }
 
-        /// <summary>
-        /// On registering the program closing, show a window asking the user to confirm exiting the program.
-        /// This really isnt necessary for the welcome window, but we'll leave the code in for now to use later for the output window.
-        /// </summary>
-        private void WelcomeWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Debug.WriteLine("Event WelcomeWindow_FormClosing fired");
-            if (e.CloseReason != CloseReason.UserClosing)
-            {
-                e.Cancel = false;
-                return;
-            }
-            if (MessageBox.Show("Are you sure you want to exit the program?", "GTA Vice City Chaos%", MessageBoxButtons.YesNo) == DialogResult.No)
-            {
-                e.Cancel = true;
-            }
-            Program.shouldStop = true;
-        }
-
         private void WelcomeWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Program.shouldStop = true;
             Debug.WriteLine("Event WelcomeWindow_FormClosed fired");
         }
 
@@ -107,10 +89,11 @@ namespace GTAVC_Chaos
             }
 
             RadioButton checkedButton = panel1.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+            Settings.difficultyName = checkedButton.Text;
             bool isValidDifficulty = Settings.difficultiesArray.TryGetValue(checkedButton.Text, out Settings.difficulty);
             if (!isValidDifficulty)
             {
-                Settings.difficulty = Settings.difficultyDefault;
+                Settings.difficulty = Settings.defaultDifficulty;
             }
 
             Settings.staticEffectsEnabled = checkBoxStaticEffectsEnabled.Checked;
@@ -123,7 +106,6 @@ namespace GTAVC_Chaos
             Debug.WriteLine(String.Format("Timed Effects Enabled: {0}", Settings.timedEffectsEnabled));
             Debug.WriteLine(String.Format("Sanic Mode Enabled: {0}", Settings.sanicModeEnabled));
 
-            this.FormClosing -= new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
             this.FormClosed -= new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
             this.Close();
             Program.currentForm = null;

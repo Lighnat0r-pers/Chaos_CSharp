@@ -58,7 +58,7 @@
             // 
             // buttonShowAdvancedOptions
             // 
-            this.buttonShowAdvancedOptions.Location = new System.Drawing.Point(15, 189);
+            this.buttonShowAdvancedOptions.Location = new System.Drawing.Point(35, 189);
             this.buttonShowAdvancedOptions.Name = "buttonShowAdvancedOptions";
             this.buttonShowAdvancedOptions.Size = new System.Drawing.Size(150, 23);
             this.buttonShowAdvancedOptions.TabIndex = 2;
@@ -142,9 +142,9 @@
             this.labelWelcomeMessage.AutoSize = true;
             this.labelWelcomeMessage.Location = new System.Drawing.Point(12, 9);
             this.labelWelcomeMessage.Name = "labelWelcomeMessage";
-            this.labelWelcomeMessage.Size = new System.Drawing.Size(132, 13);
+            this.labelWelcomeMessage.Size = new System.Drawing.Size(129, 13);
             this.labelWelcomeMessage.TabIndex = 15;
-            this.labelWelcomeMessage.Text = "Welcome to Chaos% v1.2!";
+            this.labelWelcomeMessage.Text = "Welcome to Chaos% v0.0";
             // 
             // labelEnterSeed
             // 
@@ -222,7 +222,6 @@
             this.Name = "WelcomeWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Welcome to Chaos%";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WelcomeWindow_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
             this.Load += new System.EventHandler(this.WelcomeWindow_Load);
             this.panel1.ResumeLayout(false);

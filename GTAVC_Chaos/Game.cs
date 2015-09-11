@@ -136,6 +136,8 @@ namespace GTAVC_Chaos
 
         public void CloseProcess()
         {
+            // TODO(Ligh): Deactivate active effects here.
+
             memory.CloseProcess();
             memory = null;
             currentVersion = null;

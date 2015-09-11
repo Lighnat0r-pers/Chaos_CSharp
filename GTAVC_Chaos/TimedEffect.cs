@@ -60,7 +60,7 @@ namespace GTAVC_Chaos
                 activator.Activate();
             }
 
-            Debug.WriteLine("Activated effect: " + name);
+            Debug.WriteLine("Activated timed effect: " + name);
             return true;
         }
 
@@ -71,7 +71,7 @@ namespace GTAVC_Chaos
                 activator.Deactivate();
             }
 
-            Debug.WriteLine("Deactivated effect: " + name);
+            Debug.WriteLine("Deactivated timed effect: " + name);
         }
 
         public void CalculateMTTH()
