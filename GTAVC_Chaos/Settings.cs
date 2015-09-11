@@ -22,7 +22,7 @@ namespace GTAVC_Chaos
         static public bool timedEffectsEnabled;
         static public bool staticEffectsEnabled;
         static public bool sanicModeEnabled;
-        static public uint seed;
+        static public int seed;
         static public int difficulty;
         static public string difficultyName;
 

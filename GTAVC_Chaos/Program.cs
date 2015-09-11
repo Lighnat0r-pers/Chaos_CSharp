@@ -18,6 +18,7 @@ namespace GTAVC_Chaos
         static public NotifyIcon trayIcon;
         static public ContextMenu contextMenu;
         static public Game game;
+        static public Modules modules;
 
         /// <summary>
         /// The main entry point for the application.
@@ -41,6 +42,8 @@ namespace GTAVC_Chaos
             // TODO(Ligh): Do we really need/want a tray icon assuming there will always be a window open anyway?
             // InitTrayIcon();
 
+            modules = new Modules();
+
             // Show the welcome window.
             InitWelcomeWindow();
 
@@ -58,7 +61,7 @@ namespace GTAVC_Chaos
 
             InitOutputWindow();
 
-            Thread modsLoopThread = new Thread(ModsLoop.Update);
+            Thread modsLoopThread = new Thread(modules.Update);
             modsLoopThread.IsBackground = true;
             modsLoopThread.Start();
 

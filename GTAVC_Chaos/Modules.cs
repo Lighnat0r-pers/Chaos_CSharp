@@ -3,17 +3,25 @@ using System.Threading;
 
 namespace GTAVC_Chaos
 {
-    static class ModsLoop
+    class Modules
     {
-        public static bool effectActive = false;
-        public static TimedEffect currentEffect;
+        private TimedEffectHandler timedEffectHandler;
+
+        public bool effectActive = false;
+        public TimedEffect currentEffect;
+
+        public void InitTimedEffectsModule(TimedEffect[] timedEffects)
+        {
+            timedEffectHandler = new TimedEffectHandler(timedEffects);
+        }
 
         /// <summary>
-        /// Main method that should be called continuously. This method is in charge of
-        /// activating the different modules in the mod (e.g. TimedEffects, StaticEffects etc)
+        /// This method is in charge of activating the different modules in the mod (e.g. TimedEffects, StaticEffects etc)
         /// </summary>
-        static public void Update()
+        public void Update()
         {
+            timedEffectHandler.InitEffectPicker();
+
             do
             {
                 DebugReadAddresses();
@@ -23,20 +31,28 @@ namespace GTAVC_Chaos
             } while (IsGameRunning() && !Program.shouldStop);
 
             //Deactivate everything here
+            if (IsGameRunning())
+            {
+                if (currentEffect != null)
+                {
+                    currentEffect.Deactivate();
+                }
+
+            }
         }
 
-        static public bool IsGameRunning()
+        public bool IsGameRunning()
         {
             return true;
         }
 
-        static public int CheckGameStatus()
+        public int CheckGameStatus()
         {
 
             return 0;
         }
 
-        static public void UpdateTimedEffects()
+        public void UpdateTimedEffects()
         {
             if (!Settings.timedEffectsEnabled)
             {
@@ -45,7 +61,7 @@ namespace GTAVC_Chaos
 
             if (!effectActive)
             {
-                TimedEffect effect = Program.game.DebugGetTimedEffect();
+                TimedEffect effect = timedEffectHandler.DebugGetNextEffect();
                 bool succeeded = effect.Activate();
                 if (succeeded)
                 {
@@ -55,15 +71,15 @@ namespace GTAVC_Chaos
             }
         }
 
-        static public void UpdateOutputWindow()
+        public void UpdateOutputWindow()
         {
             if (Program.outputWindow != null)
             {
-               // Program.outputWindow.Refresh();
+
             }
         }
 
-        static public void DebugReadAddresses()
+        public void DebugReadAddresses()
         {
             foreach (MemoryAddress address in Program.game.memoryAddresses)
             {

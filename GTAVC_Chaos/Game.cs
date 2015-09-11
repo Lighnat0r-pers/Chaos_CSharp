@@ -15,8 +15,6 @@ namespace GTAVC_Chaos
 
     class Game
     {
-        private static Random debugRandom;
-
         private long versionAddress;
         private string baseVersion;
 
@@ -33,7 +31,6 @@ namespace GTAVC_Chaos
         public MemoryAddress[] memoryAddresses;
         private Limitation[] limitations;
 
-        public TimedEffect[] timedEffects;
         public PermanentEffect[] permanentEffects;
         public StaticEffect[] staticEffects;
 
@@ -46,14 +43,6 @@ namespace GTAVC_Chaos
             this.versionAddress = versionAddress;
             this.baseVersion = baseVersion;
             this.gameVersions = gameVersions;
-            Game.debugRandom = new Random(1234);
-        }
-
-        public TimedEffect DebugGetTimedEffect()
-        {
-            int index = debugRandom.Next(timedEffects.Length);
-            index = 3;
-            return timedEffects[index];
         }
 
         public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string oldVersionName)

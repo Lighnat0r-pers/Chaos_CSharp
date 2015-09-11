@@ -94,7 +94,7 @@
     <Compile Include="Limitation.cs" />
     <Compile Include="LimitationCheck.cs" />
     <Compile Include="MemoryAddress.cs" />
-    <Compile Include="ModsLoop.cs" />
+    <Compile Include="Modules.cs" />
     <Compile Include="NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -110,6 +110,7 @@
     <Compile Include="SimpleCheck.cs" />
     <Compile Include="StaticEffect.cs" />
     <Compile Include="TimedEffect.cs" />
+    <Compile Include="TimedEffectHandler.cs" />
     <Compile Include="TimedEffectLimitations.cs" />
     <Compile Include="WelcomeWindow.cs">
       <SubType>Form</SubType>

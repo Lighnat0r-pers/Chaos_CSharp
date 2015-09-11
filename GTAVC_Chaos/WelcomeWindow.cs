@@ -82,7 +82,7 @@ namespace GTAVC_Chaos
         /// </summary>
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            bool isValidSeed = uint.TryParse(numericTextBoxSeed.Text, out Settings.seed);
+            bool isValidSeed = int.TryParse(numericTextBoxSeed.Text, out Settings.seed);
             if (!isValidSeed)
             {
                 Debug.WriteLine("Seed entered was not valid, set to default 0");

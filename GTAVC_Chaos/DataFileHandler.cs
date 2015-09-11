@@ -274,7 +274,7 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Reading timed effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
-            game.timedEffects = ReadTimedEffects(file, game);
+            Program.modules.InitTimedEffectsModule(ReadTimedEffects(file, game));
         }
 
         static private TimedEffect[] ReadTimedEffects(XmlDocument file, Game game)

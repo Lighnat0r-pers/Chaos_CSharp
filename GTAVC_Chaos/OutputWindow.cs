@@ -47,8 +47,7 @@ namespace GTAVC_Chaos
         {
             this.Icon = Properties.Resources.SunriseIcon;
 
-            // TODO(Ligh): Show difficulty as text, not int.
-            difficultySeedLabel.Text = Settings.difficultyName + " difficulty, seed " + Settings.seed;
+            difficultySeedLabel.Text = String.Format("{0} difficulty, seed {1:D" + Settings.SEED_VALID_LENGTH + "}", Settings.difficultyName, Settings.seed);
             StaticEffectsLabel.Text = "Static Effects " + (Settings.staticEffectsEnabled ? "Enabled" : "Disabled");
             PermanentEffectsLabel.Text = "Placeholder";
             TimedEffectLabel.Text = "Timed effect placeholder";
