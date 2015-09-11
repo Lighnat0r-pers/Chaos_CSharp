@@ -57,12 +57,17 @@ namespace GTAVC_Chaos
             GetGame(gameName);
 
             InitOutputWindow();
+
+            Thread modsLoopThread = new Thread(ModsLoop.Update);
+            modsLoopThread.IsBackground = true;
+            modsLoopThread.Start();
+
             // Start the ModsLoop which will be in charge of activating the different modules.
             // Keep repeating the Update method until the program should stop.
             do
             {
-                ModsLoop.Update();
-                Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
+                Thread.Sleep(1);
+                Application.DoEvents();
             } while (shouldStop == false);
 
             Debug.WriteLine("ModsLoop ended.");

@@ -30,7 +30,7 @@ namespace GTAVC_Chaos
         public GameVersion currentVersion;
 
         private GameVersion[] gameVersions;
-        private MemoryAddress[] memoryAddresses;
+        public MemoryAddress[] memoryAddresses;
         private Limitation[] limitations;
 
         public TimedEffect[] timedEffects;
