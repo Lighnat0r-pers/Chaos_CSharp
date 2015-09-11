@@ -1,4 +1,5 @@
-﻿
+﻿using System.Diagnostics;
+
 namespace GTAVC_Chaos
 {
     class TimedEffect : BaseEffect
@@ -43,17 +44,24 @@ namespace GTAVC_Chaos
             return canActivate;
         }
 
-        public override void Activate()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>True if successful, false otherwise.</returns>
+        public override bool Activate()
         {
             if (!CanActivate())
             {
-                return;
+                return false;
             }
 
             foreach (EffectActivator activator in activators)
             {
                 activator.Activate();
             }
+
+            Debug.WriteLine("Activated effect: " + name);
+            return true;
         }
 
         public override void Deactivate()
@@ -62,6 +70,8 @@ namespace GTAVC_Chaos
             {
                 activator.Deactivate();
             }
+
+            Debug.WriteLine("Deactivated effect: " + name);
         }
 
         public void CalculateMTTH()

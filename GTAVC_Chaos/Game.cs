@@ -52,6 +52,7 @@ namespace GTAVC_Chaos
         public TimedEffect DebugGetTimedEffect()
         {
             int index = debugRandom.Next(timedEffects.Length);
+            index = 3;
             return timedEffects[index];
         }
 

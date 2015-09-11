@@ -3,6 +3,7 @@ namespace GTAVC_Chaos
 {
     static class ModsLoop
     {
+        private static bool effectActive = false;
 
         /// <summary>
         /// Property gameStatus which calls the CheckGameStatus() method to return what the game is up to.
@@ -26,8 +27,11 @@ namespace GTAVC_Chaos
             else
             {
                 //Do loops
-                TimedEffect effect = Program.game.DebugGetTimedEffect();
-                effect.Activate();
+                if (!effectActive)
+                {
+                    TimedEffect effect = Program.game.DebugGetTimedEffect();
+                    effectActive = effect.Activate();
+                }
             }
         }
 

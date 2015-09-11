@@ -29,9 +29,9 @@ namespace GTAVC_Chaos
         }
 
         // Activate the effect
-        public virtual void Activate()
+        public virtual bool Activate()
         {
-
+            return false;
         }
 
         // Deactivate the effect

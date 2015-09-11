@@ -58,7 +58,7 @@ namespace GTAVC_Chaos
             // Keep repeating the Update method until the program should stop.
             do
             {
-                Debug.WriteLine(GameFunctions.GetCurrentMission());
+                //Debug.WriteLine(GameFunctions.GetCurrentMission());
                 ModsLoop.Update();
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
             } while (shouldStop == false);

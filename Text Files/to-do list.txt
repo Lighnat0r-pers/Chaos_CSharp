@@ -16,3 +16,4 @@ Validate that there are no duplicate names for memory addresses, limitations etc
 Prevent an endless loop of limitation checks.
 Once the program is finished further, clean up access modifiers.
 Add a checksum to make it easier to confirm everyone is using the same .xml files in a race?
+Only get process handle in AccessProcessMemory if we didnt already get it.
