@@ -6,12 +6,12 @@ namespace GTAVC_Chaos
     class LimitationCheck : ICheck
     {
         private string limitationName;
-        private Dictionary<string, dynamic> parameters;
+        private Dictionary<string, string> parameters;
 
         public Limitation limitation;
         public bool target;
 
-        public LimitationCheck(string limitationName, dynamic target, Dictionary<string, dynamic> parameters = null)
+        public LimitationCheck(string limitationName, bool target, Dictionary<string, string> parameters = null)
         {
             this.limitationName = limitationName;
             this.target = target;

@@ -98,6 +98,48 @@ namespace GTAVC_Chaos
             this.memory = memory;
         }
 
+        public dynamic ConvertToRightDataType(string input)
+        {
+            if (input == null)
+                throw new Exception("Error while converting input for memory, no input");
+
+            dynamic result;
+            switch (dataType)
+            {
+                case "bool":
+                    result = Convert.ToBoolean(input);
+                    break;
+                case "byte":
+                    result = Convert.ToByte(input);
+                    break;
+                case "short":
+                    result = Convert.ToInt16(input);
+                    break;
+                case "int":
+                    result = Convert.ToInt32(input);
+                    break;
+                case "long":
+                    result = Convert.ToInt64(input);
+                    break;
+                case "float":
+                    result = Convert.ToSingle(input);
+                    break;
+                case "double":
+                    result = Convert.ToDouble(input);
+                    break;
+                case "ascii":
+                    result = input;
+                    break;
+                case "unicode":
+                    result = input;
+                    break;
+                default:
+                    throw new Exception(String.Format("Tried to convert input to unknown data type {0}", dataType));
+            }
+
+            return result;
+        }
+
         public dynamic Read()
         {
             if (memory == null)

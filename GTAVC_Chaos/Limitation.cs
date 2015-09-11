@@ -33,7 +33,7 @@ namespace GTAVC_Chaos
             return new Limitation(this);
         }
 
-        public void setParameters(Dictionary<string, dynamic> parameters)
+        public void setParameters(Dictionary<string, string> parameters)
         {
             if (parameters != null)
             {
@@ -44,7 +44,8 @@ namespace GTAVC_Chaos
                         ParameterCheck check = checkVar as ParameterCheck;
                         if (parameters.ContainsKey(check.address.name))
                         {
-                            check.SetParameter(parameters[check.address.name]);
+                            dynamic parameter = check.address.ConvertToRightDataType(parameters[check.address.name]);
+                            check.SetParameter(parameter);
                             parameters.Remove(check.address.name);
                         }
                         else

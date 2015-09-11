@@ -4,10 +4,10 @@ namespace GTAVC_Chaos
     class EffectActivator
     {
         public string type;
-        public object target;
+        public dynamic target;
         public MemoryAddress address;
 
-        public EffectActivator(string type, string target, MemoryAddress address)
+        public EffectActivator(string type, dynamic target, MemoryAddress address)
         {
             this.type = type;
             this.target = target;

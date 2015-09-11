@@ -209,15 +209,15 @@ namespace GTAVC_Chaos
                     {
                         case "simple":
                             address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
-                            string value = checkNode.SelectSingleNode("value").InnerText;
+                            dynamic value = address.ConvertToRightDataType(checkNode.SelectSingleNode("value").InnerText);
                             check = new SimpleCheck(address, value);
                             break;
                         case "parameter":
-                            string defaultValue = null;
+                            dynamic defaultValue = null;
                             address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
                             if (checkNode.SelectSingleNode("default") != null)
                             {
-                                defaultValue = checkNode.SelectSingleNode("default").InnerText;
+                                defaultValue = address.ConvertToRightDataType(checkNode.SelectSingleNode("default").InnerText);
                             }
 
                             check = new ParameterCheck(address, defaultValue);
@@ -225,12 +225,12 @@ namespace GTAVC_Chaos
                         case "limitation":
                             string limitation = checkNode.SelectSingleNode("limitation").InnerText;
                             bool target = Boolean.Parse(checkNode.SelectSingleNode("target").InnerText);
-                            Dictionary<string, dynamic> parameters = null;
+                            Dictionary<string, string> parameters = null;
 
                             XmlNodeList parameterNodes = checkNode.SelectNodes("parameters/parameter");
                             if (parameterNodes.Count != 0)
                             {
-                                parameters = new Dictionary<string, object>();
+                                parameters = new Dictionary<string, string>();
 
                                 foreach (XmlNode parameterNode in parameterNodes)
                                 {
@@ -305,10 +305,9 @@ namespace GTAVC_Chaos
                 foreach (XmlNode activatorNode in activatorNodes)
                 {
                     string type = activatorNode.Attributes["type"].Value;
-                    string target = activatorNode.SelectSingleNode("target").InnerText;
                     MemoryAddress address = game.FindMemoryAddressByName(activatorNode.SelectSingleNode("address").InnerText);
-
-                    // TODO(Ligh): Convert target to the proper datatype for the address.
+                    
+                    dynamic target = address.ConvertToRightDataType(activatorNode.SelectSingleNode("target").InnerText);
 
                     activators[count2++] = new EffectActivator(type, target, address);
                 }
@@ -327,7 +326,7 @@ namespace GTAVC_Chaos
                     XmlNodeList parameterNodes = limitationNode.SelectNodes("parameters/parameter");
                     if (parameterNodes.Count != 0)
                     {
-                        Dictionary<string, dynamic> parameters = new Dictionary<string, object>();
+                        Dictionary<string, string> parameters = new Dictionary<string, string>();
 
                         foreach (XmlNode parameterNode in parameterNodes)
                         {
