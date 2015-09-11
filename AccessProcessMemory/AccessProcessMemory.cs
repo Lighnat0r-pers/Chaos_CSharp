@@ -86,9 +86,12 @@ namespace AccessProcessMemory
         /// </summary>
         public void OpenProcess()
         {
-            m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, true, m_Process.Id);
             if (m_ProcessHandle == IntPtr.Zero)
-                throw new Exception("OpenProcess failed");
+            {
+                m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, true, m_Process.Id);
+                if (m_ProcessHandle == IntPtr.Zero)
+                    throw new Exception("OpenProcess failed");
+            }
         }
 
         /// <summary>
@@ -99,6 +102,7 @@ namespace AccessProcessMemory
             int iRetValue = AccessProcessMemoryApi.CloseHandle(m_ProcessHandle);
             if (iRetValue == 0)
                 throw new Exception("CloseProcess failed");
+            m_ProcessHandle = IntPtr.Zero;
             Debug.WriteLine("Game handle closed");
         }
 
