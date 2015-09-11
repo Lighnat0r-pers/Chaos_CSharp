@@ -15,8 +15,6 @@ namespace GTAVC_Chaos
 
         static public WelcomeWindow welcomeWindow;
         static public OutputWindow outputWindow;
-        static public NotifyIcon trayIcon;
-        static public ContextMenu contextMenu;
         static public Game game;
         static public Modules modules;
 
@@ -37,10 +35,6 @@ namespace GTAVC_Chaos
 
             // Get information about supported games.
             gameList = new GameList(DataFileHandler.InitGamesFromFile());
-
-            // Create the tray icon and context menu.
-            // TODO(Ligh): Do we really need/want a tray icon assuming there will always be a window open anyway?
-            // InitTrayIcon();
 
             modules = new Modules();
 
@@ -117,55 +111,6 @@ namespace GTAVC_Chaos
             }
         }
 
-        /// <summary>
-        /// Create the tray icon.
-        /// </summary>
-        static void InitTrayIcon()
-        {
-            Debug.WriteLine("Creating tray icon");
-            trayIcon = new NotifyIcon();
-            trayIcon.Icon = Properties.Resources.SunriseIcon;
-            trayIcon.Text = Settings.PROGRAM_NAME;
-            CreateContextMenu();
-            trayIcon.ContextMenu = contextMenu;
-            trayIcon.Visible = true;
-        }
-
-        /// <summary>
-        /// Creates the context menu and populates it.
-        /// </summary>
-        static void CreateContextMenu()
-        {
-            contextMenu = new ContextMenu();
-            MenuItem menuItemExit = new MenuItem();
-            MenuItem menuItemRestart = new MenuItem();
-            contextMenu.MenuItems.AddRange(new MenuItem[] { menuItemExit, menuItemRestart });
-            menuItemExit.Index = 1;
-            menuItemExit.Text = "Exit";
-            menuItemExit.Click += new EventHandler(menuItemExit_Click);
-            menuItemRestart.Index = 0;
-            menuItemRestart.Text = "Restart Program";
-            menuItemRestart.Click += new EventHandler(menuItemRestart_Click);
-        }
-
-        /// <summary>
-        /// Triggered when the user clicks the Exit button in the context menu.
-        /// </summary>
-        private static void menuItemExit_Click(object Sender, EventArgs e)
-        {
-            // TODO(Ligh): Due to changes is handling the application, this no longer shuts down the program. It should.
-            Debug.WriteLine("Context menu item Exit clicked");
-            Application.Exit();
-        }
-
-        /// <summary>
-        /// Triggered when the user clicks the Restart Program button in the context menu.
-        /// </summary>
-        private static void menuItemRestart_Click(object Sender, EventArgs e)
-        {
-            // TODO(Ligh): Due to changes is handling the application, this no longer works correctly. It should.
-            Debug.WriteLine("Context menu item Restart Program clicked");
-            Application.Restart();
         }
 
         static void InitWelcomeWindow()
@@ -197,11 +142,6 @@ namespace GTAVC_Chaos
             if (game != null && game.hasHandle == true)
             {
                 game.CloseProcess();
-            }
-            if (trayIcon != null)
-            {
-                trayIcon.Visible = false;
-                trayIcon.Dispose();
             }
             Debug.WriteLine("Event OnProcessExit fired");
         }
