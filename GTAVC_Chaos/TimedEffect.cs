@@ -8,8 +8,6 @@ namespace GTAVC_Chaos
         private EffectActivator[] activators;
         private Limitation[] limitations;
 
-        private bool canExecute;
-
         /// <summary>
         /// Property effectLength which automatically takes the timeMultiplier as defined in Settings.cs into account.
         /// </summary>
@@ -20,10 +18,6 @@ namespace GTAVC_Chaos
         }
         private int length;
 
-        /// <summary>
-        /// Constructor for TimedEffect class specifying the name and duration.
-        /// The name is passed onto the constructor of the base class (BaseEffect).
-        /// </summary>
         public TimedEffect(string name, string category, int difficulty, EffectActivator[] activators, int duration = 0, Limitation[] limitations = null)
             : base(name, category, difficulty)
         {
@@ -33,33 +27,41 @@ namespace GTAVC_Chaos
             this.limitations = limitations;
         }
 
-        // Activate the effect
-        public override void Activate()
+        public bool CanActivate()
         {
-            // Check all the limitations, if one of them returns true set canExecute to false and stop checking limitations.
+            bool canActivate = true;
+            // Check all limitations, if any one returns true the effect cannot activate.
             foreach (Limitation limitation in limitations)
             {
                 if (!limitation.Check())
                 {
-                    canExecute = false;
+                    canActivate = false;
                     break;
-                }
-                else
-                {
-                    canExecute = true;
                 }
             }
 
-            if (canExecute == true)
-            {
+            return canActivate;
+        }
 
+        public override void Activate()
+        {
+            if (!CanActivate())
+            {
+                return;
+            }
+
+            foreach (EffectActivator activator in activators)
+            {
+                activator.Activate();
             }
         }
 
-        // Deactivate the effect
         public override void Deactivate()
         {
-
+            foreach (EffectActivator activator in activators)
+            {
+                activator.Deactivate();
+            }
         }
 
         public void CalculateMTTH()

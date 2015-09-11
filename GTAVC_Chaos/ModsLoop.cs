@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace GTAVC_Chaos
 {
     static class ModsLoop
@@ -27,6 +26,8 @@ namespace GTAVC_Chaos
             else
             {
                 //Do loops
+                TimedEffect effect = Program.game.DebugGetTimedEffect();
+                effect.Activate();
             }
         }
 
