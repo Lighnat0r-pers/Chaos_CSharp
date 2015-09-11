@@ -147,7 +147,7 @@ namespace GTAVC_Chaos
                 MemoryAddress addressObj;
 
                 string name = node.SelectSingleNode("name").InnerText;
-                string type = node.SelectSingleNode("type").InnerText;
+                string datatype = node.SelectSingleNode("datatype").InnerText;
                 int size = 0;
                 XmlNode sizeNode = node.SelectSingleNode("length");
                 if (sizeNode != null)
@@ -160,13 +160,13 @@ namespace GTAVC_Chaos
                 if (addressNode.Attributes["xsi:type"].Value == "static")
                 {
                     long address = Int64.Parse(addressNode.InnerText, NumberStyles.HexNumber);
-                    addressObj = new MemoryAddress(name, address, type, size);
+                    addressObj = new MemoryAddress(name, address, datatype, size);
                 }
                 else
                 {
                     string baseAddressName = addressNode.SelectSingleNode("baseaddress").InnerText;
                     long offset = Int64.Parse(addressNode.SelectSingleNode("offset").InnerText, NumberStyles.HexNumber);
-                    addressObj = new MemoryAddress(name, baseAddressName, offset, type, size);
+                    addressObj = new MemoryAddress(name, baseAddressName, offset, datatype, size);
                 }
 
                 memoryAddresses[count++] = addressObj;
@@ -307,6 +307,8 @@ namespace GTAVC_Chaos
                     string type = activatorNode.Attributes["type"].Value;
                     string target = activatorNode.SelectSingleNode("target").InnerText;
                     MemoryAddress address = game.FindMemoryAddressByName(activatorNode.SelectSingleNode("address").InnerText);
+
+                    // TODO(Ligh): Convert target to the proper datatype for the address.
 
                     activators[count2++] = new EffectActivator(type, target, address);
                 }
