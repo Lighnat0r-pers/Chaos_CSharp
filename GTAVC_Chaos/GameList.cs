@@ -13,22 +13,8 @@ namespace GTAVC_Chaos
 
         public Game FindGameByName(string name)
         {
-            Game result = null;
-            foreach (Game game in games)
-            {
-                if (game.name == name)
-                {
-                    result = game;
-                    break;
-                }
-            }
-
-            if (result == null)
-            {
-                throw new Exception("Game " + name + " not found.");
-            }
-
-            return result;
+            // TODO(Ligh): Handle not found case.
+            return Array.Find(games, p => p.name == name);
         }
     }
 }

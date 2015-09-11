@@ -179,42 +179,20 @@ namespace GTAVC_Chaos
 
         public MemoryAddress FindMemoryAddressByName(string name)
         {
-            MemoryAddress result = null;
-            foreach (MemoryAddress address in memoryAddresses)
-            {
-                if (address.name == name)
-                {
-                    result = address;
-                    break;
-                }
-            }
-
-            if (result == null)
-            {
-                throw new Exception("Memory address " + name + " not found.");
-            }
-
-            return result;
+            // TODO(Ligh): Handle not found case.
+            return Array.Find(memoryAddresses, p => p.name == name);
         }
 
         public Limitation FindLimitationByName(string name)
         {
-            Limitation result = null;
-            foreach (Limitation limitation in limitations)
-            {
-                if (limitation.name == name)
-                {
-                    result = limitation.Clone();
-                    break;
-                }
-            }
+            // TODO(Ligh): Handle not found case.
+            return Array.Find(limitations, p => p.name == name);
+        }
 
-            if (result == null)
-            {
-                throw new Exception("Limitation " + name + " not found.");
-            }
-
-            return result;
+        public GameVersion FindGameVersionByName(string name)
+        {
+            // TODO(Ligh): Handle not found case.
+            return Array.Find(gameVersions, p => p.name == name);
         }
     }
 }
