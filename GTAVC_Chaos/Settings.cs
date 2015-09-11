@@ -15,7 +15,6 @@ namespace GTAVC_Chaos
 
         // Define public variables.
         static public bool timedEffectsEnabledDefault = true;
-        static public bool permanentEffectsEnabledDefault = true;
         static public bool staticEffectsEnabledDefault = true;
         static public bool sanicModeEnabledDefault = false;
 
