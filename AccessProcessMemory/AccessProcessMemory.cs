@@ -150,9 +150,8 @@ namespace AccessProcessMemory
             if (output == null)
                 throw new Exception("Error while converting output from memory, no output");
 
-            // TODO(Ligh): This is not necessary for strings, check if it is for others (probably is)
-            if (dataType != "ascii" && dataType != "unicode" && BitConverter.IsLittleEndian)
-                Array.Reverse(output); // Convert big endian to little endian.
+            if (!BitConverter.IsLittleEndian)
+                Array.Reverse(output); // Convert little endian to big endian.
 
             dynamic result;
             switch (dataType)
@@ -234,9 +233,8 @@ namespace AccessProcessMemory
                     throw new Exception(String.Format("Tried to convert memory input to unknown data type {0}", dataType));
             }
 
-            // TODO(Ligh): This is not necessary for strings, check if it is for others (probably is)
-            if (dataType != "ascii" && dataType != "unicode" && BitConverter.IsLittleEndian)
-                Array.Reverse(result); // Convert big endian to little endian.
+            if (!BitConverter.IsLittleEndian)
+                Array.Reverse(result); // Convert little endian to big endian.
 
             return result;
         }
