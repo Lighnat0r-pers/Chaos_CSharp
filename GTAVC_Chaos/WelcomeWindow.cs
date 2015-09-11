@@ -16,14 +16,6 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// Close the program when clicking the close button.
-        /// </summary>
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        /// <summary>
         /// On registering the program closing, show a window asking the user to confirm exiting the program.
         /// This really isnt necessary for the welcome window, but we'll leave the code in for now to use later for the output window.
         /// </summary>
@@ -51,7 +43,7 @@ namespace GTAVC_Chaos
         /// Because the designer doesn't like variables in any of the control options and every time a control is 
         /// changed in the designer the code is updated and any manual changes reverted, we have to set the variables 
         /// we want to use in any of the controls after the code of the designer is executed, 
-        /// that is just before the window is shown. Doing it like this kinda sucks, but it's the best I can do without ditching the designer.
+        /// that is just before the window is shown.
         /// </summary>
         private void WelcomeWindow_Load(object sender, EventArgs e)
         {

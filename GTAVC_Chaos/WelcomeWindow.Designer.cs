@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.buttonConfirm = new System.Windows.Forms.Button();
-            this.buttonClose = new System.Windows.Forms.Button();
             this.buttonShowAdvancedOptions = new System.Windows.Forms.Button();
             this.radioButtonDifficulty1 = new System.Windows.Forms.RadioButton();
             this.radioButtonDifficulty2 = new System.Windows.Forms.RadioButton();
@@ -48,7 +47,7 @@
             // 
             // buttonConfirm
             // 
-            this.buttonConfirm.Location = new System.Drawing.Point(15, 287);
+            this.buttonConfirm.Location = new System.Drawing.Point(71, 289);
             this.buttonConfirm.Name = "buttonConfirm";
             this.buttonConfirm.Size = new System.Drawing.Size(75, 23);
             this.buttonConfirm.TabIndex = 0;
@@ -56,17 +55,6 @@
             this.buttonConfirm.Text = "Confirm";
             this.buttonConfirm.UseVisualStyleBackColor = true;
             this.buttonConfirm.Click += new System.EventHandler(this.buttonConfirm_Click);
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.Location = new System.Drawing.Point(110, 287);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 1;
-            this.buttonClose.TabStop = false;
-            this.buttonClose.Text = "Close";
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonShowAdvancedOptions
             // 
@@ -228,7 +216,6 @@
             this.Controls.Add(this.checkBoxStaticEffectsEnabled);
             this.Controls.Add(this.numericTextBoxSeed);
             this.Controls.Add(this.buttonShowAdvancedOptions);
-            this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -248,7 +235,6 @@
         #endregion
 
         private System.Windows.Forms.Button buttonConfirm;
-        private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonShowAdvancedOptions;
         private System.Windows.Forms.RadioButton radioButtonDifficulty1;
         private System.Windows.Forms.RadioButton radioButtonDifficulty2;
