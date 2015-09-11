@@ -100,11 +100,15 @@ namespace GTAVC_Chaos
 
         public dynamic Read()
         {
-            // TODO(Ligh): Implement handling dynamic addresses.
-
             if (memory == null)
             {
                 throw new Exception("Tried to read an address without a handle to the game process.");
+            }
+
+            // NOTE(Ligh): In case of a dynamic address, resolve the address.
+            if (baseAddress != null)
+            {
+                address = GetDynamicAddress();
             }
 
             return memory.Read(address, type, size);
@@ -112,14 +116,42 @@ namespace GTAVC_Chaos
 
         public void Write(dynamic input)
         {
-            // TODO(Ligh): Implement handling dynamic addresses.
-
             if (memory == null)
             {
                 throw new Exception("Tried to write to an address without a handle to the game process.");
             }
 
+            // NOTE(Ligh): In case of a dynamic address, resolve the address.
+            if (baseAddress != null)
+            {
+                address = GetDynamicAddress();
+            }
+
             memory.Write(address, input, type, size);
+        }
+
+        /// <summary>
+        /// Reads the pointer value in baseAddress and adds offset to it.
+        /// As the Read() function calls this function, this works recursively until a static address
+        /// is reached, so multiple pointer levels are supported.
+        /// </summary>
+        /// <returns>
+        /// Up to date dynamic address for this function. 
+        /// This should always be used immediately and only once to avoid using an outdated address.
+        /// </returns>
+        private long GetDynamicAddress()
+        {
+            if (baseAddress == null)
+            {
+                throw new Exception("Tried to get the dynamic address of a static memory address.");
+            }
+
+            if (baseAddress.type != "int" && baseAddress.type != "long")
+            {
+                throw new Exception("Tried to use an address with a non-pointer type ( " + baseAddress.type + " ) as a pointer address.");
+            }
+
+            return baseAddress.Read() + offset;
         }
     }
 }
