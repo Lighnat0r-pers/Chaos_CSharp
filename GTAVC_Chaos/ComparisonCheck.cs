@@ -27,10 +27,10 @@ namespace GTAVC_Chaos
         public bool Check()
         {
             bool result = true;
-            dynamic value = Program.game.Read(addresses[0]);
+            dynamic value = addresses[0].Read();
             for (int i = 1; i < addresses.Length; i++)
             {
-                result = result && (value == Program.game.Read(addresses[i]));
+                result = result && (value == addresses[i].Read());
             }
 
             return result == equal;

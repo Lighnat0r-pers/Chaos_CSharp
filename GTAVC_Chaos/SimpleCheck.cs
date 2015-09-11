@@ -26,7 +26,7 @@ namespace GTAVC_Chaos
 
         public bool Check()
         {
-            return Program.game.Read(address) == value;
+            return address.Read() == value;
         }
     }
 }

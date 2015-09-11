@@ -1,19 +1,19 @@
-﻿using System;
+﻿using AccessProcessMemory;
+using System;
 using System.Collections.Generic;
 
 namespace GTAVC_Chaos
 {
     class MemoryAddress
     {
-        public string name;
-
-        public long address;
+        private Memory memory;
 
         private string baseAddressName;
         public MemoryAddress baseAddress;
 
+        public string name;
+        public long address;
         public long offset;
-
         public string type;
         public int size = 0;
 
@@ -91,6 +91,35 @@ namespace GTAVC_Chaos
             }
 
             baseAddress = Program.game.FindMemoryAddressByName(baseAddressName);
+        }
+
+        public void SetMemoryHandle(Memory memory)
+        {
+            this.memory = memory;
+        }
+
+        public dynamic Read()
+        {
+            // TODO(Ligh): Implement handling dynamic addresses.
+
+            if (memory == null)
+            {
+                throw new Exception("Tried to read an address without a handle to the game process.");
+            }
+
+            return memory.Read(address, type, size);
+        }
+
+        public void Write(dynamic input)
+        {
+            // TODO(Ligh): Implement handling dynamic addresses.
+
+            if (memory == null)
+            {
+                throw new Exception("Tried to write to an address without a handle to the game process.");
+            }
+
+            memory.Write(address, input, type, size);
         }
     }
 }

@@ -54,6 +54,8 @@ namespace GTAVC_Chaos
 
             for (int i = 0; i < this.memoryAddresses.Length; i++)
             {
+                this.memoryAddresses[i].SetMemoryHandle(memory);
+
                 if (this.memoryAddresses[i].address != 0)
                 {
                     // NOTE(Ligh): Static address
@@ -153,30 +155,6 @@ namespace GTAVC_Chaos
             {
                 throw new Exception("Failed to determine the game version: Unknown version. Version address value was " + value);
             }
-        }
-
-        public dynamic Read(MemoryAddress address)
-        {
-            // TODO(Ligh): Deal with dynamic addresses (in combination with the version offset).
-
-            if (memory == null)
-            {
-                throw new Exception("Tried to read the game memory without a handle to the game.");
-            }
-
-            return memory.Read(address.address, address.type, address.size);
-        }
-
-        public void Write(MemoryAddress address, dynamic input)
-        {
-            // TODO(Ligh): Deal with dynamic addresses (in combination with the version offset).
-
-            if (memory == null)
-            {
-                throw new Exception("Tried to write to the game memory without a handle to the game.");
-            }
-
-            memory.Write(address.address, input, address.type, address.size);
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)

@@ -34,7 +34,7 @@ namespace GTAVC_Chaos
 
         public bool Check()
         {
-            return Program.game.Read(address) == parameter;
+            return address.Read() == parameter;
         }
     }
 }

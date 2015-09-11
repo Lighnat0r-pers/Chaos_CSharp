@@ -90,7 +90,7 @@ namespace GTAVC_Chaos
             missionList.Add("TAXIWA3", "Cabmaggedon");
 
             MemoryAddress missionNameAddress = Program.game.FindMemoryAddressByName("MissionName");
-            return missionList[Program.game.Read(missionNameAddress)];
+            return missionList[missionNameAddress.Read()];
         }
     }
 }
