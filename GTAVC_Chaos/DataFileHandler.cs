@@ -18,8 +18,8 @@ namespace GTAVC_Chaos
         static public void ReadFilesForGame(Game game)
         {
             Debug.WriteLine("Starting to read files for game.");
-            InitMemoryAddresses(game);
-            InitLimitations(game);
+            InitMemoryAddressesFromFile(game);
+            InitLimitationsFromFile(game);
             Debug.WriteLine("Done reading files for game.");
         }
 
@@ -120,7 +120,7 @@ namespace GTAVC_Chaos
             return games;
         }
 
-        static private void InitMemoryAddresses(Game game)
+        static private void InitMemoryAddressesFromFile(Game game)
         {
             Debug.WriteLine("Reading memory addresses from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
@@ -176,7 +176,7 @@ namespace GTAVC_Chaos
             return memoryAddresses;
         }
 
-        static private void InitLimitations(Game game)
+        static private void InitLimitationsFromFile(Game game)
         {
             Debug.WriteLine("Reading limitations from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
@@ -269,7 +269,7 @@ namespace GTAVC_Chaos
             return limitations;
         }
 
-        static public TimedEffect[] InitTimedEffects(Game game)
+        static public TimedEffect[] InitTimedEffectsFromFile(Game game)
         {
             Debug.WriteLine("Reading timed effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
@@ -348,7 +348,7 @@ namespace GTAVC_Chaos
             return timedEffects;
         }
 
-        static public PermanentEffect[] InitPermanentEffects(Game game)
+        static public PermanentEffect[] InitPermanentEffectsFromFile(Game game)
         {
             Debug.WriteLine("Reading permanent effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, permanentEffectsFilename);
@@ -360,7 +360,7 @@ namespace GTAVC_Chaos
             return new PermanentEffect[0];
         }
 
-        static public StaticEffect[] InitStaticEffects(Game game)
+        static public StaticEffect[] InitStaticEffectsFromFile(Game game)
         {
             Debug.WriteLine("Reading static effects from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, staticEffectsFilename);
