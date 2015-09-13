@@ -6,7 +6,15 @@ EDIT AT YOUR OWN RISK!!
 
 Supported activator types:
 * Simple - Changes the address to target value.
-* Gradual - Gradually changes the address from its original value to target value.
+* TODO(Ligh): Gradual - Gradually changes the address from its original value to target value.
+
+
+ TODO(Ligh): Implement a place to define base limitations, which need to pass for all effects. 
+ * These would need to be checked continuously, not just on activation. 
+ * Some of them would need to deactivate the effect permanently, others just temporarily until the limitation passes again.
+ TODO(Ligh): Determine whether these special properties should be special for the base limitations, or (more likely) available for
+ all limitations.
+ 
 -->
 
 <timedeffects>

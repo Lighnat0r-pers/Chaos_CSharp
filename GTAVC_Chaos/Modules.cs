@@ -28,7 +28,6 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Initializing timed effects module.");
             TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.InitTimedEffectsFromFile(Program.game));
-            timedEffectHandler.InitEffectPicker();
             moduleHandlers.Add(timedEffectHandler);
         }
 
@@ -47,7 +46,7 @@ namespace GTAVC_Chaos
         /// </summary>
         public void Update(int gameStatus)
         {
-            DebugReadAddresses();
+            //DebugReadAddresses();
             foreach (IModuleHandler moduleHandler in moduleHandlers)
             {
                 moduleHandler.Update();

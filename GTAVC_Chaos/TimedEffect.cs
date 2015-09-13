@@ -4,7 +4,7 @@ namespace GTAVC_Chaos
 {
     class TimedEffect : BaseEffect
     {
-        static private int defaultEffectLength = 30000;
+        static private long defaultEffectLength = 30000;
 
         private EffectActivator[] activators;
         private Limitation[] limitations;
@@ -12,14 +12,14 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Property effectLength which automatically takes the timeMultiplier as defined in Settings.cs into account.
         /// </summary>
-        public int effectLength
+        public long effectLength
         {
             get { return length; }
             set { length = value * Settings.timeMultiplier; }
         }
-        private int length;
+        private long length;
 
-        public TimedEffect(string name, string category, int difficulty, EffectActivator[] activators, int duration = 0, Limitation[] limitations = null)
+        public TimedEffect(string name, string category, int difficulty, EffectActivator[] activators, uint duration = 0, Limitation[] limitations = null)
             : base(name, category, difficulty)
         {
             effectLength = (duration == 0) ? defaultEffectLength : duration;

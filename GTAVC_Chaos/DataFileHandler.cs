@@ -290,11 +290,11 @@ namespace GTAVC_Chaos
                 string category = node.SelectSingleNode("category").InnerText;
                 int difficulty = Int32.Parse(node.SelectSingleNode("difficulty").InnerText);
 
-                int duration = 0;
+                uint duration = 0;
                 XmlNode durationNode = node.SelectSingleNode("duration");
                 if (durationNode != null)
                 {
-                    duration = Int32.Parse(durationNode.InnerText);
+                    duration = UInt32.Parse(durationNode.InnerText);
                 }
 
                 XmlNodeList activatorNodes = node.SelectNodes("activators/activator");
