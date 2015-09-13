@@ -45,7 +45,7 @@ namespace GTAVC_Chaos
             get
             {
                 if (Settings.sanicModeEnabled)
-                    return baseTimeMultiplier * sanicModeMultiplier;
+                    return baseTimeMultiplier / sanicModeMultiplier;
                 else
                     return baseTimeMultiplier;
             }
