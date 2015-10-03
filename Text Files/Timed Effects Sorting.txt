@@ -6,6 +6,8 @@ CDATA sections can be used for custom code, if needed.
 
 Different types of timed effects:
 
+(* indicates unimplemented, - is implemented)
+
 Unsorted:
 * Flat Tire
 * To Flat Tire Or Not To Flat Tire
@@ -16,29 +18,29 @@ Unsorted:
 * Taxi Jump
 
 Simple (set predetermined value for one address)
-* Xtreme Drunk Cam
-* Beam Me Up Scotty
-* Zero Gravity
-* Quarter Gravity
-* Half Gravity
-* Double Gravity
+- Xtreme Drunk Cam
+- Beam Me Up Scotty
+- Zero Gravity
+- Quarter Gravity
+- Half Gravity
+- Double Gravity
 * Quadruple Gravity
-* Quarter Game Speed
-* Half Game Speed
-* Double Game Speed
-* No Right
-* Random Fall
-* Phone Call
+- Quarter Game Speed
+- Half Game Speed
+- Double Game Speed
+- No Right
+- Random Fall
+- Phone Call
 * Im The Invisible Driver
 * SuddenCarDeath
 * Interior
 * Polaris
-* Mirage
-* Zero Draw Distance
+- Mirage
+- Zero Draw Distance
 * Eighth Draw Distance
-* Quarter Draw Distance
+- Quarter Draw Distance
 * Half Draw Distance
-* Double Draw Distance
+- Double Draw Distance
 * No Bounce
 * Bounce
 * Bouncy Bounce
@@ -47,7 +49,7 @@ Simple (set predetermined value for one address)
 * High DPI
 * Full Heal
 * Full Armour
-* Time Lapse
+- Time Lapse
 
 Simple^n (set predetermined values for n addresses (2, 3, 4, 10))
 * Wanted 1 (2)
@@ -60,12 +62,12 @@ Simple^n (set predetermined values for n addresses (2, 3, 4, 10))
 * Frame Limiter 15 (2)
 * Frame Limiter 60 (2)
 * Eclipse (4)
-* Home (4)
-* Rave (4)
-* Golf (4)
-* Im Outta Here (4)
+- Home (4)
+- Rave (4)
+- Golf (4)
+- Im Outta Here (4)
 * Cubicle (4)
-* In The Army Now (4)
+- In The Army Now (4)
 * Ghost Town (2)
 * Pacifist (10)
 

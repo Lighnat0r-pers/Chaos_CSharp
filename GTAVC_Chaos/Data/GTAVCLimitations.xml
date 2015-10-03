@@ -19,6 +19,15 @@ Supported check types:
         <address>OnMission</address>
         <value>true</value>
       </check>
+    </checks>
+  </limitation>
+  <limitation>
+    <name>OnMissionNamed</name>
+    <checks>
+      <check xsi:type="limitation">
+        <limitation>OnMission</limitation>
+        <target>true</target>
+      </check>
       <check xsi:type="parameter">
         <address>MissionName</address>
       </check>
@@ -30,6 +39,40 @@ Supported check types:
       <check xsi:type="limitation">
         <limitation>InVehicle</limitation>
         <target>false</target>
+      </check>
+      <check xsi:type="limitation">
+        <limitation>PlayerStatus</limitation>
+        <target>false</target>
+        <parameters>
+          <parameter>
+            <name>PlayerStatus</name>
+            <value>50</value>
+          </parameter>
+        </parameters>
+      </check>
+    </checks>
+  </limitation>
+  <limitation>
+    <!-- TODO(Ligh): This limitation is too vague-->
+    <name>PlayerStatusOnFootDefault</name>
+    <checks>
+      <check xsi:type="limitation">
+        <limitation>PlayerStatus</limitation>
+        <target>true</target>
+        <parameters>
+          <parameter>
+            <name>PlayerStatus</name>
+            <value>1</value>
+          </parameter>
+        </parameters>
+      </check>
+    </checks>
+  </limitation>
+  <limitation>
+    <name>PlayerStatus</name>
+    <checks>
+      <check xsi:type="parameter">
+        <address>PlayerStatus</address>
       </check>
     </checks>
   </limitation>

@@ -1,7 +1,6 @@
 Chaos% To-do:
 
 Debug log
-Get memory offsets for Japanese version
 Update checker
 Bit data type support for memory addresses.
 Converter for MemoryAddresses.xml to MHS file and back (also CE?) -> support for giving and converting to different game versions.
@@ -14,6 +13,12 @@ Support for associative arrays type things in xml files so that for example, for
 Validate that there are no duplicate names for memory addresses, limitations etc.
 Prevent an endless loop of limitation checks. Also memory addresses.
 Add support for setting base limitations. These are always checked for all timed effects. For things like checking if the user is in the menu etc. Probably need a few types of base limitations, like one in which there should not be any effects at all, one in which effects should be temporarily disabled but resumed with no longer the case.
+Weight for effects is currently not implemented. It probably shouldn't be, but there needs to be a solution to achieve what weight did.
+Support for activators that do nothing on deactivation or do something conditionally.
+Support for OR limitations
+Support for < and > in parameter check, in addition to ==.
+Support for using expressions as parameters/values to set, such as getting a random interior ID for the Interior effect.
+Support for extra difficulty for specific effects in sanic mode.
 
 Once the program is finished further, clean up access modifiers.
 Add a checksum to make it easier to confirm everyone is using the same .xml files in a race?

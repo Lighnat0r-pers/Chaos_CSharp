@@ -48,6 +48,11 @@ The length element is only used for string length (in characters, not bytes!) of
     <datatype>int</datatype>
   </memoryaddress>
   <memoryaddress>
+    <name>GameSpeed</name>
+    <address xsi:type="static">0097F264</address>
+    <datatype>float</datatype>
+  </memoryaddress>
+  <memoryaddress>
     <name>OnMission</name>
     <address xsi:type="static">00821764</address>
     <datatype>bool</datatype>
@@ -68,12 +73,56 @@ The length element is only used for string length (in characters, not bytes!) of
     <datatype>float</datatype>
   </memoryaddress>
   <memoryaddress>
+    <name>Mirage</name>
+    <address xsi:type="static">0068AE9A</address>
+    <datatype>short</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>DrawDistance</name>
+    <address xsi:type="static">0068AEC0</address>
+    <datatype>float</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>MillisecondsPerGameMinute</name>
+    <address xsi:type="static">0097F2B4</address>
+    <datatype>int</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>CurrentInterior</name>
+    <address xsi:type="static">00978810</address>
+    <datatype>byte</datatype>
+  </memoryaddress>
+  <memoryaddress>
     <name>CurrentVehicleType</name>
     <address xsi:type="dynamic">
       <baseaddress>VehiclePointer</baseaddress>
       <offset>029C</offset>
     </address>
     <datatype>byte</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>PlayerX</name>
+    <address xsi:type="dynamic">
+      <baseaddress>PlayerPointer</baseaddress>
+      <offset>34</offset>
+    </address>
+    <datatype>float</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>PlayerY</name>
+    <address xsi:type="dynamic">
+      <baseaddress>PlayerPointer</baseaddress>
+      <offset>38</offset>
+    </address>
+    <datatype>float</datatype>
+  </memoryaddress>
+  <memoryaddress>
+    <name>PlayerZ</name>
+    <address xsi:type="dynamic">
+      <baseaddress>PlayerPointer</baseaddress>
+      <offset>3C</offset>
+    </address>
+    <datatype>float</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>PlayerControllable</name>
@@ -91,5 +140,12 @@ The length element is only used for string length (in characters, not bytes!) of
     </address>
     <datatype>byte</datatype>
   </memoryaddress>
-
+  <memoryaddress>
+    <name>VehicleHealth</name>
+    <address xsi:type="dynamic">
+      <baseaddress>VehiclePointer</baseaddress>
+      <offset>0204</offset>
+    </address>
+    <datatype>float</datatype>
+  </memoryaddress>
 </addresses>
