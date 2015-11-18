@@ -37,7 +37,7 @@ namespace GTAVC_Chaos
 
         public bool IsRunning
         {
-            get { return memory.HasValidHandle(); }
+            get { return memory.HasValidProcess(); }
         }
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, GameVersion[] gameVersions)

@@ -92,7 +92,7 @@ namespace AccessProcessMemory
             Debug.WriteLine("Game handle closed");
         }
 
-        public bool HasValidHandle()
+        public bool HasValidProcess()
         {
             return m_Process == null || m_Process.HasExited;
         }
