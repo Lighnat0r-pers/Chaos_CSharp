@@ -47,14 +47,6 @@ namespace AccessProcessMemory
     public class Memory
     {
         /// <summary>
-        /// Constructor to initiate Memory class without a target process.
-        /// </summary>
-        public Memory()
-        {
-
-        }
-
-        /// <summary>
         /// Constructor to initiate Memory class with a target process.
         /// </summary>
         public Memory(Process process)
@@ -67,14 +59,8 @@ namespace AccessProcessMemory
         /// </summary>
         public Process targetProcess
         {
-            get
-            {
-                return m_Process;
-            }
-            set
-            {
-                m_Process = value;
-            }
+            get { return m_Process; }
+            set { m_Process = value; }
         }
 
         // Private vars containing the target process and its handle.
@@ -135,7 +121,9 @@ namespace AccessProcessMemory
                 throw new Exception("Error while writing memory, no input provided");
             byte[] byteInput = ConvertInput(input, type);
             if (length == int.MinValue)
+            {
                 length = byteInput.Length;
+            }
             byte[] fullInput = new byte[length];
             Array.Copy(byteInput, fullInput, byteInput.Length);
 
@@ -155,7 +143,9 @@ namespace AccessProcessMemory
                 throw new Exception("Error while converting output from memory, no output");
 
             if (!BitConverter.IsLittleEndian)
+            {
                 Array.Reverse(output); // Convert little endian to big endian.
+            }
 
             dynamic result;
             switch (dataType)
@@ -238,7 +228,9 @@ namespace AccessProcessMemory
             }
 
             if (!BitConverter.IsLittleEndian)
+            {
                 Array.Reverse(result); // Convert little endian to big endian.
+            }
 
             return result;
         }

@@ -44,7 +44,7 @@ namespace GTAVC_Chaos
         /// <summary>
         /// This method is in charge of activating the different modules in the mod (e.g. TimedEffects, StaticEffects etc)
         /// </summary>
-        public void Update(int gameStatus)
+        public void Update()
         {
             //DebugReadAddresses();
             foreach (IModuleHandler moduleHandler in moduleHandlers)
@@ -54,15 +54,12 @@ namespace GTAVC_Chaos
             Thread.Sleep(Settings.DEFAULT_WAIT_TIME * 2);
         }
 
-        public void Shutdown(bool gameStillRunning)
+        public void Shutdown()
         {
             // Deactivate all modules here
-            if (gameStillRunning)
+            foreach (IModuleHandler moduleHandler in moduleHandlers)
             {
-                foreach (IModuleHandler moduleHandler in moduleHandlers)
-                {
-                    moduleHandler.Shutdown();
-                }
+                moduleHandler.Shutdown();
             }
         }
 

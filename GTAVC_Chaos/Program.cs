@@ -8,7 +8,7 @@ namespace GTAVC_Chaos
 {
     static class Program
     {
-        static private GameList gameList;
+        static private Game[] gameArray;
 
         static public bool shouldStop = false;
         static public Form currentForm = null;
@@ -33,7 +33,7 @@ namespace GTAVC_Chaos
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Get information about supported games.
-            gameList = new GameList(DataFileHandler.InitGamesFromFile());
+            gameArray = DataFileHandler.InitGamesFromFile();
 
             // Show the welcome window.
             InitWelcomeWindow();
@@ -67,7 +67,7 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// To ensure the decimal separator is always a period and stuff like that, set the culture 
+        /// To ensure the decimal separator is always a period, set the culture 
         /// to en-UK if it isn't already.
         /// </summary>
         private static void SetThreadCulture()
@@ -88,7 +88,7 @@ namespace GTAVC_Chaos
         static void GetGame(string name)
         {
             Debug.WriteLine("Game chosen: " + name);
-            game = gameList.FindGameByName(name);
+            game = Array.Find(gameArray, g => g.name == name);
             if (game == null)
             {
                 throw new Exception("Invalid game chosen, not in games list. Game: " + name);

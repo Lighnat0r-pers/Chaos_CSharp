@@ -178,22 +178,23 @@ namespace GTAVC_Chaos
 
             modules = new Modules();
 
+            // TODO(Ligh): The name of this method does not match its behaviour.
             while (GameIsRunning() && !Program.shouldStop)
             {
-                modules.Update(GetGameStatus());
+                modules.Update();
             }
 
-            modules.Shutdown(GameIsRunning());
+            if (GameIsRunning())
+            {
+                // The modules affect the game state, so if the game is still running,
+                // we shut them down to restore the game to its unaltered state.
+                modules.Shutdown();
+            }
         }
 
         public bool GameIsRunning()
         {
             return true;
-        }
-
-        public int GetGameStatus()
-        {
-            return 0;
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)
