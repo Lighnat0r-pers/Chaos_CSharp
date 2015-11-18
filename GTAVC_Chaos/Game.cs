@@ -35,6 +35,11 @@ namespace GTAVC_Chaos
 
         public Modules modules;
 
+        public bool IsRunning
+        {
+            get { return memory.HasValidHandle(); }
+        }
+
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, GameVersion[] gameVersions)
         {
             this.name = name;
@@ -179,22 +184,17 @@ namespace GTAVC_Chaos
             modules = new Modules();
 
             // TODO(Ligh): The name of this method does not match its behaviour.
-            while (GameIsRunning() && !Program.shouldStop)
+            while (this.IsRunning && !Program.shouldStop)
             {
                 modules.Update();
             }
 
-            if (GameIsRunning())
+            if (this.IsRunning)
             {
                 // The modules affect the game state, so if the game is still running,
                 // we shut them down to restore the game to its unaltered state.
                 modules.Shutdown();
             }
-        }
-
-        public bool GameIsRunning()
-        {
-            return true;
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)

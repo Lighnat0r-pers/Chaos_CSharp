@@ -92,6 +92,11 @@ namespace AccessProcessMemory
             Debug.WriteLine("Game handle closed");
         }
 
+        public bool HasValidHandle()
+        {
+            return m_Process == null || m_Process.HasExited;
+        }
+
         /// <summary>
         /// Read [length] bytes at [address] in the current targetProcess. The byte array is then 
         /// cast to type before being returned.
