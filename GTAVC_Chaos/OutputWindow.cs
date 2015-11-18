@@ -12,20 +12,11 @@ namespace GTAVC_Chaos
             Show();
         }
 
-        /// <summary>
-        /// On registering the program closing, show a window asking the user to confirm exiting the program.
-        /// </summary>
         private void OutputWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             Debug.WriteLine("Event OutputWindow_FormClosing fired");
-            if (e.CloseReason != CloseReason.UserClosing)
-            {
-                e.Cancel = false;
-                return;
-            }
 
-            // TODO(Ligh): Only show the confirm if the game is running and this program is doing anything.
-            if (MessageBox.Show("Are you sure you want to exit the program?", Settings.PROGRAM_NAME, MessageBoxButtons.YesNo) == DialogResult.No)
+            if (e.CloseReason == CloseReason.UserClosing && Program.game.IsRunning && MessageBox.Show("Are you sure you want to exit the program?", Settings.PROGRAM_NAME, MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 e.Cancel = true;
             }
