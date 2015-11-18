@@ -4,7 +4,6 @@ namespace GTAVC_Chaos
 {
     class EffectTimer
     {
-        private bool usingIGT;
         private long startTime;
         private long endTime;
 
@@ -12,66 +11,28 @@ namespace GTAVC_Chaos
 
         public EffectTimer()
         {
+            // Try to find an IGT address to use. If there isn't one, realtime will be used.
             GameTime = Program.game.FindMemoryAddressByName("GameTimeInMS");
-            if (GameTime != null)
-            {
-                // IGT available, use IGT
-                usingIGT = true;
-            }
-            else
-            {
-                // IGT not available: use realtime.
-                usingIGT = false;
-            }
         }
 
-        // NOTE(Ligh): This function is not interested in millisecond resolution, just a 
-        // somewhat accurate (<100ms is ideal, but anything up to 1000ms would work, really)
-        // timestamp in milliseconds.
+        // NOTE(Ligh): This function does not offer millisecond resolution, just a 
+        // somewhat accurate timestamp in milliseconds.
         private long GetCurrentTime()
         {
-            long result;
-            if (usingIGT)
-            {
-                result = (long)GameTime.Read();
-            }
-            else
-            {
-                result = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            }
-            return result;
-        }
-
-        private void UpdateStartTime()
-        {
-            startTime = GetCurrentTime();
+            return (GameTime != null ? GameTime.Read() : DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
         }
 
         public void SetDuration(long duration)
         {
-            UpdateStartTime();
+            startTime = GetCurrentTime();
             endTime = startTime + duration;
         }
 
         public bool EndTimeHasPassed()
         {
-            bool result = false;
-
-            long currentTime = GetCurrentTime();
-
-            if (currentTime > endTime)
-            {
-                result = true;
-            }
-
-            // NOTE(Ligh): This should never occur but we check it just in case 
-            // to avoid effects lasting longer than they should.
-            if (currentTime < startTime)
-            {
-                result = true;
-            }
-
-            return result;
+            // NOTE(Ligh): startTime should never be less than current time but we check it
+            // just in case to avoid really long effects.
+            return (GetCurrentTime() > endTime || GetCurrentTime() < startTime);
         }
     }
 }
