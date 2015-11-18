@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Globalization;
 
 namespace GTAVC_Chaos
 {
     public class NumericTextBox : TextBox
     {
-        bool allowSpace = false;
-        bool allowDecimalSeparator = false;
-        bool allowNumberGroupSeparator = false;
-        bool allowNegativeSign = false;
+        private bool allowSpace = false;
+        private bool allowDecimalSeparator = false;
+        private bool allowNumberGroupSeparator = false;
+        private bool allowNegativeSign = false;
 
         // Restricts the entry of characters to digits (including hex), the negative sign,
         // the decimal point, and editing keystrokes (backspace).
@@ -17,7 +16,7 @@ namespace GTAVC_Chaos
         {
             base.OnKeyPress(e);
 
-            NumberFormatInfo numberFormatInfo = System.Globalization.CultureInfo.CurrentCulture.NumberFormat;
+            var numberFormatInfo = System.Globalization.CultureInfo.CurrentCulture.NumberFormat;
             string decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
             string groupSeparator = numberFormatInfo.NumberGroupSeparator;
             string negativeSign = numberFormatInfo.NegativeSign;
@@ -32,10 +31,6 @@ namespace GTAVC_Chaos
             {
                 // Backspace key is OK
             }
-            //    else if ((ModifierKeys & (Keys.Control | Keys.Alt)) != 0)
-            //    {
-            //     // Let the edit control handle control and alt key combinations
-            //    }
             else if (this.allowDecimalSeparator && keyInput.Equals(decimalSeparator))
             {
                 // Decimal separator is allowed when the option for it is set to true.
@@ -54,75 +49,40 @@ namespace GTAVC_Chaos
             }
             else
             {
-                // Swallow this invalid key and beep
+                // Swallow this invalid key
                 e.Handled = true;
-                //    MessageBeep();
             }
         }
 
         public int IntValue
         {
-            get
-            {
-                return Int32.Parse(this.Text);
-            }
+            get { return Int32.Parse(this.Text); }
         }
 
         public decimal DecimalValue
         {
-            get
-            {
-                return Decimal.Parse(this.Text);
-            }
+            get { return Decimal.Parse(this.Text); }
         }
 
         public bool AllowSpace
         {
-            set
-            {
-                this.allowSpace = value;
-            }
-
-            get
-            {
-                return this.allowSpace;
-            }
+            get { return this.allowSpace; }
+            set { this.allowSpace = value; }
         }
         public bool AllowDecimalSeparator
         {
-            set
-            {
-                this.allowDecimalSeparator = value;
-            }
-
-            get
-            {
-                return this.allowDecimalSeparator;
-            }
+            get { return this.allowDecimalSeparator; }
+            set { this.allowDecimalSeparator = value; }
         }
         public bool AllowNumberGroupSeparator
         {
-            set
-            {
-                this.allowNumberGroupSeparator = value;
-            }
-
-            get
-            {
-                return this.allowNumberGroupSeparator;
-            }
+            get { return this.allowNumberGroupSeparator; }
+            set { this.allowNumberGroupSeparator = value; }
         }
         public bool AllowNegativeSign
         {
-            set
-            {
-                this.allowNegativeSign = value;
-            }
-
-            get
-            {
-                return this.allowNegativeSign;
-            }
+            get { return this.allowNegativeSign; }
+            set { this.allowNegativeSign = value; }
         }
     }
 }

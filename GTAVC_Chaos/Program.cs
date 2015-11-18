@@ -54,8 +54,7 @@ namespace GTAVC_Chaos
         }
 
         /// <summary>
-        /// To ensure the decimal separator is always a period, set the culture 
-        /// to en-UK if it isn't already.
+        /// To ensure the decimal separator is always a period, set the culture to en-UK.
         /// </summary>
         private static void SetThreadCulture()
         {
@@ -65,13 +64,10 @@ namespace GTAVC_Chaos
                 CultureInfo.DefaultThreadCurrentCulture = culture;
                 CultureInfo.DefaultThreadCurrentUICulture = culture;
                 Thread.CurrentThread.CurrentCulture = culture;
-                Thread.CurrentThread.CurrentCulture = culture;
+                Thread.CurrentThread.CurrentUICulture = culture;
             }
         }
 
-        /// <summary>
-        /// Method that gets us access to the game and information for that game.
-        /// </summary>
         static void GetGame(string name)
         {
             Debug.WriteLine("Game chosen: " + name);

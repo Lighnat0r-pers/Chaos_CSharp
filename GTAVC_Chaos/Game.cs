@@ -98,7 +98,7 @@ namespace GTAVC_Chaos
         {
             do
             {
-                foreach (Process process in Process.GetProcesses())
+                foreach (var process in Process.GetProcesses())
                 {
                     if (process.MainWindowTitle == windowName)
                     {
