@@ -18,8 +18,6 @@ namespace GTAVC_Chaos
         private long versionAddress;
         private string baseVersion;
 
-        private GameVersion memoryAddressesVersion;
-
         public string name;
         public string abbreviation;
         public string windowName;
@@ -50,30 +48,9 @@ namespace GTAVC_Chaos
             this.gameVersions = gameVersions;
         }
 
-        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string gameVersionName)
+        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses)
         {
             this.memoryAddresses = memoryAddresses;
-            this.memoryAddressesVersion = FindGameVersionByName(gameVersionName);
-
-            // NOTE(Ligh): Get a pointer to the base address for all dynamic addresses.
-            foreach (MemoryAddress address in Array.FindAll(memoryAddresses, m => m.address == 0))
-            {
-                address.ResolveBaseAddress();
-            }
-        }
-
-        public void InitializeMemoryAddressesForVersion()
-        {
-            for (int i = 0; i < this.memoryAddresses.Length; i++)
-            {
-                this.memoryAddresses[i].SetMemoryHandle(memory);
-
-                if (this.memoryAddresses[i].address != 0)
-                {
-                    // NOTE(Ligh): Static address
-                    this.memoryAddresses[i].UpdateForVersion(currentVersion, memoryAddressesVersion);
-                }
-            }
         }
 
         public void SetLimitations(Limitation[] limitations)
@@ -82,12 +59,9 @@ namespace GTAVC_Chaos
 
             foreach (Limitation limitation in limitations)
             {
-                for (int i = 0; i < limitation.checks.Length; i++)
+                foreach (LimitationCheck check in Array.FindAll(limitation.checks, c => c is LimitationCheck))
                 {
-                    if (limitation.checks[i] is LimitationCheck)
-                    {
-                        (limitation.checks[i] as LimitationCheck).ResolveLimitation();
-                    }
+                    check.ResolveLimitation();
                 }
             }
 
@@ -100,8 +74,12 @@ namespace GTAVC_Chaos
             if (memory != null)
             {
                 Debug.WriteLine("Game handle found");
-                InitVersion();
-                InitializeMemoryAddressesForVersion();
+                GetVersion();
+
+                foreach (var memoryAddress in memoryAddresses)
+                {
+                    memoryAddress.UpdateForVersion(currentVersion);
+                }
             }
             else
             {
@@ -139,14 +117,12 @@ namespace GTAVC_Chaos
 
         public void CloseProcess()
         {
-            // TODO(Ligh): Deactivate active effects here.
-
             memory.CloseProcess();
             memory = null;
             currentVersion = null;
         }
 
-        public void InitVersion()
+        public void GetVersion()
         {
             if (memory == null)
             {
@@ -154,21 +130,15 @@ namespace GTAVC_Chaos
             }
 
             byte value = memory.Read(versionAddress, "byte", 1);
-
-            foreach (GameVersion gameVersion in gameVersions)
-            {
-                if (gameVersion.addressValue == value)
-                {
-                    Debug.WriteLine("Detected game version: " + gameVersion.name);
-                    currentVersion = gameVersion;
-                    break;
-                }
-            }
+            currentVersion = Array.Find(gameVersions, v => v.versionAddressValue == value);
 
             if (currentVersion == null)
             {
                 throw new Exception("Failed to determine the game version: Unknown version. Version address value was " + value);
             }
+
+            Debug.WriteLine("Detected game version: {0}", currentVersion.name);
+
         }
 
         public void InitModules()
@@ -195,19 +165,16 @@ namespace GTAVC_Chaos
 
         public MemoryAddress FindMemoryAddressByName(string name)
         {
-            // TODO(Ligh): Handle not found case.
             return Array.Find(memoryAddresses, p => p.name == name);
         }
 
         public Limitation FindLimitationByName(string name)
         {
-            // TODO(Ligh): Handle not found case.
             return Array.Find(limitations, p => p.name == name);
         }
 
         public GameVersion FindGameVersionByName(string name)
         {
-            // TODO(Ligh): Handle not found case.
             return Array.Find(gameVersions, p => p.name == name);
         }
     }

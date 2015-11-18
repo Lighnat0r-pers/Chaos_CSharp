@@ -110,7 +110,6 @@ namespace GTAVC_Chaos
 
             this.FormClosed -= new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
             this.Close();
-            Program.currentForm = null;
         }
     }
 }

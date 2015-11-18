@@ -11,13 +11,8 @@ namespace GTAVC_Chaos
         static private Game[] gameArray;
 
         static public bool shouldStop = false;
-        static public Form currentForm = null;
-
         static public Game game;
 
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {

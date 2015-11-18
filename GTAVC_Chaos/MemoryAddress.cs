@@ -6,31 +6,44 @@ namespace GTAVC_Chaos
 {
     class MemoryAddress
     {
-        private Memory memory;
+        private Game game;
+        private GameVersion gameVersion;
+        private long address;
 
-        private string baseAddressName;
+        public string baseAddressName;
         public MemoryAddress baseAddress;
 
         public string name;
-        public long address;
         public long offset;
         public string dataType;
         public int size = 0;
 
+        public bool IsDynamic
+        {
+            get { return address == 0; }
+        }
+
+        public long Address
+        {
+            get { return IsDynamic ? GetDynamicAddress() : address; }
+            set { address = value; }
+        }
+
         /// <summary>
         /// Constructor for static memory address
         /// </summary>
-        public MemoryAddress(string name, long address, string type, int length = 0)
-            : this(name, type, length)
+        public MemoryAddress(Game game, string name, long address, GameVersion gameVersion, string type, int length = 0)
+            : this(game, name, type, length)
         {
-            this.address = address;
+            this.Address = address;
+            this.gameVersion = gameVersion;
         }
 
         /// <summary>
         /// Constructor for dynamic memory address
         /// </summary>
-        public MemoryAddress(string name, string baseAddressName, long offset, string type, int length = 0)
-            : this(name, type, length)
+        public MemoryAddress(Game game, string name, string baseAddressName, long offset, string type, int length = 0)
+            : this(game, name, type, length)
         {
             this.baseAddressName = baseAddressName;
             this.offset = offset;
@@ -39,8 +52,11 @@ namespace GTAVC_Chaos
         /// <summary>
         /// Generic constructor
         /// </summary>
-        private MemoryAddress(string name, string dataType, int length = 0)
+        private MemoryAddress(Game game, string name, string dataType, int length = 0)
         {
+            this.game = game;
+            this.name = name;
+
             // TODO(Ligh): Handle size differently so we don't have to spend time
             // creating this dictionary again for every memory address.
             Dictionary<string, int> sizes = new Dictionary<string, int>()
@@ -55,8 +71,6 @@ namespace GTAVC_Chaos
                 {"ascii", length},
                 {"unicode", length * 2},
             };
-
-            this.name = name;
 
             if (!sizes.ContainsKey(dataType))
             {
@@ -73,29 +87,23 @@ namespace GTAVC_Chaos
             }
         }
 
-        public void UpdateForVersion(GameVersion newVersion, GameVersion oldVersion)
+        public void UpdateForVersion(GameVersion newVersion)
         {
-            if (newVersion == null || oldVersion == null)
+            // NOTE(Ligh): Dynamic addresses do not depend on the version.
+            if (IsDynamic)
+            {
+                return;
+            }
+
+            if (newVersion == null || gameVersion == null)
             {
                 throw new Exception("Tried to update address for version but version is not defined.");
             }
 
-            address = newVersion.GetAddressForVersion(address, oldVersion);
-        }
-
-        public void ResolveBaseAddress()
-        {
-            if (baseAddressName == null)
+            if (newVersion != gameVersion)
             {
-                throw new Exception("Tried to resolve base address but no base address name set.");
+                address += newVersion.GetOffsetForVersion(address) - gameVersion.GetOffsetForVersion(address);
             }
-
-            baseAddress = Program.game.FindMemoryAddressByName(baseAddressName);
-        }
-
-        public void SetMemoryHandle(Memory memory)
-        {
-            this.memory = memory;
         }
 
         public dynamic ConvertToRightDataType(string input)
@@ -142,34 +150,22 @@ namespace GTAVC_Chaos
 
         public dynamic Read()
         {
-            if (memory == null)
+            if (game.memory == null)
             {
                 throw new Exception("Tried to read an address without a handle to the game process.");
             }
 
-            // NOTE(Ligh): In case of a dynamic address, resolve the address.
-            if (baseAddress != null)
-            {
-                address = GetDynamicAddress();
-            }
-
-            return memory.Read(address, dataType, size);
+            return game.memory.Read(Address, dataType, size);
         }
 
         public void Write(dynamic input)
         {
-            if (memory == null)
+            if (game.memory == null)
             {
                 throw new Exception("Tried to write to an address without a handle to the game process.");
             }
 
-            // NOTE(Ligh): In case of a dynamic address, resolve the address.
-            if (baseAddress != null)
-            {
-                address = GetDynamicAddress();
-            }
-
-            memory.Write(address, input, dataType, size);
+            game.memory.Write(Address, input, dataType, size);
         }
 
         /// <summary>

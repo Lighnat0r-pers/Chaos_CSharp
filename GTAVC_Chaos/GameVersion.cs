@@ -8,15 +8,13 @@ namespace GTAVC_Chaos
         private SortedList<long, int> offsets;
 
         public string name;
-        public int addressValue;
+        public int versionAddressValue;
 
-        public GameVersion(string name, int addressValue, SortedList<long, int> offsets)
+        public GameVersion(string name, int versionAddressValue, SortedList<long, int> offsets)
         {
             this.name = name;
-            this.addressValue = addressValue;
+            this.versionAddressValue = versionAddressValue;
             this.offsets = offsets;
-
-            //System.Diagnostics.Debug.WriteLine("Version " + name + " debug address test: " + GetAddressForVersion(0x00A10B50));
         }
 
         public long GetOffsetForVersion(long address)
@@ -26,20 +24,7 @@ namespace GTAVC_Chaos
             return offsets[key];
         }
 
-        public long GetAddressForVersion(long address, GameVersion oldVersion)
-        {
-            long offset = GetOffsetForVersion(address);
-
-            if (oldVersion != null)
-            {
-                // NOTE(Ligh): Convert the offset to be from oldVersion instead of the base version.
-                offset -= oldVersion.GetOffsetForVersion(address);
-            }
-
-            return address + offset;
-        }
-
-        public static T FindLastKeySmallerThanOrEqualTo<T>(IList<T> sortedCollection, T key) where T : IComparable<T>
+        private static T FindLastKeySmallerThanOrEqualTo<T>(IList<T> sortedCollection, T key) where T : IComparable<T>
         {
             int index = FindFirstIndexGreaterThan<T>(sortedCollection, key) - 1;
 
@@ -50,7 +35,7 @@ namespace GTAVC_Chaos
             return sortedCollection[index];
         }
 
-        public static int FindFirstIndexGreaterThan<T>(IList<T> sortedCollection, T key) where T : IComparable<T>
+        private static int FindFirstIndexGreaterThan<T>(IList<T> sortedCollection, T key) where T : IComparable<T>
         {
             int begin = 0;
             int end = sortedCollection.Count;

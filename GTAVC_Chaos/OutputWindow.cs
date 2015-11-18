@@ -24,8 +24,9 @@ namespace GTAVC_Chaos
 
         private void OutputWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Program.shouldStop = true;
             Debug.WriteLine("Event OutputWindow_FormClosed fired");
+
+            Program.shouldStop = true;
         }
 
         private void OutputWindow_Load(object sender, EventArgs e)

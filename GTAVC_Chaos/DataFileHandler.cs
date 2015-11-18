@@ -18,8 +18,8 @@ namespace GTAVC_Chaos
         static public void ReadFilesForGame(Game game)
         {
             Debug.WriteLine("Starting to read files for game.");
-            InitMemoryAddressesFromFile(game);
-            InitLimitationsFromFile(game);
+            game.memoryAddresses = GetMemoryAddressesFromFile(game);
+            game.SetLimitations(GetLimitationsFromFile(game));
             Debug.WriteLine("Done reading files for game.");
         }
 
@@ -116,22 +116,21 @@ namespace GTAVC_Chaos
             return games;
         }
 
-        static private void InitMemoryAddressesFromFile(Game game)
+        static private MemoryAddress[] GetMemoryAddressesFromFile(Game game)
         {
+            // TODO(Ligh): Properly catch errors here.
+
+            // TODO(Ligh): Handle not found cases for FindMemoryAddressByName.
+
             Debug.WriteLine("Reading memory addresses from file.");
             XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
-            game.SetMemoryAddresses(ReadMemoryAddresses(file), ReadMemoryAddressesGameVersion(file));
-        }
 
-        static private string ReadMemoryAddressesGameVersion(XmlDocument file)
-        {
-            // TODO(Ligh): Properly catch errors here.
-            return file.SelectSingleNode("//addresses").Attributes["gameversion"].Value;
-        }
+            var gameVersion = game.FindGameVersionByName(file.SelectSingleNode("//addresses").Attributes["gameversion"].Value);
 
-        static private MemoryAddress[] ReadMemoryAddresses(XmlDocument file)
-        {
-            // TODO(Ligh): Properly catch errors here.
+            if (gameVersion == null)
+            {
+                throw new Exception("Unable to read memory addresses: No known game version set.");
+            }
 
             XmlNodeList nodes = file.SelectNodes("//addresses/memoryaddress");
             MemoryAddress[] memoryAddresses = new MemoryAddress[nodes.Count];
@@ -155,16 +154,22 @@ namespace GTAVC_Chaos
                 if (addressNode.Attributes["xsi:type"].Value == "static")
                 {
                     long address = Int64.Parse(addressNode.InnerText, NumberStyles.HexNumber);
-                    addressObj = new MemoryAddress(name, address, datatype, size);
+                    addressObj = new MemoryAddress(game, name, address, gameVersion, datatype, size);
                 }
                 else
                 {
                     string baseAddressName = addressNode.SelectSingleNode("baseaddress").InnerText;
                     long offset = Int64.Parse(addressNode.SelectSingleNode("offset").InnerText, NumberStyles.HexNumber);
-                    addressObj = new MemoryAddress(name, baseAddressName, offset, datatype, size);
+                    addressObj = new MemoryAddress(game, name, baseAddressName, offset, datatype, size);
                 }
 
                 memoryAddresses[count++] = addressObj;
+            }
+
+            // Set base address for all dynamic addresses. Note that this cannot be done before all addresses have been read.
+            foreach (var address in Array.FindAll(memoryAddresses, m => m.IsDynamic == true))
+            {
+                address.baseAddress = Array.Find(memoryAddresses, m => m.name == address.baseAddressName);
             }
 
             Debug.WriteLine("Read " + count + " memory addresses from file.");
@@ -172,16 +177,14 @@ namespace GTAVC_Chaos
             return memoryAddresses;
         }
 
-        static private void InitLimitationsFromFile(Game game)
-        {
-            Debug.WriteLine("Reading limitations from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
-            game.SetLimitations(ReadLimitations(file, game));
-        }
-
-        static private Limitation[] ReadLimitations(XmlDocument file, Game game)
+        static private Limitation[] GetLimitationsFromFile(Game game)
         {
             // TODO(Ligh): Properly catch errors here.
+
+            // TODO(Ligh): Handle not found cases for FindMemoryAddressByName.
+
+            Debug.WriteLine("Reading limitations from file.");
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
 
             XmlNodeList nodes = file.SelectNodes("//limitations/limitation");
             Limitation[] limitations = new Limitation[nodes.Count];
@@ -265,16 +268,16 @@ namespace GTAVC_Chaos
             return limitations;
         }
 
-        static public TimedEffect[] InitTimedEffectsFromFile(Game game)
-        {
-            Debug.WriteLine("Reading timed effects from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
-            return ReadTimedEffects(file, game);
-        }
-
-        static private TimedEffect[] ReadTimedEffects(XmlDocument file, Game game)
+        static public TimedEffect[] GetTimedEffectsFromFile(Game game)
         {
             // TODO(Ligh): Properly catch errors here.
+
+            // TODO(Ligh): Handle not found cases for FindMemoryAddressByName.
+
+            // TODO(Ligh): Handle not found cases for FindLimitationByName.
+            
+            Debug.WriteLine("Reading timed effects from file.");
+            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
 
             XmlNodeList nodes = file.SelectNodes("//timedeffects/timedeffect");
             TimedEffect[] timedEffects = new TimedEffect[nodes.Count];
@@ -301,7 +304,7 @@ namespace GTAVC_Chaos
                 {
                     string type = activatorNode.Attributes["type"].Value;
                     MemoryAddress address = game.FindMemoryAddressByName(activatorNode.SelectSingleNode("address").InnerText);
-                    
+
                     dynamic target = address.ConvertToRightDataType(activatorNode.SelectSingleNode("target").InnerText);
 
                     activators[count2++] = new EffectActivator(type, target, address);

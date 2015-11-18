@@ -37,6 +37,7 @@ namespace GTAVC_Chaos
 
         public void ResolveLimitation()
         {
+            // TODO(Ligh): Handle not found cases for FindLimitationByName.
             limitation = Program.game.FindLimitationByName(limitationName);
             if (parameters != null)
             {
