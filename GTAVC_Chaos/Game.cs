@@ -110,6 +110,7 @@ namespace GTAVC_Chaos
             else
             {
                 Debug.WriteLine("Search for game handle aborted");
+                Thread.CurrentThread.Abort();
             }
         }
 
@@ -195,6 +196,8 @@ namespace GTAVC_Chaos
                 // we shut them down to restore the game to its unaltered state.
                 modules.Shutdown();
             }
+
+            CloseProcess();
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)

@@ -25,9 +25,6 @@ namespace GTAVC_Chaos
         {
             SetThreadCulture();
 
-            // Enable registering when the process closes.
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-
             // Set these application settings before creating any type of System.Windows.Forms object.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -118,15 +115,5 @@ namespace GTAVC_Chaos
             outputWindow.Refresh();
         }
 
-
-        static void OnProcessExit(object Sender, EventArgs e)
-        {
-            shouldStop = true;
-            if (game != null && game.hasHandle == true)
-            {
-                game.CloseProcess();
-            }
-            Debug.WriteLine("Event OnProcessExit fired");
-        }
     }
 }

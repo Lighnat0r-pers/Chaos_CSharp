@@ -23,11 +23,12 @@ namespace GTAVC_Chaos
                 e.Cancel = false;
                 return;
             }
+
+            // TODO(Ligh): Only show the confirm if the game is running and this program is doing anything.
             if (MessageBox.Show("Are you sure you want to exit the program?", Settings.PROGRAM_NAME, MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 e.Cancel = true;
             }
-            Program.shouldStop = true;
         }
 
         private void OutputWindow_FormClosed(object sender, FormClosedEventArgs e)
