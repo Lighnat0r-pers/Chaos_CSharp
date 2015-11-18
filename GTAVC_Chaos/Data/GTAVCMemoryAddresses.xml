@@ -43,7 +43,7 @@ The length element is only used for string length (in characters, not bytes!) of
     <length>8</length>
   </memoryaddress>
   <memoryaddress>
-    <name>GameTime</name>
+    <name>GameTimeInMS</name>
     <address xsi:type="static">007E3F24</address>
     <datatype>int</datatype>
   </memoryaddress>
