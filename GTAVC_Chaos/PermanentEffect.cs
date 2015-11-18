@@ -2,15 +2,16 @@
 
 namespace GTAVC_Chaos
 {
-    class PermanentEffect : BaseEffect
+    class PermanentEffect
     {
+        public string name;
 
         /// <summary>
-        /// Constructor for StaticEffect class specifying only the name.
+        /// Constructor for PermanentEffect class specifying only the name.
         /// </summary>
-        public PermanentEffect(string effectName)
-            : base(effectName)
+        public PermanentEffect(string name)
         {
+            this.name = name;
         }
     }
 }

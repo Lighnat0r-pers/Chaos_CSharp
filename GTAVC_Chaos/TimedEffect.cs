@@ -2,8 +2,13 @@
 
 namespace GTAVC_Chaos
 {
-    class TimedEffect : BaseEffect
+    class TimedEffect
     {
+        public bool enabled = true;
+        public string name;
+        public string category;
+        public int difficulty;
+
         static private long defaultEffectLength = 30000;
 
         private EffectActivator[] activators;
@@ -20,12 +25,14 @@ namespace GTAVC_Chaos
         private long length;
 
         public TimedEffect(string name, string category, int difficulty, EffectActivator[] activators, uint duration = 0, Limitation[] limitations = null)
-            : base(name, category, difficulty)
         {
             effectLength = (duration == 0) ? defaultEffectLength : duration;
 
             this.activators = activators;
             this.limitations = limitations;
+            this.name = name;
+            this.category = category;
+            this.difficulty = difficulty;
         }
 
         public bool CanActivate()
@@ -45,7 +52,7 @@ namespace GTAVC_Chaos
         }
 
         /// <returns>True if successful, false otherwise.</returns>
-        public override bool Activate()
+        public bool Activate()
         {
             if (!CanActivate())
             {
@@ -61,7 +68,7 @@ namespace GTAVC_Chaos
             return true;
         }
 
-        public override void Deactivate()
+        public void Deactivate()
         {
             foreach (EffectActivator activator in activators)
             {

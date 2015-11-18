@@ -81,7 +81,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseEffect.cs" />
     <Compile Include="EffectTimer.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameList.cs" />
