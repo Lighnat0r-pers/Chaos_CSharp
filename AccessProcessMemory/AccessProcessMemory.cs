@@ -94,7 +94,7 @@ namespace AccessProcessMemory
 
         public bool HasValidProcess()
         {
-            return m_Process == null || m_Process.HasExited;
+            return m_Process != null && !m_Process.HasExited;
         }
 
         /// <summary>
