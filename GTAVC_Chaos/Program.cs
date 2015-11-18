@@ -13,8 +13,6 @@ namespace GTAVC_Chaos
         static public bool shouldStop = false;
         static public Form currentForm = null;
 
-        static public WelcomeWindow welcomeWindow;
-        static public OutputWindow outputWindow;
         static public Game game;
 
         /// <summary>
@@ -30,10 +28,11 @@ namespace GTAVC_Chaos
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Get information about supported games.
-            gameArray = DataFileHandler.InitGamesFromFile();
+            gameArray = DataFileHandler.ReadGames();
 
             // Show the welcome window.
-            InitWelcomeWindow();
+            Debug.WriteLine("Showing Welcome Window");
+            Application.Run(new WelcomeWindow());
 
             if (shouldStop == true) // Exit the application if the welcome window was exited.
             {
@@ -44,21 +43,17 @@ namespace GTAVC_Chaos
             // TODO(Ligh): Allow the user to select a game instead of hardcoding.
             Settings.gameName = "Grand Theft Auto: Vice City";
 
-            InitOutputWindow();
-
             // Get the information we need about the game selected.
             GetGame(Settings.gameName);
 
             // Run the modules in a separate thread.
             Thread modulesThread = new Thread(game.InitModules);
-            modulesThread.IsBackground = true;
+            modulesThread.Name = "Modules Thread";
             modulesThread.Start();
 
-            while (shouldStop == false)
-            {
-                Thread.Sleep(1);
-                Application.DoEvents();
-            }
+            // Show the output window.
+            Debug.WriteLine("Showing Output Window");
+            Application.Run(new OutputWindow());
 
             Debug.WriteLine("Chaos% shutting down: reached end of Main().");
         }
@@ -92,28 +87,5 @@ namespace GTAVC_Chaos
             }
             DataFileHandler.ReadFilesForGame(game);
         }
-
-        static void InitWelcomeWindow()
-        {
-            Debug.WriteLine("Initializing Welcome Window");
-            welcomeWindow = new WelcomeWindow();
-            welcomeWindow.Show();
-            welcomeWindow.Refresh();
-
-            while (welcomeWindow.Visible)
-            {
-                Thread.Sleep(1);
-                Application.DoEvents();
-            }
-        }
-
-        static void InitOutputWindow()
-        {
-            Debug.WriteLine("Initializing Output Window");
-            outputWindow = new OutputWindow();
-            outputWindow.Show();
-            outputWindow.Refresh();
-        }
-
     }
 }

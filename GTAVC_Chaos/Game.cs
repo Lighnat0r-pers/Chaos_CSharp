@@ -25,7 +25,6 @@ namespace GTAVC_Chaos
         public string windowName;
         public string windowClass;
 
-        public bool hasHandle = false;
         public Memory memory;
         public GameVersion currentVersion;
 
@@ -51,18 +50,15 @@ namespace GTAVC_Chaos
             this.gameVersions = gameVersions;
         }
 
-        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string memoryAddressesVersionName)
+        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses, string gameVersionName)
         {
             this.memoryAddresses = memoryAddresses;
-            this.memoryAddressesVersion = FindGameVersionByName(memoryAddressesVersionName);
+            this.memoryAddressesVersion = FindGameVersionByName(gameVersionName);
 
-            for (int i = 0; i < this.memoryAddresses.Length; i++)
+            // NOTE(Ligh): Get a pointer to the base address for all dynamic addresses.
+            foreach (MemoryAddress address in Array.FindAll(memoryAddresses, m => m.address == 0))
             {
-                if (this.memoryAddresses[i].address == 0)
-                {
-                    // NOTE(Ligh): Dynamic address
-                    this.memoryAddresses[i].ResolveBaseAddress();
-                }
+                address.ResolveBaseAddress();
             }
         }
 
@@ -101,7 +97,7 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Starting attempts to get game handle");
             OpenProcess();
-            if (hasHandle)
+            if (memory != null)
             {
                 Debug.WriteLine("Game handle found");
                 InitVersion();
@@ -124,8 +120,7 @@ namespace GTAVC_Chaos
         {
             do
             {
-                Process[] processes = Process.GetProcesses();
-                foreach (Process process in processes)
+                foreach (Process process in Process.GetProcesses())
                 {
                     if (process.MainWindowTitle == windowName)
                     {
@@ -134,13 +129,12 @@ namespace GTAVC_Chaos
                         if (foundClassName.ToString() == windowClass)
                         {
                             memory = new Memory(process);
-                            hasHandle = true;
                             break;
                         }
                     }
                 }
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
-            } while (hasHandle == false && Program.shouldStop == false);
+            } while (memory == null && Program.shouldStop == false);
         }
 
         public void CloseProcess()
@@ -150,7 +144,6 @@ namespace GTAVC_Chaos
             memory.CloseProcess();
             memory = null;
             currentVersion = null;
-            hasHandle = false;
         }
 
         public void InitVersion()

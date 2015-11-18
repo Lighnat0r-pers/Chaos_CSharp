@@ -23,15 +23,11 @@ namespace GTAVC_Chaos
             Debug.WriteLine("Done reading files for game.");
         }
 
-        static public Game[] InitGamesFromFile()
+        static public Game[] ReadGames()
         {
             Debug.WriteLine("Reading games from file.");
             XmlDocument file = XmlUtils.getXmlDocument("", gamesFilename);
-            return ReadGames(file);
-        }
 
-        static private Game[] ReadGames(XmlDocument file)
-        {
             bool baseVersionDefined;
 
             // TODO(Ligh): Properly catch errors here.

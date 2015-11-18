@@ -67,9 +67,7 @@ namespace GTAVC_Chaos
         {
             foreach (MemoryAddress address in Program.game.memoryAddresses)
             {
-                dynamic value = address.Read();
-                object a = value as object;
-                Debug.WriteLine("Address " + address.name + ", value: " + a);
+                Debug.WriteLine("Address: {0}, Value: {1}", address.name, address.Read() as object);
             }
         }
     }
