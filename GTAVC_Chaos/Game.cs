@@ -108,7 +108,7 @@ namespace GTAVC_Chaos
                 throw new ArgumentOutOfRangeException("version", String.Format("Failed to determine the game version: Unknown version. Version address value was {0}", value));
             }
 
-            Debug.WriteLine("Detected game version: {0}", currentVersion.name);
+            Debug.WriteLine(String.Format("Detected game version: {0}", currentVersion.name));
         }
 
         public void DoModulesLoop()
@@ -160,12 +160,22 @@ namespace GTAVC_Chaos
                 }
             }
 
-            // Set limitation for all limitation checks.
+            // Set references for all checks that are not limitation checks.
             foreach (Limitation limitation in limitations)
             {
-                foreach (LimitationCheck check in limitation.checks.FindAll(c => c is LimitationCheck))
+                foreach (var check in limitation.checks.FindAll(c => (c is LimitationCheck) == false))
                 {
-                    check.ResolveLimitation();
+                    check.ResolveReferences();
+                }
+            }
+
+            // Set references for all limitation checks. As they can depend on other checks, they need to be set after those have been resolved.
+            // TODO(Ligh): Check how this handles multiple levels of limitation checks.
+            foreach (Limitation limitation in limitations)
+            {
+                foreach (var check in limitation.checks.FindAll(c => c is LimitationCheck))
+                {
+                    check.ResolveReferences();
                 }
             }
         }

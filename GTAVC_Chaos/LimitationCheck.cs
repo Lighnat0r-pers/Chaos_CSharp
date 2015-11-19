@@ -22,7 +22,7 @@ namespace GTAVC_Chaos
         {
             this.limitationName = check.limitationName;
             this.target = check.target;
-            this.ResolveLimitation();
+            this.ResolveReferences();
         }
 
         public Object Clone()
@@ -35,7 +35,7 @@ namespace GTAVC_Chaos
             return limitation.Check();
         }
 
-        public void ResolveLimitation()
+        public void ResolveReferences()
         {
             limitation = Program.game.FindLimitationByName(limitationName);
 

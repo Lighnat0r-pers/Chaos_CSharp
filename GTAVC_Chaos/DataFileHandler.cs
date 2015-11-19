@@ -41,7 +41,7 @@ namespace GTAVC_Chaos
                 long versionAddress = Int64.Parse(node.SelectSingleNode("versionaddress").InnerText, NumberStyles.HexNumber);
                 string baseVersion = node.SelectSingleNode("baseversion").InnerText;
 
-                Debug.WriteLine("Reading game information for {0}", name);
+                Debug.WriteLine(String.Format("Reading game information for {0}", name));
 
                 var versions = new List<GameVersion>();
                 bool baseVersionDefined = false;
@@ -157,9 +157,6 @@ namespace GTAVC_Chaos
 
             // TODO(Ligh): Read base limitations here and implement them elsewhere.
 
-            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
-            // TODO(Ligh): Move resolving references to Game::ResolveReferences() (FindMemoryAddressByName calls) to remove this restriction.
-
             Debug.WriteLine("Reading limitations from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
 
@@ -174,20 +171,20 @@ namespace GTAVC_Chaos
 
                 foreach (XmlNode checkNode in node.SelectNodes("checks/check"))
                 {
-                    MemoryAddress address;
+                    string addressName;
                     switch (checkNode.Attributes["xsi:type"].Value)
                     {
+
                         case "simple":
-                            address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
-                            dynamic value = address.ConvertToRightDataType(checkNode.SelectSingleNode("value").InnerText);
-                            check = new SimpleCheck(address, value);
+                            addressName = checkNode.SelectSingleNode("address").InnerText;
+                            dynamic value = checkNode.SelectSingleNode("value").InnerText;
+                            check = new SimpleCheck(addressName, value);
                             break;
                         case "parameter":
-                            address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
+                            addressName = checkNode.SelectSingleNode("address").InnerText;
                             var defaultValueNode = checkNode.SelectSingleNode("default");
-                            dynamic defaultValue = defaultValueNode != null ? address.ConvertToRightDataType(defaultValueNode.InnerText) : null;
-
-                            check = new ParameterCheck(address, defaultValue);
+                            dynamic defaultValue = defaultValueNode != null ? defaultValueNode.InnerText : null;
+                            check = new ParameterCheck(addressName, defaultValue);
                             break;
                         case "limitation":
                             string limitation = checkNode.SelectSingleNode("limitation").InnerText;
@@ -210,13 +207,13 @@ namespace GTAVC_Chaos
                             check = new LimitationCheck(limitation, target, parameters);
                             break;
                         case "comparison":
-                            var addresses = new List<MemoryAddress>();
+                            var addressNames = new List<string>();
                             foreach (XmlNode addressNode in checkNode.SelectNodes("addresses/address"))
                             {
-                                addresses.Add(game.FindMemoryAddressByName(addressNode.InnerText));
+                                addressNames.Add(addressNode.InnerText);
                             }
                             bool equal = Boolean.Parse(checkNode.SelectSingleNode("equal").InnerText);
-                            check = new ComparisonCheck(addresses, equal);
+                            check = new ComparisonCheck(addressNames, equal);
                             break;
                         default:
                             throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
@@ -239,7 +236,7 @@ namespace GTAVC_Chaos
             // TODO(Ligh): Properly catch errors here.
 
             // IMPORTANT(Ligh): This function cannot be called before the memory addresses and limitations have all been read. 
-            // TODO(Ligh): Move resolving references to Game::ResolveReferences() (FindMemoryAddressByName and FindLimitationByName calls) to remove this restriction.
+            // TODO(Ligh): Move resolving references to TimedEffectHandler::ResolveReferences() or some function (FindMemoryAddressByName and FindLimitationByName calls) to remove this restriction.
 
             Debug.WriteLine("Reading timed effects from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
