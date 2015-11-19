@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GTAVC_Chaos
 {
@@ -6,13 +7,13 @@ namespace GTAVC_Chaos
     {
         private Random debugRandom;
 
-        public TimedEffect[] timedEffects;
+        public List<TimedEffect> timedEffects;
 
         public bool effectActive = false;
         public TimedEffect currentEffect;
         public EffectTimer effectTimer;
 
-        public TimedEffectHandler(TimedEffect[] timedEffects)
+        public TimedEffectHandler(List<TimedEffect> timedEffects)
         {
             this.timedEffects = timedEffects;
             debugRandom = new Random(Settings.seed);
@@ -25,19 +26,21 @@ namespace GTAVC_Chaos
 
             // TODO(Ligh): Check base limitations. If they fail, deactivate the active effect if there is one.
 
-
             // NOTE(Ligh): If the base limitations validate and no effect is active, get the next effect and activate it.
-            // TODO(Ligh): Handle case where the effect chosen cannot be activated because of its limitations.
             if (!effectActive)
             {
                 // TODO(Ligh): This needs to support gradual activations somehow.
-                TimedEffect effect = DebugGetNextEffect();
-                bool succeeded = effect.Activate();
-                if (succeeded)
+                while (!effectActive)
                 {
-                    effectActive = true;
-                    currentEffect = effect;
-                    effectTimer.SetDuration(effect.effectLength);
+                    TimedEffect effect = DebugGetNextEffect();
+
+                    if (effect.CanActivate())
+                    {
+                        effect.Activate();
+                        effectActive = true;
+                        currentEffect = effect;
+                        effectTimer.SetDuration(effect.effectLength);
+                    }
                 }
             }
             else
@@ -60,14 +63,14 @@ namespace GTAVC_Chaos
             if (currentEffect != null)
             {
                 currentEffect.Deactivate();
+                effectActive = false;
+                currentEffect = null;
             }
         }
 
         public TimedEffect DebugGetNextEffect()
         {
-            int index = debugRandom.Next(timedEffects.Length);
-           // index = 3;
-            return timedEffects[index];
+            return timedEffects[debugRandom.Next(timedEffects.Count)];
         }
     }
 }

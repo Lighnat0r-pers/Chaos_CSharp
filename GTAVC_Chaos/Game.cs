@@ -1,8 +1,8 @@
 ﻿using AccessProcessMemory;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 namespace GTAVC_Chaos
@@ -10,7 +10,7 @@ namespace GTAVC_Chaos
     static class ProcessHandlerApi
     {
         [DllImport("user32.dll", CharSet = CharSet.Unicode)] // GetClassName
-        public static extern int GetClassName(IntPtr hwnd, StringBuilder lpClassName, int MaxCount);
+        public static extern int GetClassName(IntPtr hwnd, System.Text.StringBuilder lpClassName, int MaxCount);
     }
 
     class Game
@@ -26,18 +26,16 @@ namespace GTAVC_Chaos
         public Memory memory;
         public GameVersion currentVersion;
 
-        private GameVersion[] gameVersions;
-        public MemoryAddress[] memoryAddresses;
-        private Limitation[] limitations;
-
-        public Modules modules;
+        public List<GameVersion> gameVersions;
+        public List<MemoryAddress> memoryAddresses;
+        private List<Limitation> limitations;
 
         public bool IsRunning
         {
             get { return memory != null && memory.HasValidProcess(); }
         }
 
-        public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, GameVersion[] gameVersions)
+        public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, List<GameVersion> gameVersions)
         {
             this.name = name;
             this.abbreviation = abbreviation;
@@ -48,23 +46,17 @@ namespace GTAVC_Chaos
             this.gameVersions = gameVersions;
         }
 
-        public void SetMemoryAddresses(MemoryAddress[] memoryAddresses)
-        {
-            this.memoryAddresses = memoryAddresses;
-        }
-
-        public void SetLimitations(Limitation[] limitations)
+        public void SetLimitations(List<Limitation> limitations)
         {
             this.limitations = limitations;
 
             foreach (Limitation limitation in limitations)
             {
-                foreach (LimitationCheck check in Array.FindAll(limitation.checks, c => c is LimitationCheck))
+                foreach (LimitationCheck check in limitation.checks.FindAll(c => c is LimitationCheck))
                 {
                     check.ResolveLimitation();
                 }
             }
-
         }
 
         public void GetHandle()
@@ -96,26 +88,23 @@ namespace GTAVC_Chaos
         /// </summary>
         private void OpenProcess()
         {
-            do
+            while (memory == null && Program.shouldStop == false)
             {
-                foreach (var process in Process.GetProcesses())
+                foreach (var process in Array.FindAll(Process.GetProcesses(), p => p.MainWindowTitle == windowName))
                 {
-                    if (process.MainWindowTitle == windowName)
+                    var foundClassName = new System.Text.StringBuilder();
+                    ProcessHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, windowClass.Length + 1);
+                    if (foundClassName.ToString() == windowClass)
                     {
-                        StringBuilder foundClassName = new StringBuilder();
-                        ProcessHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, windowClass.Length + 1);
-                        if (foundClassName.ToString() == windowClass)
-                        {
-                            memory = new Memory(process);
-                            break;
-                        }
+                        memory = new Memory(process);
+                        break;
                     }
                 }
                 Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
-            } while (memory == null && Program.shouldStop == false);
+            }
         }
 
-        public void CloseProcess()
+        public void FreeHandle()
         {
             memory.CloseProcess();
             memory = null;
@@ -124,13 +113,8 @@ namespace GTAVC_Chaos
 
         public void GetVersion()
         {
-            if (memory == null)
-            {
-                throw new Exception("Tried to determine the version without a handle to the game.");
-            }
-
             byte value = memory.Read(versionAddress, "byte", 1);
-            currentVersion = Array.Find(gameVersions, v => v.versionAddressValue == value);
+            currentVersion = gameVersions.Find(v => v.versionAddressValue == value);
 
             if (currentVersion == null)
             {
@@ -138,16 +122,14 @@ namespace GTAVC_Chaos
             }
 
             Debug.WriteLine("Detected game version: {0}", currentVersion.name);
-
         }
 
-        public void InitModules()
+        public void DoModulesLoop()
         {
             GetHandle();
 
-            modules = new Modules();
+            var modules = new Modules();
 
-            // TODO(Ligh): The name of this method does not match its behaviour.
             while (this.IsRunning && !Program.shouldStop)
             {
                 modules.Update();
@@ -160,22 +142,17 @@ namespace GTAVC_Chaos
                 modules.Shutdown();
             }
 
-            CloseProcess();
+            FreeHandle();
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)
         {
-            return Array.Find(memoryAddresses, p => p.name == name);
+            return memoryAddresses.Find(p => p.name == name);
         }
 
         public Limitation FindLimitationByName(string name)
         {
-            return Array.Find(limitations, p => p.name == name);
-        }
-
-        public GameVersion FindGameVersionByName(string name)
-        {
-            return Array.Find(gameVersions, p => p.name == name);
+            return limitations.Find(p => p.name == name);
         }
     }
 }

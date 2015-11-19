@@ -43,7 +43,7 @@ namespace GTAVC_Chaos
             {
                 limitation.setParameters(parameters);
             }
-            limitation.setTarget(target);
+            limitation.Target = target;
         }
     }
 }

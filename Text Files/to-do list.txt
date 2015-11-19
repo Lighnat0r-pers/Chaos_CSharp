@@ -20,5 +20,9 @@ Support for < and > in parameter check, in addition to ==.
 Support for using expressions as parameters/values to set, such as getting a random interior ID for the Interior effect.
 Support for extra difficulty for specific effects in sanic mode.
 
+Fix steam offsets around 0x0046F391
+
+Fix JP offsets around 0x00826200 (in mission script variables)
+
 Once the program is finished further, clean up access modifiers.
 Add a checksum to make it easier to confirm everyone is using the same .xml files in a race?

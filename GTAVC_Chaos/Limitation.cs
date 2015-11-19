@@ -5,12 +5,17 @@ namespace GTAVC_Chaos
 {
     class Limitation
     {
+        private bool target;
 
         public string name;
-        public ICheck[] checks;
-        public bool target;
+        public List<ICheck> checks;
 
-        public Limitation(string name, ICheck[] checks)
+        public bool Target
+        {
+            set { target = value; }
+        }
+
+        public Limitation(string name, List<ICheck> checks)
         {
             this.name = name;
             this.checks = checks;
@@ -19,12 +24,11 @@ namespace GTAVC_Chaos
         private Limitation(Limitation limitation)
         {
             this.name = limitation.name;
-            this.checks = new ICheck[limitation.checks.Length];
+            this.checks = new List<ICheck>();
 
-            int count = 0;
-            foreach (ICheck check in limitation.checks)
+            foreach (var check in limitation.checks)
             {
-                this.checks[count++] = (ICheck) check.Clone();
+                this.checks.Add((ICheck)check.Clone());
             }
         }
 
@@ -37,29 +41,26 @@ namespace GTAVC_Chaos
         {
             if (parameters != null)
             {
-                foreach (ICheck checkVar in checks)
+                foreach (ParameterCheck check in checks.FindAll(c => c is ParameterCheck))
                 {
-                    if (checkVar is ParameterCheck)
+                    if (parameters.ContainsKey(check.address.name))
                     {
-                        ParameterCheck check = checkVar as ParameterCheck;
-                        if (parameters.ContainsKey(check.address.name))
+                        dynamic parameter = check.address.ConvertToRightDataType(parameters[check.address.name]);
+                        check.SetParameter(parameter);
+                        parameters.Remove(check.address.name);
+                    }
+                    else
+                    {
+                        // Checks if a default value was already set; if not, throw an exception since we're missing required data.
+                        if (check.parameter == null)
                         {
-                            dynamic parameter = check.address.ConvertToRightDataType(parameters[check.address.name]);
-                            check.SetParameter(parameter);
-                            parameters.Remove(check.address.name);
-                        }
-                        else
-                        {
-                            // Checks if a default value was already set; if not, throw an exception since we're missing required data.
-                            if (check.parameter == null)
-                            {
-                                throw new Exception("Missing parameter for parameter check " + check.address.name + " in " + name + " limitation");
-                            }
+                            throw new Exception("Missing parameter for parameter check " + check.address.name + " in " + name + " limitation");
                         }
                     }
                 }
 
                 // Checks there are any parameter values left. All used values are removed, so we're dealing with excess data here, which is probably not intended.
+                // Note that this is not actually a fatal error, the program could continue just fine.
                 if (parameters.Count != 0)
                 {
                     parameters.ToString();
@@ -68,20 +69,11 @@ namespace GTAVC_Chaos
             }
         }
 
-        public void setTarget(bool target)
-        {
-            this.target = target;
-        }
-
+        /// <returns>True if all checks are passed, false otherwise.</returns>
+        /// TODO(Ligh): This function name is vague on when it returns what.
         public bool Check()
         {
-            bool result = true;
-            foreach (ICheck check in checks)
-            {
-                result = result && check.Check();
-            }
-
-            return (result == target);
+            return checks.TrueForAll(c => c.Check() == target);
         }
     }
 }

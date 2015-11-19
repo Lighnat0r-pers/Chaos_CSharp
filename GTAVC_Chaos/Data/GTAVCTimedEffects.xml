@@ -19,6 +19,7 @@ Supported activator types:
 
 <timedeffects>
   <timedeffect>
+    <!-- TODO(Ligh): Does not work right now. Related to other TODO or incorrect address?-->
     <name>Xtreme Drunk Cam</name>
     <category>GUIVisuals</category>
     <difficulty>4</difficulty>

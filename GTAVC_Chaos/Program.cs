@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
@@ -8,7 +9,7 @@ namespace GTAVC_Chaos
 {
     static class Program
     {
-        static private Game[] gameArray;
+        static private List<Game> gameArray;
 
         static public bool shouldStop = false;
         static public Game game;
@@ -38,13 +39,9 @@ namespace GTAVC_Chaos
             // TODO(Ligh): Allow the user to select a game instead of hardcoding.
             Settings.gameName = "Grand Theft Auto: Vice City";
 
-            // Get the information we need about the game selected.
-            GetGame(Settings.gameName);
-
             // Run the modules in a separate thread.
-            Thread modulesThread = new Thread(game.InitModules);
-            modulesThread.Name = "Modules Thread";
-            modulesThread.Start();
+            Thread modulesThread = new Thread(RunGameLoop);
+            modulesThread.Start(Settings.gameName);
 
             // Show the output window.
             Debug.WriteLine("Showing Output Window");
@@ -68,15 +65,20 @@ namespace GTAVC_Chaos
             }
         }
 
-        static void GetGame(string name)
+        static void RunGameLoop(object gameName)
         {
+            string name = (string)gameName;
             Debug.WriteLine("Game chosen: " + name);
-            game = Array.Find(gameArray, g => g.name == name);
+            game = gameArray.Find(g => g.name == name);
+
             if (game == null)
             {
                 throw new Exception("Invalid game chosen, not in games list. Game: " + name);
             }
+
             DataFileHandler.ReadFilesForGame(game);
+
+            game.DoModulesLoop();
         }
     }
 }

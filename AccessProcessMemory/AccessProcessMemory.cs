@@ -42,7 +42,7 @@ namespace AccessProcessMemory
     }
 
     /// <summary>
-    /// Class containing methods to read and write to the memory of the targetProcess.
+    /// Class containing methods to read and write the memory of the target process.
     /// </summary>
     public class Memory
     {
@@ -110,8 +110,7 @@ namespace AccessProcessMemory
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
             if (buffer == null)
                 throw new Exception("Error while reading memory, no memory read");
-            dynamic result = ConvertOutput(buffer, type);
-            return result;
+            return ConvertOutput(buffer, type);
         }
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace AccessProcessMemory
         /// <summary>
         /// Converts byte array to the type given by the dataType parameter. If the parameter
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
-        /// converted to little endian if necessary.
+        /// converted to big endian if necessary.
         /// </summary>
         private static dynamic ConvertOutput(byte[] output, string dataType)
         {
@@ -191,7 +190,7 @@ namespace AccessProcessMemory
         /// <summary>
         /// Converts the type given by the dataType parameter to a byte array. If the parameter
         /// contains an unimplemented type an exception is thrown. The byte array is automatically 
-        /// converted to little endian if necessary.
+        /// converted to big endian if necessary.
         /// </summary>
         private static byte[] ConvertInput(dynamic input, string dataType)
         {
