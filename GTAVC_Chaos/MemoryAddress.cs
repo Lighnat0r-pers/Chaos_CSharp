@@ -73,7 +73,7 @@ namespace GTAVC_Chaos
 
             if (!sizes.ContainsKey(dataType))
             {
-                throw new Exception("Invalid datatype of memory address.");
+                throw new ArgumentOutOfRangeException("dataType", "Invalid datatype of memory address.");
             }
 
             this.dataType = dataType;
@@ -82,7 +82,7 @@ namespace GTAVC_Chaos
 
             if (size == 0)
             {
-                throw new Exception("Invalid size of memory address.");
+                throw new ArgumentException("size", "Invalid size of memory address.");
             }
         }
 
@@ -96,7 +96,7 @@ namespace GTAVC_Chaos
 
             if (newVersion == null || gameVersion == null)
             {
-                throw new Exception("Tried to update address for version but version is not defined.");
+                throw new ArgumentNullException("Tried to update address for version but version is not defined.");
             }
 
             if (newVersion != gameVersion)
@@ -108,7 +108,7 @@ namespace GTAVC_Chaos
         public dynamic ConvertToRightDataType(string input)
         {
             if (input == null)
-                throw new Exception("Error while converting input for memory, no input");
+                throw new ArgumentNullException("input", "Error while converting input for memory, no input");
 
             dynamic result;
             switch (dataType)
@@ -141,7 +141,7 @@ namespace GTAVC_Chaos
                     result = input;
                     break;
                 default:
-                    throw new Exception(String.Format("Tried to convert input to unknown data type {0}", dataType));
+                    throw new NotSupportedException(String.Format("Tried to convert input to unknown data type {0}", dataType));
             }
 
             return result;
@@ -151,7 +151,7 @@ namespace GTAVC_Chaos
         {
             if (game.memory == null)
             {
-                throw new Exception("Tried to read an address without a handle to the game process.");
+                throw new InvalidOperationException("Tried to read an address without a handle to the game process.");
             }
 
             return game.memory.Read(Address, dataType, size);
@@ -161,7 +161,7 @@ namespace GTAVC_Chaos
         {
             if (game.memory == null)
             {
-                throw new Exception("Tried to write to an address without a handle to the game process.");
+                throw new InvalidOperationException("Tried to write to an address without a handle to the game process.");
             }
 
             game.memory.Write(Address, input, dataType, size);
@@ -180,12 +180,12 @@ namespace GTAVC_Chaos
         {
             if (baseAddress == null)
             {
-                throw new Exception("Tried to get the dynamic address of a static memory address.");
+                throw new NotSupportedException("Tried to get the dynamic address of a static memory address.");
             }
 
             if (baseAddress.dataType != "int" && baseAddress.dataType != "long")
             {
-                throw new Exception("Tried to use an address with a non-pointer datatype ( " + baseAddress.dataType + " ) as a pointer address.");
+                throw new ArgumentOutOfRangeException("dataType", String.Format("Tried to use an address with a non-pointer datatype ({0}) as a pointer address.", baseAddress.dataType));
             }
 
             return baseAddress.Read() + offset;

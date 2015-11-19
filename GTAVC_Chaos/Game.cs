@@ -105,7 +105,7 @@ namespace GTAVC_Chaos
 
             if (currentVersion == null)
             {
-                throw new Exception("Failed to determine the game version: Unknown version. Version address value was " + value);
+                throw new ArgumentOutOfRangeException("version", String.Format("Failed to determine the game version: Unknown version. Version address value was {0}", value));
             }
 
             Debug.WriteLine("Detected game version: {0}", currentVersion.name);

@@ -73,7 +73,7 @@ namespace GTAVC_Chaos
 
             if (game == null)
             {
-                throw new Exception("Invalid game chosen, not in games list. Game: " + name);
+                throw new ArgumentOutOfRangeException("game", String.Format("Invalid game chosen, not in games list. Game: {0}", name));
             }
 
             DataFileHandler.ReadFilesForGame(game);

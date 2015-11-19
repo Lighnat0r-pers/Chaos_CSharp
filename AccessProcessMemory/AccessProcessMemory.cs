@@ -76,7 +76,7 @@ namespace AccessProcessMemory
             {
                 m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, true, m_Process.Id);
                 if (m_ProcessHandle == IntPtr.Zero)
-                    throw new Exception("OpenProcess failed");
+                    Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
             }
         }
 
@@ -87,7 +87,7 @@ namespace AccessProcessMemory
         {
             int iRetValue = AccessProcessMemoryApi.CloseHandle(m_ProcessHandle);
             if (iRetValue == 0)
-                throw new Exception("CloseProcess failed");
+                Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
             m_ProcessHandle = IntPtr.Zero;
             Debug.WriteLine("Game handle closed");
         }
@@ -108,8 +108,6 @@ namespace AccessProcessMemory
             IntPtr ptrBytesReaded;
             AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, buffer, (IntPtr)length, out ptrBytesReaded);
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
-            if (buffer == null)
-                throw new Exception("Error while reading memory, no memory read");
             return ConvertOutput(buffer, type);
         }
 
@@ -121,8 +119,6 @@ namespace AccessProcessMemory
         public void Write(long address, dynamic input, string type, int length = int.MinValue)
         {
             OpenProcess();
-            if (input == null)
-                throw new Exception("Error while writing memory, no input provided");
             byte[] byteInput = ConvertInput(input, type);
             if (length == int.MinValue)
             {
@@ -144,7 +140,7 @@ namespace AccessProcessMemory
         private static dynamic ConvertOutput(byte[] output, string dataType)
         {
             if (output == null)
-                throw new Exception("Error while converting output from memory, no output");
+                throw new ArgumentNullException("output", "Error while converting output from memory, no output");
 
             if (!BitConverter.IsLittleEndian)
             {
@@ -182,7 +178,7 @@ namespace AccessProcessMemory
                     result = Encoding.Unicode.GetString(output).TrimEnd(new char[] { '\0' });
                     break;
                 default:
-                    throw new Exception(String.Format("Tried to convert memory reading to unknown data type {0}", dataType));
+                    throw new NotSupportedException(String.Format("Tried to convert memory reading to unknown data type {0}", dataType));
             }
             return result;
         }
@@ -195,7 +191,7 @@ namespace AccessProcessMemory
         private static byte[] ConvertInput(dynamic input, string dataType)
         {
             if (input == null)
-                throw new Exception("Error while converting input for memory, no input");
+                throw new ArgumentNullException("input", "Error while converting input for memory, no input");
 
             byte[] result;
             switch (dataType)
@@ -228,7 +224,7 @@ namespace AccessProcessMemory
                     result = Encoding.Unicode.GetBytes(input);
                     break;
                 default:
-                    throw new Exception(String.Format("Tried to convert memory input to unknown data type {0}", dataType));
+                    throw new NotSupportedException(String.Format("Tried to convert memory input to unknown data type {0}", dataType));
             }
 
             if (!BitConverter.IsLittleEndian)

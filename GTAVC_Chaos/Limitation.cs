@@ -54,7 +54,7 @@ namespace GTAVC_Chaos
                         // Checks if a default value was already set; if not, throw an exception since we're missing required data.
                         if (check.parameter == null)
                         {
-                            throw new Exception("Missing parameter for parameter check " + check.address.name + " in " + name + " limitation");
+                            throw new ArgumentNullException("parameter", String.Format("Missing parameter for parameter check {0} in {1} limitation", check.address.name, name));
                         }
                     }
                 }
@@ -63,8 +63,7 @@ namespace GTAVC_Chaos
                 // Note that this is not actually a fatal error, the program could continue just fine.
                 if (parameters.Count != 0)
                 {
-                    parameters.ToString();
-                    throw new Exception("Excess parameter(s) for limitation " + name + ". Parameters: " + String.Join("; ", parameters));
+                    throw new ArgumentOutOfRangeException("parameters", String.Format("Excess parameter(s) for limitation {0}. Parameters: {1}", name , String.Join("; ", parameters)));
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace GTAVC_Chaos
                     address.Write(target);
                     break;
                 default:
-                    throw new Exception("Tried to activate activator with unsupported type.");
+                    throw new NotSupportedException("Tried to activate activator with unsupported type.");
             }
         }
 
@@ -34,7 +34,7 @@ namespace GTAVC_Chaos
         {
             if (original == null)
             {
-                throw new Exception("Tried to deactivate activator without original value set.");
+                throw new ArgumentNullException("original", "Tried to deactivate activator without original value set.");
             }
 
             switch (type)
@@ -43,7 +43,7 @@ namespace GTAVC_Chaos
                     address.Write(original);
                     break;
                 default:
-                    throw new Exception("Tried to deactivate activator with unsupported type.");
+                    throw new NotSupportedException("Tried to deactivate activator with unsupported type.");
             }
 
             original = null;

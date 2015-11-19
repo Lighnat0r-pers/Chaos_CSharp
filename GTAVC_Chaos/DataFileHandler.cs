@@ -81,7 +81,7 @@ namespace GTAVC_Chaos
 
                         if (offsets.Count == 0)
                         {
-                            throw new Exception("No offsets defined in the list of versions for version " + versionName + " of " + name + ".");
+                            throw new ArgumentNullException("offsets", String.Format("No offsets defined in the list of versions for version {0} of {1}.", versionName, name));
                         }
                     }
 
@@ -92,7 +92,7 @@ namespace GTAVC_Chaos
 
                 if (!baseVersionDefined)
                 {
-                    throw new Exception("Base version not defined in the list of versions  for " + name + ".");
+                    throw new ArgumentOutOfRangeException("baseversion", String.Format("Base version not defined in the list of versions for {0}.", name));
                 }
 
                 games.Add(new Game(name, abbreviation, windowName, windowClass, versionAddress, baseVersion, versions));
@@ -114,7 +114,7 @@ namespace GTAVC_Chaos
 
             if (gameVersion == null)
             {
-                throw new Exception("Unable to read memory addresses: No known game version set.");
+                throw new ArgumentOutOfRangeException("gameversion", "Unable to read memory addresses: No known game version set.");
             }
 
             var memoryAddresses = new List<MemoryAddress>();
@@ -219,7 +219,7 @@ namespace GTAVC_Chaos
                             check = new ComparisonCheck(addresses, equal);
                             break;
                         default:
-                            throw new Exception("Tried to process unknown limitation check type" + checkNode.Attributes["xsi:type"].Value);
+                            throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
                     }
 
                     checks.Add(check);
