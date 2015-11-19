@@ -28,7 +28,7 @@ namespace GTAVC_Chaos
 
         public List<GameVersion> gameVersions;
         public List<MemoryAddress> memoryAddresses;
-        public List<Limitation> limitations;
+        public List<Limitation> baseLimitations;
 
         public bool IsRunning
         {
@@ -137,14 +137,9 @@ namespace GTAVC_Chaos
             return memoryAddresses.Find(p => p.name == name);
         }
 
-        public Limitation FindLimitationByName(string name)
-        {
-            return limitations.Find(p => p.name == name);
-        }
-
         public void ResolveReferences()
         {
-            if (memoryAddresses == null || limitations == null)
+            if (memoryAddresses == null)
             {
                 throw new InvalidOperationException("Cannot resolve references before reference objects are initialized.");
             }
@@ -157,25 +152,6 @@ namespace GTAVC_Chaos
                 if (address.baseAddress == null)
                 {
                     throw new ArgumentOutOfRangeException("baseAddress", "Base address for dynamic address is not defined.");
-                }
-            }
-
-            // Set references for all checks that are not limitation checks.
-            foreach (Limitation limitation in limitations)
-            {
-                foreach (var check in limitation.checks.FindAll(c => (c is LimitationCheck) == false))
-                {
-                    check.ResolveReferences();
-                }
-            }
-
-            // Set references for all limitation checks. As they can depend on other checks, they need to be set after those have been resolved.
-            // TODO(Ligh): Check how this handles multiple levels of limitation checks.
-            foreach (Limitation limitation in limitations)
-            {
-                foreach (var check in limitation.checks.FindAll(c => c is LimitationCheck))
-                {
-                    check.ResolveReferences();
                 }
             }
         }

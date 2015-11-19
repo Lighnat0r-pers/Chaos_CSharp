@@ -21,23 +21,7 @@ namespace GTAVC_Chaos
             this.checks = checks;
         }
 
-        private Limitation(Limitation limitation)
-        {
-            this.name = limitation.name;
-            this.checks = new List<ICheck>();
-
-            foreach (var check in limitation.checks)
-            {
-                this.checks.Add((ICheck)check.Clone());
-            }
-        }
-
-        public Limitation Clone()
-        {
-            return new Limitation(this);
-        }
-
-        public void setParameters(Dictionary<string, string> parameters)
+        public void SetParameters(Dictionary<string, string> parameters)
         {
             if (parameters != null)
             {
@@ -63,7 +47,7 @@ namespace GTAVC_Chaos
                 // Note that this is not actually a fatal error, the program could continue just fine.
                 if (parameters.Count != 0)
                 {
-                    throw new ArgumentOutOfRangeException("parameters", String.Format("Excess parameter(s) for limitation {0}. Parameters: {1}", name , String.Join("; ", parameters)));
+                    throw new ArgumentOutOfRangeException("parameters", String.Format("Excess parameter(s) for limitation {0}. Parameters: {1}", name, String.Join("; ", parameters)));
                 }
             }
         }

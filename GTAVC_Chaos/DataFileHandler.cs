@@ -19,7 +19,7 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Starting to read files for game.");
             game.memoryAddresses = GetMemoryAddressesFromFile(game);
-            game.limitations = GetLimitationsFromFile(game);
+            game.baseLimitations = GetBaseLimitationsFromFile(game);
             Debug.WriteLine("Done reading files for game.");
         }
 
@@ -151,16 +151,16 @@ namespace GTAVC_Chaos
             return memoryAddresses;
         }
 
-        static private List<Limitation> GetLimitationsFromFile(Game game)
+        static private List<Limitation> GetBaseLimitationsFromFile(Game game)
         {
             // TODO(Ligh): Properly catch errors here.
 
             // TODO(Ligh): Read base limitations here and implement them elsewhere.
 
-            Debug.WriteLine("Reading limitations from file.");
+            Debug.WriteLine("Reading base limitations from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
 
-            var limitations = new List<Limitation>();
+            var baseLimitations = new List<Limitation>();
 
             foreach (XmlNode node in file.SelectNodes("//limitations/limitation"))
             {
@@ -171,72 +171,103 @@ namespace GTAVC_Chaos
 
                 foreach (XmlNode checkNode in node.SelectNodes("checks/check"))
                 {
-                    string addressName;
                     switch (checkNode.Attributes["xsi:type"].Value)
                     {
-
                         case "simple":
-                            addressName = checkNode.SelectSingleNode("address").InnerText;
+                            var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
                             dynamic value = checkNode.SelectSingleNode("value").InnerText;
-                            check = new SimpleCheck(addressName, value);
-                            break;
-                        case "parameter":
-                            addressName = checkNode.SelectSingleNode("address").InnerText;
-                            var defaultValueNode = checkNode.SelectSingleNode("default");
-                            dynamic defaultValue = defaultValueNode != null ? defaultValueNode.InnerText : null;
-                            check = new ParameterCheck(addressName, defaultValue);
-                            break;
-                        case "limitation":
-                            string limitation = checkNode.SelectSingleNode("limitation").InnerText;
-                            bool target = Boolean.Parse(checkNode.SelectSingleNode("target").InnerText);
-                            Dictionary<string, string> parameters = null;
-
-                            var parameterNodes = checkNode.SelectNodes("parameters/parameter");
-                            if (parameterNodes.Count > 0)
-                            {
-                                parameters = new Dictionary<string, string>();
-
-                                foreach (XmlNode parameterNode in parameterNodes)
-                                {
-                                    string parameterName = parameterNode.SelectSingleNode("name").InnerText;
-                                    string parameterValue = parameterNode.SelectSingleNode("value").InnerText;
-                                    parameters.Add(parameterName, parameterValue);
-                                }
-                            }
-
-                            check = new LimitationCheck(limitation, target, parameters);
-                            break;
-                        case "comparison":
-                            var addressNames = new List<string>();
-                            foreach (XmlNode addressNode in checkNode.SelectNodes("addresses/address"))
-                            {
-                                addressNames.Add(addressNode.InnerText);
-                            }
-                            bool equal = Boolean.Parse(checkNode.SelectSingleNode("equal").InnerText);
-                            check = new ComparisonCheck(addressNames, equal);
+                            check = new SimpleCheck(address, value);
                             break;
                         default:
                             throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
                     }
 
                     checks.Add(check);
-
                 }
 
-                limitations.Add(new Limitation(name, checks));
+                baseLimitations.Add(new Limitation(name, checks));
             }
 
-            Debug.WriteLine("Read {0} limitations from file.", limitations.Count);
+            Debug.WriteLine("Read {0} base limitations from file.", baseLimitations.Count);
 
-            return limitations;
+            return baseLimitations;
+        }
+
+        static private Limitation GetLimitationFromFile(Game game, string limitationName)
+        {
+            // TODO(Ligh): Properly catch errors here.
+
+            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
+
+            Debug.WriteLine(String.Format("Reading limitation {0} from file.", limitationName));
+            var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
+
+            var node = file.SelectSingleNode("//limitations/limitation[contains(name, " + limitationName + ")");
+            ICheck check;
+            string name = node.SelectSingleNode("name").InnerText;
+
+            var checks = new List<ICheck>();
+
+            foreach (XmlNode checkNode in node.SelectNodes("checks/check"))
+            {
+                switch (checkNode.Attributes["xsi:type"].Value)
+                {
+                    case "simple":
+                        var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
+                        dynamic value = checkNode.SelectSingleNode("value").InnerText;
+                        check = new SimpleCheck(address, value);
+                        break;
+                    case "parameter":
+                        address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
+                        var defaultValueNode = checkNode.SelectSingleNode("default");
+                        dynamic defaultValue = defaultValueNode != null ? defaultValueNode.InnerText : null;
+                        check = new ParameterCheck(address, defaultValue);
+                        break;
+                    case "limitation":
+                        var limitation = GetLimitationFromFile(game, checkNode.SelectSingleNode("limitation").InnerText);
+                        limitation.Target = Boolean.Parse(checkNode.SelectSingleNode("target").InnerText);
+
+                        var parameterNodes = checkNode.SelectNodes("parameters/parameter");
+                        if (parameterNodes.Count > 0)
+                        {
+                            var parameters = new Dictionary<string, string>();
+
+                            foreach (XmlNode parameterNode in parameterNodes)
+                            {
+                                string parameterName = parameterNode.SelectSingleNode("name").InnerText;
+                                string parameterValue = parameterNode.SelectSingleNode("value").InnerText;
+                                parameters.Add(parameterName, parameterValue);
+                            }
+
+                            limitation.SetParameters(parameters);
+                        }
+
+                        check = new LimitationCheck(limitation);
+                        break;
+                    case "comparison":
+                        var addresses = new List<MemoryAddress>();
+                        foreach (XmlNode addressNode in checkNode.SelectNodes("addresses/address"))
+                        {
+                            addresses.Add(game.FindMemoryAddressByName(addressNode.InnerText));
+                        }
+                        bool equal = Boolean.Parse(checkNode.SelectSingleNode("equal").InnerText);
+                        check = new ComparisonCheck(addresses, equal);
+                        break;
+                    default:
+                        throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
+                }
+
+                checks.Add(check);
+            }
+
+            return new Limitation(name, checks);
         }
 
         static public List<TimedEffect> GetTimedEffectsFromFile(Game game)
         {
             // TODO(Ligh): Properly catch errors here.
 
-            // IMPORTANT(Ligh): This function cannot be called before the memory addresses and limitations have all been read. 
-            // TODO(Ligh): Move resolving references to TimedEffectHandler::ResolveReferences() or some function (FindMemoryAddressByName and FindLimitationByName calls) to remove this restriction.
+            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
 
             Debug.WriteLine("Reading timed effects from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
@@ -267,15 +298,14 @@ namespace GTAVC_Chaos
 
                 foreach (XmlNode limitationNode in node.SelectNodes("limitations/limitation"))
                 {
-                    string limitationName = limitationNode.SelectSingleNode("name").InnerText;
-                    Limitation limitation = game.FindLimitationByName(limitationName);
+                    Limitation limitation = GetLimitationFromFile(game, limitationNode.SelectSingleNode("name").InnerText);
 
                     limitation.Target = Boolean.Parse(limitationNode.SelectSingleNode("target").InnerText);
 
                     XmlNodeList parameterNodes = limitationNode.SelectNodes("parameters/parameter");
                     if (parameterNodes.Count != 0)
                     {
-                        Dictionary<string, string> parameters = new Dictionary<string, string>();
+                        var parameters = new Dictionary<string, string>();
 
                         foreach (XmlNode parameterNode in parameterNodes)
                         {
@@ -284,7 +314,7 @@ namespace GTAVC_Chaos
                             parameters.Add(parameterName, parameterValue);
                         }
 
-                        limitation.setParameters(parameters);
+                        limitation.SetParameters(parameters);
                     }
 
                     effectLimitations.Add(limitation);

@@ -2,9 +2,8 @@
 
 namespace GTAVC_Chaos
 {
-    interface ICheck : ICloneable
+    interface ICheck
     {
         bool Check();
-        void ResolveReferences();
     }
 }
