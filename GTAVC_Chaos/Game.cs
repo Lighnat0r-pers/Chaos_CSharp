@@ -28,7 +28,7 @@ namespace GTAVC_Chaos
 
         public List<GameVersion> gameVersions;
         public List<MemoryAddress> memoryAddresses;
-        private List<Limitation> limitations;
+        public List<Limitation> limitations;
 
         public bool IsRunning
         {
@@ -44,19 +44,6 @@ namespace GTAVC_Chaos
             this.versionAddress = versionAddress;
             this.baseVersion = baseVersion;
             this.gameVersions = gameVersions;
-        }
-
-        public void SetLimitations(List<Limitation> limitations)
-        {
-            this.limitations = limitations;
-
-            foreach (Limitation limitation in limitations)
-            {
-                foreach (LimitationCheck check in limitation.checks.FindAll(c => c is LimitationCheck))
-                {
-                    check.ResolveLimitation();
-                }
-            }
         }
 
         public void GetHandle()
@@ -153,6 +140,34 @@ namespace GTAVC_Chaos
         public Limitation FindLimitationByName(string name)
         {
             return limitations.Find(p => p.name == name);
+        }
+
+        public void ResolveReferences()
+        {
+            if (memoryAddresses == null || limitations == null)
+            {
+                throw new InvalidOperationException("Cannot resolve references before reference objects are initialized.");
+            }
+
+            // Set base address for all dynamic addresses.
+            foreach (var address in memoryAddresses.FindAll(m => m.IsDynamic == true))
+            {
+                address.baseAddress = FindMemoryAddressByName(address.baseAddressName);
+
+                if (address.baseAddress == null)
+                {
+                    throw new ArgumentOutOfRangeException("baseAddress", "Base address for dynamic address is not defined.");
+                }
+            }
+
+            // Set limitation for all limitation checks.
+            foreach (Limitation limitation in limitations)
+            {
+                foreach (LimitationCheck check in limitation.checks.FindAll(c => c is LimitationCheck))
+                {
+                    check.ResolveLimitation();
+                }
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace GTAVC_Chaos
         {
             Debug.WriteLine("Starting to read files for game.");
             game.memoryAddresses = GetMemoryAddressesFromFile(game);
-            game.SetLimitations(GetLimitationsFromFile(game));
+            game.limitations = GetLimitationsFromFile(game);
             Debug.WriteLine("Done reading files for game.");
         }
 
@@ -34,7 +34,6 @@ namespace GTAVC_Chaos
 
             foreach (XmlNode node in file.SelectNodes("//games/game"))
             {
-
                 string name = node.SelectSingleNode("name").InnerText;
                 string abbreviation = node.SelectSingleNode("abbreviation").InnerText;
                 string windowName = node.SelectSingleNode("windowname").InnerText;
@@ -108,8 +107,6 @@ namespace GTAVC_Chaos
         {
             // TODO(Ligh): Properly catch errors here.
 
-            // TODO(Ligh): Handle not found cases for FindMemoryAddressByName.
-
             Debug.WriteLine("Reading memory addresses from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
 
@@ -149,12 +146,6 @@ namespace GTAVC_Chaos
                 memoryAddresses.Add(addressObj);
             }
 
-            // Set base address for all dynamic addresses. Note that this cannot be done before all addresses have been read.
-            foreach (var address in memoryAddresses.FindAll(m => m.IsDynamic == true))
-            {
-                address.baseAddress = memoryAddresses.Find(m => m.name == address.baseAddressName);
-            }
-
             Debug.WriteLine("Read {0} memory addresses from file.", memoryAddresses.Count);
 
             return memoryAddresses;
@@ -166,7 +157,8 @@ namespace GTAVC_Chaos
 
             // TODO(Ligh): Read base limitations here and implement them elsewhere.
 
-            // TODO(Ligh): Handle not found cases for FindMemoryAddressByName.
+            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
+            // TODO(Ligh): Move resolving references to Game::ResolveReferences() (FindMemoryAddressByName calls) to remove this restriction.
 
             Debug.WriteLine("Reading limitations from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
@@ -246,9 +238,8 @@ namespace GTAVC_Chaos
         {
             // TODO(Ligh): Properly catch errors here.
 
-            // TODO(Ligh): Handle not found cases for FindMemoryAddressByName.
-
-            // TODO(Ligh): Handle not found cases for FindLimitationByName.
+            // IMPORTANT(Ligh): This function cannot be called before the memory addresses and limitations have all been read. 
+            // TODO(Ligh): Move resolving references to Game::ResolveReferences() (FindMemoryAddressByName and FindLimitationByName calls) to remove this restriction.
 
             Debug.WriteLine("Reading timed effects from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);

@@ -77,6 +77,7 @@ namespace GTAVC_Chaos
             }
 
             DataFileHandler.ReadFilesForGame(game);
+            game.ResolveReferences();
 
             game.DoModulesLoop();
         }

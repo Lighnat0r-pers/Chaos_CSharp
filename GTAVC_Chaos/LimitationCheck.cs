@@ -37,12 +37,14 @@ namespace GTAVC_Chaos
 
         public void ResolveLimitation()
         {
-            // TODO(Ligh): Handle not found cases for FindLimitationByName.
             limitation = Program.game.FindLimitationByName(limitationName);
-            if (parameters != null)
+
+            if (limitation == null)
             {
-                limitation.setParameters(parameters);
+                throw new ArgumentOutOfRangeException("limitation", "Limitation for limitation check is not defined.");
             }
+
+            limitation.setParameters(parameters);
             limitation.Target = target;
         }
     }
