@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 
 namespace GTAVC_Chaos
@@ -25,80 +26,40 @@ namespace GTAVC_Chaos
 
         static public List<Game> ReadGames()
         {
-            // TODO(Ligh): Properly catch errors here.
-
             Debug.WriteLine("Reading games from file.");
-            var file = XmlUtils.getXmlDocument("", gamesFilename);
+            var file = XmlUtils.getXDocument("", gamesFilename);
 
-            var games = new List<Game>();
+            var games =
+                (from game in file.Descendants("game")
+                 select new Game
+                 (
+                     game.Element("name").Value,
+                     game.Element("abbreviation").Value,
+                     game.Element("windowname").Value,
+                     game.Element("windowclass").Value,
+                     Int64.Parse(game.Element("versionaddress").Value, NumberStyles.HexNumber),
+                     game.Element("baseversion").Value,
+                     new List<GameVersion>
+                     (from version in game.Descendants("version")
+                      select new GameVersion
+                      (
+                          version.Element("name").Value,
+                          Int32.Parse(version.Element("addressvalue").Value, NumberStyles.HexNumber),
+                          (version.Element("name").Value == game.Element("baseversion").Value
+                          ? new SortedList<long, int>() { { 0, 0 } } // Dummy offset
+                          : new SortedList<long, int>
+                            ((from offset in version.Descendants("offset")
+                              select new KeyValuePair<long, int>
+                              (
+                                  Int64.Parse(offset.Element("startaddress").Value, NumberStyles.HexNumber),
+                                  Int32.Parse(offset.Element("amount").Value, NumberStyles.HexNumber) * (offset.Element("amount").Attribute("negative")?.Value == "true" ? -1 : 1)
+                              )).ToDictionary(c => c.Key, c => c.Value)
+                            )
+                          )
+                      ))
+                 )).ToList();
 
-            foreach (XmlNode node in file.SelectNodes("//games/game"))
-            {
-                string name = node.SelectSingleNode("name").InnerText;
-                string abbreviation = node.SelectSingleNode("abbreviation").InnerText;
-                string windowName = node.SelectSingleNode("windowname").InnerText;
-                string windowClass = node.SelectSingleNode("windowclass").InnerText;
-                long versionAddress = Int64.Parse(node.SelectSingleNode("versionaddress").InnerText, NumberStyles.HexNumber);
-                string baseVersion = node.SelectSingleNode("baseversion").InnerText;
-
-                Debug.WriteLine(String.Format("Reading game information for {0}", name));
-
-                var versions = new List<GameVersion>();
-                bool baseVersionDefined = false;
-
-                foreach (XmlNode versionNode in node.SelectNodes("versions/version"))
-                {
-                    string versionName = versionNode.SelectSingleNode("name").InnerText;
-                    int addressValue = Int32.Parse(versionNode.SelectSingleNode("addressvalue").InnerText, NumberStyles.HexNumber);
-
-                    var offsets = new SortedList<long, int>();
-
-                    if (versionName == baseVersion)
-                    {
-                        baseVersionDefined = true;
-                        offsets.Add(0, 0); // Dummy offset
-
-                        Debug.WriteLine("Read default version ({0}) from file for {1}.", versionName, name);
-                    }
-                    else
-                    {
-                        foreach (XmlNode offsetNode in versionNode.SelectNodes("offsets/offset"))
-                        {
-                            long startAddress = Int64.Parse(offsetNode.SelectSingleNode("startaddress").InnerText, NumberStyles.HexNumber);
-
-                            var amountNode = offsetNode.SelectSingleNode("amount");
-                            int offsetAmount = Int32.Parse(amountNode.InnerText, NumberStyles.HexNumber);
-
-                            if (amountNode.Attributes["negative"] != null && amountNode.Attributes["negative"].Value == "true")
-                            {
-                                offsetAmount *= -1;
-                            }
-
-                            offsets.Add(startAddress, offsetAmount);
-                        }
-
-                        Debug.WriteLine("Read {0} offsets from file for version {1} of {2}.", offsets.Count, versionName, name);
-
-                        if (offsets.Count == 0)
-                        {
-                            throw new ArgumentNullException("offsets", String.Format("No offsets defined in the list of versions for version {0} of {1}.", versionName, name));
-                        }
-                    }
-
-                    versions.Add(new GameVersion(versionName, addressValue, offsets));
-                }
-
-                Debug.WriteLine("Read {0} versions from file for {1}.", versions.Count, name);
-
-                if (!baseVersionDefined)
-                {
-                    throw new ArgumentOutOfRangeException("baseversion", String.Format("Base version not defined in the list of versions for {0}.", name));
-                }
-
-                games.Add(new Game(name, abbreviation, windowName, windowClass, versionAddress, baseVersion, versions));
-            }
-
-            Debug.WriteLine("Read {0} games from file.", games.Count);
+            // TODO(Ligh): Validate everything has been read correctly.
 
             return games;
         }
