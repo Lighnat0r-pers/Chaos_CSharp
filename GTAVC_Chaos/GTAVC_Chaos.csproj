@@ -105,7 +105,6 @@
     <Compile Include="ParameterCheck.cs" />
     <Compile Include="PermanentEffect.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SimpleCheck.cs" />
     <Compile Include="StaticEffect.cs" />
     <Compile Include="TimedEffect.cs" />
     <Compile Include="TimedEffectHandler.cs" />

@@ -176,7 +176,7 @@ namespace GTAVC_Chaos
                         case "simple":
                             var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
                             dynamic value = checkNode.SelectSingleNode("value").InnerText;
-                            check = new SimpleCheck(address, value);
+                            check = new ParameterCheck(address, value);
                             break;
                         default:
                             throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
@@ -197,6 +197,9 @@ namespace GTAVC_Chaos
         {
             // TODO(Ligh): Properly catch errors here.
 
+            // TODO(Ligh): The simple check is actually nothing more than a parameter check with a value that is not changed.
+            // It's already handled that way internally, but perhaps there shouldn't be a distinction in the xml either.
+
             // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
 
             Debug.WriteLine(String.Format("Reading limitation {0} from file.", limitationName));
@@ -215,7 +218,7 @@ namespace GTAVC_Chaos
                     case "simple":
                         var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
                         dynamic value = checkNode.SelectSingleNode("value").InnerText;
-                        check = new SimpleCheck(address, value);
+                        check = new ParameterCheck(address, value);
                         break;
                     case "parameter":
                         address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
