@@ -68,12 +68,12 @@ namespace GTAVC_Chaos
         static void RunGameLoop(object gameName)
         {
             string name = (string)gameName;
-            Debug.WriteLine("Game chosen: " + name);
+            Debug.WriteLine($"Game chosen: {name}");
             game = gameArray.Find(g => g.name == name);
 
             if (game == null)
             {
-                throw new ArgumentOutOfRangeException("game", String.Format("Invalid game chosen, not in games list. Game: {0}", name));
+                throw new ArgumentOutOfRangeException(nameof(game), $"Invalid game chosen, not in games list. Game: {name}");
             }
 
             DataFileHandler.ReadFilesForGame(game);

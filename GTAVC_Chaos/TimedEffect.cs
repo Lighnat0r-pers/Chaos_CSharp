@@ -26,7 +26,7 @@ namespace GTAVC_Chaos
 
         public TimedEffect(string name, string category, int difficulty, List<EffectActivator> activators, uint duration = 0, List<Limitation> limitations = null)
         {
-            effectLength = (duration == 0) ? defaultEffectLength : duration;
+            effectLength = duration == 0 ? defaultEffectLength : duration;
 
             this.activators = activators;
             this.limitations = limitations;
@@ -48,7 +48,7 @@ namespace GTAVC_Chaos
                 activator.Activate();
             }
 
-            Debug.WriteLine("Activated timed effect: " + name);
+            Debug.WriteLine($"Activated timed effect: {name}");
         }
 
         public void Deactivate()
@@ -58,7 +58,7 @@ namespace GTAVC_Chaos
                 activator.Deactivate();
             }
 
-            Debug.WriteLine("Deactivated timed effect: " + name);
+            Debug.WriteLine($"Deactivated timed effect: {name}");
         }
     }
 }

@@ -7,13 +7,13 @@ namespace AccessProcessMemory
 {
     static class AccessProcessMemoryApi
     {
-        public const UInt32 PROCESS_ALL_ACCESS = 0x001F0FFF;
+        public const uint PROCESS_ALL_ACCESS = 0x001F0FFF;
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr OpenProcess(
-            UInt32 dwDesiredAccess,
+            uint dwDesiredAccess,
             bool bInheritHandle,
-            Int32 dwProcessId
+            int dwProcessId
             );
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -35,7 +35,7 @@ namespace AccessProcessMemory
             );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern Int32 CloseHandle(
+        public static extern int CloseHandle(
             IntPtr hObject
             );
 
@@ -89,7 +89,6 @@ namespace AccessProcessMemory
             if (iRetValue == 0)
                 Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
             m_ProcessHandle = IntPtr.Zero;
-            Debug.WriteLine("Game handle closed");
         }
 
         public bool HasValidProcess()
@@ -104,7 +103,7 @@ namespace AccessProcessMemory
         public dynamic Read(long address, string type, int length)
         {
             OpenProcess();
-            byte[] buffer = new byte[length];
+            var buffer = new byte[length];
             IntPtr ptrBytesReaded;
             AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, buffer, (IntPtr)length, out ptrBytesReaded);
             Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
@@ -124,7 +123,7 @@ namespace AccessProcessMemory
             {
                 length = byteInput.Length;
             }
-            byte[] fullInput = new byte[length];
+            var fullInput = new byte[length];
             Array.Copy(byteInput, fullInput, byteInput.Length);
 
             IntPtr ptrBytesWritten;
@@ -140,7 +139,7 @@ namespace AccessProcessMemory
         private static dynamic ConvertOutput(byte[] output, string dataType)
         {
             if (output == null)
-                throw new ArgumentNullException("output", "Error while converting output from memory, no output");
+                throw new ArgumentNullException(nameof(output), "Error while converting output from memory, no output");
 
             if (!BitConverter.IsLittleEndian)
             {
@@ -172,13 +171,13 @@ namespace AccessProcessMemory
                     result = BitConverter.ToDouble(output, 0);
                     break;
                 case "ascii":
-                    result = Encoding.ASCII.GetString(output).TrimEnd(new char[] { '\0' });
+                    result = Encoding.ASCII.GetString(output).TrimEnd(('\0'));
                     break;
                 case "unicode":
-                    result = Encoding.Unicode.GetString(output).TrimEnd(new char[] { '\0' });
+                    result = Encoding.Unicode.GetString(output).TrimEnd(('\0'));
                     break;
                 default:
-                    throw new NotSupportedException(String.Format("Tried to convert memory reading to unknown data type {0}", dataType));
+                    throw new NotSupportedException($"Tried to convert memory reading to unknown data type {dataType}");
             }
             return result;
         }
@@ -191,7 +190,7 @@ namespace AccessProcessMemory
         private static byte[] ConvertInput(dynamic input, string dataType)
         {
             if (input == null)
-                throw new ArgumentNullException("input", "Error while converting input for memory, no input");
+                throw new ArgumentNullException(nameof(input), "Error while converting input for memory, no input");
 
             byte[] result;
             switch (dataType)
@@ -224,7 +223,7 @@ namespace AccessProcessMemory
                     result = Encoding.Unicode.GetBytes(input);
                     break;
                 default:
-                    throw new NotSupportedException(String.Format("Tried to convert memory input to unknown data type {0}", dataType));
+                    throw new NotSupportedException($"Tried to convert memory input to unknown data type {dataType}");
             }
 
             if (!BitConverter.IsLittleEndian)

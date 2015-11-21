@@ -105,10 +105,10 @@ namespace GTAVC_Chaos
 
             if (currentVersion == null)
             {
-                throw new ArgumentOutOfRangeException("version", String.Format("Failed to determine the game version: Unknown version. Version address value was {0}", value));
+                throw new InvalidOperationException($"Failed to determine the game version: Unknown version. Version address value was {value}");
             }
 
-            Debug.WriteLine(String.Format("Detected game version: {0}", currentVersion.name));
+            Debug.WriteLine($"Detected game version: {currentVersion.name}");
         }
 
         public void DoModulesLoop()
@@ -117,12 +117,12 @@ namespace GTAVC_Chaos
 
             var modules = new Modules();
 
-            while (this.IsRunning && !Program.shouldStop)
+            while (IsRunning && !Program.shouldStop)
             {
                 modules.Update();
             }
 
-            if (this.IsRunning)
+            if (IsRunning)
             {
                 // The modules affect the game state, so if the game is still running,
                 // we shut them down to restore the game to its unaltered state.

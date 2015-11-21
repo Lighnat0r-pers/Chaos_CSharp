@@ -42,13 +42,7 @@ namespace GTAVC_Chaos
         /// </summary>
         static public int timeMultiplier
         {
-            get
-            {
-                if (Settings.sanicModeEnabled)
-                    return baseTimeMultiplier / sanicModeMultiplier;
-                else
-                    return baseTimeMultiplier;
-            }
+            get { return sanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier; }
         }
 
         /// <summary>

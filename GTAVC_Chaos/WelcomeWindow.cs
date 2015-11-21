@@ -29,10 +29,10 @@ namespace GTAVC_Chaos
         /// </summary>
         private void WelcomeWindow_Load(object sender, EventArgs e)
         {
-            this.Icon = Properties.Resources.SunriseIcon;
+            Icon = Properties.Resources.SunriseIcon;
             numericTextBoxSeed.MaxLength = Settings.SEED_VALID_LENGTH;
-            labelEnterSeed.Text = String.Format("Please enter a {0} digit seed below:", Settings.SEED_VALID_LENGTH);
-            labelWelcomeMessage.Text = String.Format("Welcome to Chaos% v{0:f}!", Settings.PROGRAM_VERSION);
+            labelEnterSeed.Text = $"Please enter a {Settings.SEED_VALID_LENGTH} digit seed below:";
+            labelWelcomeMessage.Text = $"Welcome to Chaos% v{Settings.PROGRAM_VERSION:f}!";
         }
 
         /// <summary>
@@ -101,15 +101,15 @@ namespace GTAVC_Chaos
             Settings.timedEffectsEnabled = checkBoxTimedEffectsEnabled.Checked;
             Settings.sanicModeEnabled = checkboxSanicModeEnabled.Checked;
 
-            Debug.WriteLine(String.Format("Seed: {0}", Settings.seed));
-            Debug.WriteLine(String.Concat("Difficulty: ", Settings.difficultyName));
-            Debug.WriteLine(String.Format("Static Effects Enabled: {0}", Settings.staticEffectsEnabled));
-            Debug.WriteLine(String.Format("Permanent Effects Enabled: {0}", Settings.permanentEffectsEnabled));
-            Debug.WriteLine(String.Format("Timed Effects Enabled: {0}", Settings.timedEffectsEnabled));
-            Debug.WriteLine(String.Format("Sanic Mode Enabled: {0}", Settings.sanicModeEnabled));
+            Debug.WriteLine($"Seed: {Settings.seed}");
+            Debug.WriteLine($"Difficulty: {Settings.difficultyName}");
+            Debug.WriteLine($"Static Effects Enabled: {Settings.staticEffectsEnabled}");
+            Debug.WriteLine($"Permanent Effects Enabled: {Settings.permanentEffectsEnabled}");
+            Debug.WriteLine($"Timed Effects Enabled: {Settings.timedEffectsEnabled}");
+            Debug.WriteLine($"Sanic Mode Enabled: {Settings.sanicModeEnabled}");
 
-            this.FormClosed -= new System.Windows.Forms.FormClosedEventHandler(this.WelcomeWindow_FormClosed);
-            this.Close();
+            FormClosed -= new FormClosedEventHandler(WelcomeWindow_FormClosed);
+            Close();
         }
     }
 }

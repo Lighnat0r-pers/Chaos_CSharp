@@ -31,19 +31,19 @@ namespace GTAVC_Chaos
             {
                 // Backspace key is OK
             }
-            else if (this.allowDecimalSeparator && keyInput.Equals(decimalSeparator))
+            else if (allowDecimalSeparator && keyInput.Equals(decimalSeparator))
             {
                 // Decimal separator is allowed when the option for it is set to true.
             }
-            else if (this.allowNumberGroupSeparator && keyInput.Equals(groupSeparator))
+            else if (allowNumberGroupSeparator && keyInput.Equals(groupSeparator))
             {
                 // Number group separator is allowed when the option for it is set to true.
             }
-            else if (this.allowNegativeSign && keyInput.Equals(negativeSign))
+            else if (allowNegativeSign && keyInput.Equals(negativeSign))
             {
                 // Negative sign is allowed when the option for it is set to true.
             }
-            else if (this.allowSpace && e.KeyChar == ' ')
+            else if (allowSpace && e.KeyChar == ' ')
             {
                 // Space is allowed when the option for it is set to true.
             }
@@ -56,33 +56,33 @@ namespace GTAVC_Chaos
 
         public int IntValue
         {
-            get { return Int32.Parse(this.Text); }
+            get { return Int32.Parse(Text); }
         }
 
         public decimal DecimalValue
         {
-            get { return Decimal.Parse(this.Text); }
+            get { return Decimal.Parse(Text); }
         }
 
         public bool AllowSpace
         {
-            get { return this.allowSpace; }
-            set { this.allowSpace = value; }
+            get { return allowSpace; }
+            set { allowSpace = value; }
         }
         public bool AllowDecimalSeparator
         {
-            get { return this.allowDecimalSeparator; }
-            set { this.allowDecimalSeparator = value; }
+            get { return allowDecimalSeparator; }
+            set { allowDecimalSeparator = value; }
         }
         public bool AllowNumberGroupSeparator
         {
-            get { return this.allowNumberGroupSeparator; }
-            set { this.allowNumberGroupSeparator = value; }
+            get { return allowNumberGroupSeparator; }
+            set { allowNumberGroupSeparator = value; }
         }
         public bool AllowNegativeSign
         {
-            get { return this.allowNegativeSign; }
-            set { this.allowNegativeSign = value; }
+            get { return allowNegativeSign; }
+            set { allowNegativeSign = value; }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
@@ -26,14 +25,13 @@ namespace GTAVC_Chaos
 
         static private XmlSchemaSet getXmlSchemaSet(string filename)
         {
-            var schemas = new XmlSchemaSet();
-
             // NOTE(Ligh): Gets the schema from an external file.
             //var x = new XmlTextReader(resourceDirectory + filename);
 
             // NOTE(Ligh): Gets the schema from an embedded resource.
             var x = Assembly.GetExecutingAssembly().GetManifestResourceStream(baseResourceString + filename);
 
+            var schemas = new XmlSchemaSet();
             schemas.Add(XmlSchema.Read(x, null));
 
             return schemas;

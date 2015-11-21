@@ -34,7 +34,7 @@ namespace GTAVC_Chaos
         {
             if (original == null)
             {
-                throw new ArgumentNullException("original", "Tried to deactivate activator without original value set.");
+                throw new ArgumentNullException(nameof(original), "Tried to deactivate activator without original value set.");
             }
 
             switch (type)

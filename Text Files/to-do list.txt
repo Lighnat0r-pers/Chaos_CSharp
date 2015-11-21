@@ -25,4 +25,4 @@ Fix steam offsets around 0x0046F391
 Fix JP offsets around 0x00826200 (in mission script variables)
 
 Once the program is finished further, clean up access modifiers.
-Add a checksum to make it easier to confirm everyone is using the same .xml files in a race?
+Add a checksum (md5 hash or something) to make it easier to confirm everyone is using the same .xml files in a race?

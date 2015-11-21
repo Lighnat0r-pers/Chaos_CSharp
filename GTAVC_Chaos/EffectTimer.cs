@@ -19,7 +19,7 @@ namespace GTAVC_Chaos
         // somewhat accurate timestamp in milliseconds.
         private long GetCurrentTime()
         {
-            return (GameTime != null ? GameTime.Read() : DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            return GameTime?.Read() ?? DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         }
 
         public void SetDuration(long duration)

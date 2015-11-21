@@ -31,14 +31,12 @@ namespace GTAVC_Chaos
 
         private void OutputWindow_Load(object sender, EventArgs e)
         {
-            this.Icon = Properties.Resources.SunriseIcon;
+            Icon = Properties.Resources.SunriseIcon;
 
-            difficultySeedLabel.Text = String.Format("{0} difficulty, seed {1:D" + Settings.SEED_VALID_LENGTH + "}", Settings.difficultyName, Settings.seed);
+            difficultySeedLabel.Text = $"{Settings.difficultyName} difficulty, seed {Settings.seed.ToString($"D{Settings.SEED_VALID_LENGTH}")}";
             StaticEffectsLabel.Text = "Static Effects " + (Settings.staticEffectsEnabled ? "Enabled" : "Disabled");
             PermanentEffectsLabel.Text = "Placeholder";
             TimedEffectLabel.Text = "Timed effect placeholder";
         }
-
-        
     }
 }

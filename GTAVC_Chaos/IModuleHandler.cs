@@ -1,5 +1,4 @@
-﻿
-namespace GTAVC_Chaos
+﻿namespace GTAVC_Chaos
 {
     interface IModuleHandler
     {

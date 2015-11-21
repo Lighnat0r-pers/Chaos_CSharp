@@ -75,7 +75,7 @@ namespace GTAVC_Chaos
 
             if (gameVersion == null)
             {
-                throw new ArgumentOutOfRangeException("gameversion", "Unable to read memory addresses: No known game version set.");
+                throw new ArgumentOutOfRangeException(nameof(gameVersion), "Unable to read memory addresses: No known game version set.");
             }
 
             var memoryAddresses = new List<MemoryAddress>();
@@ -107,7 +107,7 @@ namespace GTAVC_Chaos
                 memoryAddresses.Add(addressObj);
             }
 
-            Debug.WriteLine("Read {0} memory addresses from file.", memoryAddresses.Count);
+            Debug.WriteLine($"Read {memoryAddresses.Count} memory addresses from file.");
 
             return memoryAddresses;
         }
@@ -140,7 +140,7 @@ namespace GTAVC_Chaos
                             check = new ParameterCheck(address, value);
                             break;
                         default:
-                            throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
+                            throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi: type"].Value}");
                     }
 
                     checks.Add(check);
@@ -149,7 +149,7 @@ namespace GTAVC_Chaos
                 baseLimitations.Add(new Limitation(name, checks));
             }
 
-            Debug.WriteLine("Read {0} base limitations from file.", baseLimitations.Count);
+            Debug.WriteLine($"Read {baseLimitations.Count} base limitations from file.");
 
             return baseLimitations;
         }
@@ -163,10 +163,10 @@ namespace GTAVC_Chaos
 
             // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
 
-            Debug.WriteLine(String.Format("Reading limitation {0} from file.", limitationName));
+            Debug.WriteLine($"Reading limitation {limitationName} from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
 
-            var node = file.SelectSingleNode("//limitations/limitation[contains(name, " + limitationName + ")");
+            var node = file.SelectSingleNode($"//limitations/limitation[contains(name, {limitationName})]");
             ICheck check;
             string name = node.SelectSingleNode("name").InnerText;
 
@@ -218,7 +218,7 @@ namespace GTAVC_Chaos
                         check = new ComparisonCheck(addresses, equal);
                         break;
                     default:
-                        throw new NotSupportedException(String.Format("Tried to process unknown limitation check type: {0}", checkNode.Attributes["xsi:type"].Value));
+                        throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi: type"].Value}");
                 }
 
                 checks.Add(check);
@@ -287,7 +287,7 @@ namespace GTAVC_Chaos
                 timedEffects.Add(new TimedEffect(name, category, difficulty, activators, duration, effectLimitations));
             }
 
-            Debug.WriteLine("Read {0} timed effects from file.", timedEffects.Count);
+            Debug.WriteLine($"Read {timedEffects.Count} timed effects from file.");
 
             return timedEffects;
         }

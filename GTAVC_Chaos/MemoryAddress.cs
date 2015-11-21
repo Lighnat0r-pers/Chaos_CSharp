@@ -34,7 +34,7 @@ namespace GTAVC_Chaos
         public MemoryAddress(Game game, string name, long address, GameVersion gameVersion, string type, int length = 0)
             : this(game, name, type, length)
         {
-            this.Address = address;
+            Address = address;
             this.gameVersion = gameVersion;
         }
 
@@ -73,7 +73,7 @@ namespace GTAVC_Chaos
 
             if (!sizes.ContainsKey(dataType))
             {
-                throw new ArgumentOutOfRangeException("dataType", "Invalid datatype of memory address.");
+                throw new ArgumentOutOfRangeException(nameof(dataType), "Invalid datatype of memory address.");
             }
 
             this.dataType = dataType;
@@ -82,7 +82,7 @@ namespace GTAVC_Chaos
 
             if (size == 0)
             {
-                throw new ArgumentException("size", "Invalid size of memory address.");
+                throw new ArgumentException(nameof(size), "Invalid size of memory address.");
             }
         }
 
@@ -108,7 +108,7 @@ namespace GTAVC_Chaos
         public dynamic ConvertToRightDataType(string input)
         {
             if (input == null)
-                throw new ArgumentNullException("input", "Error while converting input for memory, no input");
+                throw new ArgumentNullException(nameof(input), "Error while converting input for memory, no input");
 
             dynamic result;
             switch (dataType)
@@ -141,7 +141,7 @@ namespace GTAVC_Chaos
                     result = input;
                     break;
                 default:
-                    throw new NotSupportedException(String.Format("Tried to convert input to unknown data type {0}", dataType));
+                    throw new NotSupportedException($"Tried to convert input to unknown data type {dataType}");
             }
 
             return result;
@@ -185,7 +185,7 @@ namespace GTAVC_Chaos
 
             if (baseAddress.dataType != "int" && baseAddress.dataType != "long")
             {
-                throw new ArgumentOutOfRangeException("dataType", String.Format("Tried to use an address with a non-pointer datatype ({0}) as a pointer address.", baseAddress.dataType));
+                throw new ArgumentOutOfRangeException(nameof(dataType), $"Tried to use an address with a non-pointer datatype ({baseAddress.dataType}) as a pointer address.");
             }
 
             return baseAddress.Read() + offset;

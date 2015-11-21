@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GTAVC_Chaos
+﻿namespace GTAVC_Chaos
 {
     interface ICheck
     {

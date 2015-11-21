@@ -67,7 +67,7 @@ namespace GTAVC_Chaos
         {
             foreach (MemoryAddress address in Program.game.memoryAddresses)
             {
-                Debug.WriteLine("Address: {0}, Value: {1}", address.name, address.Read() as object);
+                Debug.WriteLine($"Address: {address.name}, Value: {address.Read() as object}");
             }
         }
     }

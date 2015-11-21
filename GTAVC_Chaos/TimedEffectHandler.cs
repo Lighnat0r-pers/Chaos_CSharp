@@ -60,12 +60,9 @@ namespace GTAVC_Chaos
 
         public void Shutdown()
         {
-            if (currentEffect != null)
-            {
-                currentEffect.Deactivate();
-                effectActive = false;
-                currentEffect = null;
-            }
+            currentEffect?.Deactivate();
+            effectActive = false;
+            currentEffect = null;
         }
 
         public TimedEffect DebugGetNextEffect()
