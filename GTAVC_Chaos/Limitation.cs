@@ -45,7 +45,7 @@ namespace GTAVC_Chaos
 
                 // Checks there are any parameter values left. All used values are removed, so we're dealing with excess data here, which is probably not intended.
                 // Note that this is not actually a fatal error, the program could continue just fine.
-                if (parameters.Count != 0)
+                if (parameters.Count > 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(parameters), $"Excess parameter(s) for limitation {name}. Parameters: {String.Join("; ", parameters)}");
                 }

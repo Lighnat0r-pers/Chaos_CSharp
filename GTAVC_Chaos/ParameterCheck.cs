@@ -7,10 +7,10 @@ namespace GTAVC_Chaos
         public MemoryAddress address;
         public dynamic parameter;
 
-        public ParameterCheck(MemoryAddress address, dynamic parameter = null)
+        public ParameterCheck(MemoryAddress address, string parameter = null)
         {
             this.address = address;
-            this.parameter = parameter;
+            this.parameter = address.ConvertToRightDataType(parameter);
         }
 
         public void SetParameter(dynamic parameter)

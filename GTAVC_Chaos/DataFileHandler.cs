@@ -123,13 +123,13 @@ namespace GTAVC_Chaos
                 {
                     switch (checkNode.Attributes["xsi:type"].Value)
                     {
-                        case "simple":
+                        case "parameter":
                             var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
                             dynamic value = checkNode.SelectSingleNode("value").InnerText;
                             check = new ParameterCheck(address, value);
                             break;
                         default:
-                            throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi: type"].Value}");
+                            throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi:type"].Value}");
                     }
 
                     checks.Add(check);
@@ -165,16 +165,10 @@ namespace GTAVC_Chaos
             {
                 switch (checkNode.Attributes["xsi:type"].Value)
                 {
-                    case "simple":
-                        var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
-                        dynamic value = checkNode.SelectSingleNode("value").InnerText;
-                        check = new ParameterCheck(address, value);
-                        break;
                     case "parameter":
-                        address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
-                        var defaultValueNode = checkNode.SelectSingleNode("default");
-                        dynamic defaultValue = defaultValueNode != null ? defaultValueNode.InnerText : null;
-                        check = new ParameterCheck(address, defaultValue);
+                        var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
+                        string value = checkNode.SelectSingleNode("default")?.InnerText;
+                        check = new ParameterCheck(address, value);
                         break;
                     case "limitation":
                         var limitation = GetLimitationFromFile(game, checkNode.SelectSingleNode("limitation").InnerText);
@@ -207,7 +201,7 @@ namespace GTAVC_Chaos
                         check = new ComparisonCheck(addresses, equal);
                         break;
                     default:
-                        throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi: type"].Value}");
+                        throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi:type"].Value}");
                 }
 
                 checks.Add(check);

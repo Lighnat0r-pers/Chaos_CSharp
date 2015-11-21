@@ -6,6 +6,7 @@
   <xs:element name="limitations">
     <xs:complexType>
       <xs:sequence>
+        <xs:element name="base" maxOccurs="1" type="Base"/>
         <xs:element name="limitation" maxOccurs="unbounded" type="Limitation"/>
       </xs:sequence>
     </xs:complexType>
@@ -37,6 +38,21 @@
 
   <!--+++ Complex types -->
 
+  <!--Define what the base should be-->
+  <xs:complexType name="Base">
+    <xs:sequence>
+      <xs:element name="limitation" maxOccurs="unbounded" type="BaseLimitation"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Define what a base limitation should be-->
+  <xs:complexType name="BaseLimitation">
+    <xs:sequence>
+      <xs:element name="onFail" type="onFail"/>
+      <xs:element ref="checks"/>
+    </xs:sequence>
+  </xs:complexType>
+  
   <!--Define what a limitation should be-->
   <xs:complexType name="Limitation">
     <xs:sequence>
@@ -45,25 +61,13 @@
     </xs:sequence>
   </xs:complexType>
 
-  <!--Define what a simple check should be-->
-  <xs:complexType name="simple">
-    <xs:complexContent>
-      <xs:extension base="Check">
-        <xs:sequence>
-          <xs:element name="address" type="Name"/>
-          <xs:element name="value" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <!--Define what a parameter check should be-->
   <xs:complexType name="parameter">
     <xs:complexContent>
       <xs:extension base="Check">
         <xs:sequence>
           <xs:element name="address" type="Name"/>
-          <xs:element name="default" minOccurs="0" type="xs:string"/>
+          <xs:element name="value" minOccurs="0" type="xs:string"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -106,6 +110,13 @@
 
   <!--+++ Simple types -->
 
+  <xs:simpleType name="onFail">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="suspend"/>
+      <xs:enumeration value="abort"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:simpleType name="Name">
     <xs:restriction base="xs:Name">
       <xs:minLength value="1"/>
