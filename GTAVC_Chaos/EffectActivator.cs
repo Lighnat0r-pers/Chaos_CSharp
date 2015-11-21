@@ -10,10 +10,10 @@ namespace GTAVC_Chaos
         public dynamic target;
         public MemoryAddress address;
 
-        public EffectActivator(string type, dynamic target, MemoryAddress address)
+        public EffectActivator(string type, string target, MemoryAddress address)
         {
             this.type = type;
-            this.target = target;
+            this.target = address.ConvertToRightDataType(target);
             this.address = address;
         }
 

@@ -27,7 +27,7 @@ namespace GTAVC_Chaos
         public void InitTimedEffectsModule()
         {
             Debug.WriteLine("Initializing timed effects module.");
-            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.GetTimedEffectsFromFile(Program.game));
+            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Program.game));
             moduleHandlers.Add(timedEffectHandler);
         }
 

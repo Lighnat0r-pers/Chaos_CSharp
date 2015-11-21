@@ -13,24 +13,23 @@ namespace GTAVC_Chaos
         static private string memoryAddressesFilename = "MemoryAddresses";
         static private string limitationsFilename = "Limitations";
         static private string timedEffectsFilename = "TimedEffects";
-        static private string permanentEffectsFilename = "PermanentEffects";
-        static private string staticEffectsFilename = "StaticEffects";
+        //static private string permanentEffectsFilename = "PermanentEffects";
+        //static private string staticEffectsFilename = "StaticEffects";
 
         static public void ReadFilesForGame(Game game)
         {
             Debug.WriteLine("Starting to read files for game.");
             game.memoryAddresses = ReadMemoryAddresses(game);
-            game.baseLimitations = GetBaseLimitationsFromFile(game);
+            //game.baseLimitations = GetBaseLimitationsFromFile(game);
             Debug.WriteLine("Done reading files for game.");
         }
 
         static public List<Game> ReadGames()
         {
             Debug.WriteLine("Reading games from file.");
-            var file = XmlUtils.getXDocument("", gamesFilename);
 
             var games =
-                (from game in file.Descendants("game")
+                (from game in XmlUtils.getXDocument("", gamesFilename).Descendants("game")
                  select new Game
                  (
                      game.Element("name").Value,
@@ -156,7 +155,7 @@ namespace GTAVC_Chaos
             Debug.WriteLine($"Reading limitation {limitationName} from file.");
             var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
 
-            var node = file.SelectSingleNode($"//limitations/limitation[contains(name, {limitationName})]");
+            var node = file.SelectSingleNode($"//limitations/limitation[name = '{limitationName}']");
             ICheck check;
             string name = node.SelectSingleNode("name").InnerText;
 
@@ -217,83 +216,37 @@ namespace GTAVC_Chaos
             return new Limitation(name, checks);
         }
 
-        static public List<TimedEffect> GetTimedEffectsFromFile(Game game)
+        static public List<TimedEffect> ReadTimedEffects(Game game)
         {
-            // TODO(Ligh): Properly catch errors here.
-
             // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
 
             Debug.WriteLine("Reading timed effects from file.");
-            var file = XmlUtils.getXmlDocument(game.abbreviation, timedEffectsFilename);
 
-            var timedEffects = new List<TimedEffect>();
+            var timedEffects =
+                (from effect in XmlUtils.getXDocument(game.abbreviation, timedEffectsFilename).Descendants("timedeffect")
+                 select new TimedEffect
+                 (
+                     effect.Element("name").Value,
+                     effect.Element("category").Value,
+                     Int32.Parse(effect.Element("difficulty").Value),
+                     new List<EffectActivator>
+                     (from activator in effect.Descendants("activator")
+                      select new EffectActivator
+                      (
+                          activator.Attribute("type").Value,
+                          activator.Element("target").Value,
+                          game.FindMemoryAddressByName(activator.Element("address").Value)
+                     )).ToList(),
+                     UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
+                     new List<Limitation>
+                     (from limitation in effect.Descendants("limitation")
+                      select GetLimitationFromFile(game, limitation.Element("name").Value)
+                      ).ToList()
+                 )).ToList();
 
-            foreach (XmlNode node in file.SelectNodes("//timedeffects/timedeffect"))
-            {
-                string name = node.SelectSingleNode("name").InnerText;
-                string category = node.SelectSingleNode("category").InnerText;
-                int difficulty = Int32.Parse(node.SelectSingleNode("difficulty").InnerText);
-
-                var durationNode = node.SelectSingleNode("duration");
-                uint duration = durationNode != null ? UInt32.Parse(durationNode.InnerText) : 0;
-
-                var activators = new List<EffectActivator>();
-
-                foreach (XmlNode activatorNode in node.SelectNodes("activators/activator"))
-                {
-                    string type = activatorNode.Attributes["type"].Value;
-                    MemoryAddress address = game.FindMemoryAddressByName(activatorNode.SelectSingleNode("address").InnerText);
-                    dynamic target = address.ConvertToRightDataType(activatorNode.SelectSingleNode("target").InnerText);
-
-                    activators.Add(new EffectActivator(type, target, address));
-                }
-
-                var effectLimitations = new List<Limitation>();
-
-                foreach (XmlNode limitationNode in node.SelectNodes("limitations/limitation"))
-                {
-                    Limitation limitation = GetLimitationFromFile(game, limitationNode.SelectSingleNode("name").InnerText);
-
-                    limitation.Target = Boolean.Parse(limitationNode.SelectSingleNode("target").InnerText);
-
-                    XmlNodeList parameterNodes = limitationNode.SelectNodes("parameters/parameter");
-                    if (parameterNodes.Count != 0)
-                    {
-                        var parameters = new Dictionary<string, string>();
-
-                        foreach (XmlNode parameterNode in parameterNodes)
-                        {
-                            string parameterName = parameterNode.SelectSingleNode("name").InnerText;
-                            string parameterValue = parameterNode.SelectSingleNode("value").InnerText;
-                            parameters.Add(parameterName, parameterValue);
-                        }
-
-                        limitation.SetParameters(parameters);
-                    }
-
-                    effectLimitations.Add(limitation);
-                }
-
-                timedEffects.Add(new TimedEffect(name, category, difficulty, activators, duration, effectLimitations));
-            }
-
-            Debug.WriteLine($"Read {timedEffects.Count} timed effects from file.");
+            // TODO(Ligh): Validate everything has been read correctly.
 
             return timedEffects;
-        }
-
-        static public List<PermanentEffect> InitPermanentEffectsFromFile(Game game)
-        {
-            Debug.WriteLine("Reading permanent effects from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, permanentEffectsFilename);
-            return new List<PermanentEffect>();
-        }
-
-        static public List<StaticEffect> InitStaticEffectsFromFile(Game game)
-        {
-            Debug.WriteLine("Reading static effects from file.");
-            XmlDocument file = XmlUtils.getXmlDocument(game.abbreviation, staticEffectsFilename);
-            return new List<StaticEffect>();
         }
     }
 }
