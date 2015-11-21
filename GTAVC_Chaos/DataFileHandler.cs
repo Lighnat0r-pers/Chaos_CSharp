@@ -47,13 +47,10 @@ namespace GTAVC_Chaos
                           (version.Element("name").Value == game.Element("baseversion").Value
                           ? new SortedList<long, int>() { { 0, 0 } } // Dummy offset
                           : new SortedList<long, int>
-                            ((from offset in version.Descendants("offset")
-                              select new KeyValuePair<long, int>
-                              (
-                                  Int64.Parse(offset.Element("startaddress").Value, NumberStyles.HexNumber),
-                                  Int32.Parse(offset.Element("amount").Value, NumberStyles.HexNumber) * (offset.Element("amount").Attribute("negative")?.Value == "true" ? -1 : 1)
-                              )).ToDictionary(c => c.Key, c => c.Value)
-                            )
+                            (version.Descendants("offset").ToDictionary(
+                                c => Int64.Parse(c.Element("startaddress").Value, NumberStyles.HexNumber),
+                                c => Int32.Parse(c.Element("amount").Value, NumberStyles.HexNumber) * (c.Element("amount").Attribute("negative")?.Value == "true" ? -1 : 1)
+                            ))
                           )
                       ))
                  )).ToList();
