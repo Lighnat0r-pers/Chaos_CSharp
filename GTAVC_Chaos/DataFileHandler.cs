@@ -19,7 +19,7 @@ namespace GTAVC_Chaos
         static public void ReadFilesForGame(Game game)
         {
             Debug.WriteLine("Starting to read files for game.");
-            game.memoryAddresses = GetMemoryAddressesFromFile(game);
+            game.memoryAddresses = ReadMemoryAddresses(game);
             game.baseLimitations = GetBaseLimitationsFromFile(game);
             Debug.WriteLine("Done reading files for game.");
         }
@@ -64,50 +64,40 @@ namespace GTAVC_Chaos
             return games;
         }
 
-        static private List<MemoryAddress> GetMemoryAddressesFromFile(Game game)
+        static private List<MemoryAddress> ReadMemoryAddresses(Game game)
         {
-            // TODO(Ligh): Properly catch errors here.
-
             Debug.WriteLine("Reading memory addresses from file.");
-            var file = XmlUtils.getXmlDocument(game.abbreviation, memoryAddressesFilename);
+            var file = XmlUtils.getXDocument(game.abbreviation, memoryAddressesFilename);
 
-            var gameVersion = game.gameVersions.Find(v => v.name == file.SelectSingleNode("//addresses").Attributes["gameversion"].Value);
+            // Read static addresses
+            var memoryAddresses =
+                (from address in file.Descendants("memoryaddress")
+                 where address.Element("address").Attribute(XmlUtils.xsiNamespace + "type").Value == "static"
+                 select new MemoryAddress
+                 (
+                     game,
+                     address.Element("name").Value,
+                     Int64.Parse(address.Element("address").Value, NumberStyles.HexNumber),
+                     game.gameVersions.Find(v => v.name == file.Element("addresses").Attribute("gameversion").Value),
+                     address.Element("datatype").Value,
+                     Int32.Parse(address.Element("length")?.Value ?? "0")
+                 )).ToList();
 
-            if (gameVersion == null)
-            {
-                throw new ArgumentOutOfRangeException(nameof(gameVersion), "Unable to read memory addresses: No known game version set.");
-            }
+            // Read dynamic addresses
+            memoryAddresses.AddRange(
+                (from address in file.Descendants("memoryaddress")
+                 where address.Element("address").Attribute(XmlUtils.xsiNamespace + "type").Value == "dynamic"
+                 select new MemoryAddress
+                 (
+                     game,
+                     address.Element("name").Value,
+                     address.Element("address").Element("baseaddress").Value,
+                     Int64.Parse(address.Element("address").Element("offset").Value, NumberStyles.HexNumber),
+                     address.Element("datatype").Value,
+                     Int32.Parse(address.Element("length")?.Value ?? "0")
+                 )).ToList());
 
-            var memoryAddresses = new List<MemoryAddress>();
-
-            foreach (XmlNode node in file.SelectNodes("//addresses/memoryaddress"))
-            {
-                MemoryAddress addressObj;
-
-                string name = node.SelectSingleNode("name").InnerText;
-                string datatype = node.SelectSingleNode("datatype").InnerText;
-
-                var sizeNode = node.SelectSingleNode("length");
-                int size = sizeNode != null ? Int32.Parse(sizeNode.InnerText) : 0;
-
-                var addressNode = node.SelectSingleNode("address");
-
-                if (addressNode.Attributes["xsi:type"].Value == "static")
-                {
-                    long address = Int64.Parse(addressNode.InnerText, NumberStyles.HexNumber);
-                    addressObj = new MemoryAddress(game, name, address, gameVersion, datatype, size);
-                }
-                else
-                {
-                    string baseAddressName = addressNode.SelectSingleNode("baseaddress").InnerText;
-                    long offset = Int64.Parse(addressNode.SelectSingleNode("offset").InnerText, NumberStyles.HexNumber);
-                    addressObj = new MemoryAddress(game, name, baseAddressName, offset, datatype, size);
-                }
-
-                memoryAddresses.Add(addressObj);
-            }
-
-            Debug.WriteLine($"Read {memoryAddresses.Count} memory addresses from file.");
+            // TODO(Ligh): Validate everything has been read correctly.
 
             return memoryAddresses;
         }

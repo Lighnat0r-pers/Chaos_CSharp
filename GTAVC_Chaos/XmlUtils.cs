@@ -11,6 +11,9 @@ namespace GTAVC_Chaos
         static private string baseResourceString = "GTAVC_Chaos.Resources.";
         static private string dataDirectory = "Data\\";
 
+        static public XNamespace xsiNamespace
+            => "http://www.w3.org/2001/XMLSchema-instance";
+
         static private void xmlValidationEventHandler(object sender, ValidationEventArgs e)
         {
             if (e.Severity == XmlSeverityType.Warning)

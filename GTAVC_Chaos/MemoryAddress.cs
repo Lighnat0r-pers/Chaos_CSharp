@@ -34,6 +34,11 @@ namespace GTAVC_Chaos
         public MemoryAddress(Game game, string name, long address, GameVersion gameVersion, string type, int length = 0)
             : this(game, name, type, length)
         {
+            if (gameVersion == null)
+            {
+                throw new ArgumentNullException(nameof(gameVersion), "Unable to construct memory address: No game version set.");
+            }
+
             Address = address;
             this.gameVersion = gameVersion;
         }
