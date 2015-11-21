@@ -17,7 +17,7 @@ namespace GTAVC_Chaos
         [STAThread]
         static void Main()
         {
-            SetThreadCulture();
+            SetUKCultureInfo();
 
             // Set these application settings before creating any type of System.Windows.Forms object.
             Application.EnableVisualStyles();
@@ -53,15 +53,13 @@ namespace GTAVC_Chaos
         /// <summary>
         /// To ensure the decimal separator is always a period, set the culture to en-UK.
         /// </summary>
-        private static void SetThreadCulture()
+        private static void SetUKCultureInfo()
         {
-            if (Thread.CurrentThread.CurrentCulture.Name != "en-UK")
+            if (CultureInfo.CurrentCulture.Name != "en-UK")
             {
-                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-UK");
+                var culture = CultureInfo.CreateSpecificCulture("en-UK");
                 CultureInfo.DefaultThreadCurrentCulture = culture;
                 CultureInfo.DefaultThreadCurrentUICulture = culture;
-                Thread.CurrentThread.CurrentCulture = culture;
-                Thread.CurrentThread.CurrentUICulture = culture;
             }
         }
 
