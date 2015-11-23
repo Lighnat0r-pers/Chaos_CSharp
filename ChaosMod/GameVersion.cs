@@ -20,7 +20,7 @@ namespace ChaosMod
 
         public long GetOffsetForVersion(long address)
         {
-            return offsets.First(kvp => kvp.Key >= address).Value;
+            return offsets.FirstOrDefault(kvp => kvp.Key >= address).Value;
         }
     }
 }
