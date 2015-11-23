@@ -78,6 +78,11 @@ namespace ChaosMod
         {
             Settings.game = gameSelect.SelectedItem as Game;
 
+            if (Settings.game == null)
+            {
+                throw new ArgumentNullException(nameof(Settings.game), "No game selected.");
+            }
+
             if (!int.TryParse(seedInput.Text, out Settings.seed))
             {
                 Debug.WriteLine("Seed entered was not valid, set to default 0.");

@@ -40,7 +40,6 @@ namespace ChaosMod
             return limitations.TrueForAll(l => l.Check());
         }
 
-        /// <returns>True if successful, false otherwise.</returns>
         public void Activate()
         {
             foreach (var activator in activators)

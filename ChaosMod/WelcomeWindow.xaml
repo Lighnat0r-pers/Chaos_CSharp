@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:ChaosMod"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="WelcomeWindow1" 
     x:Class="ChaosMod.WelcomeWindow"
-    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Title="{Binding WindowName}" Activated="WelcomeWindow1_Activated" Width="250" Height="385.333" d:DataContext="{d:DesignData /SampleData/WelcomeWindowSampleData.xaml}">
+    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Activated="WelcomeWindow1_Activated" Width="250" Height="385.333" d:DataContext="{d:DesignData /SampleData/WelcomeWindowSampleData.xaml}">
     <Grid Margin="0,0,0,0.666">
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>

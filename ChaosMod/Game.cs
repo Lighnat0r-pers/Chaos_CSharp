@@ -16,8 +16,8 @@ namespace ChaosMod
     class Game
     {
         private long versionAddress;
-
         private string name;
+
         public string abbreviation;
         public string windowName;
         public string windowClass;
@@ -114,6 +114,14 @@ namespace ChaosMod
             Debug.WriteLine($"Detected game version: {currentVersion.name}");
         }
 
+        public void StartModulesLoop()
+        {
+            DataFileHandler.ReadFilesForGame(this);
+            ResolveReferences();
+
+            DoModulesLoop();
+        }
+
         public void DoModulesLoop()
         {
             while (!Program.shouldStop)
@@ -152,7 +160,7 @@ namespace ChaosMod
 
                 if (address.baseAddress == null)
                 {
-                    throw new ArgumentOutOfRangeException("baseAddress", "Base address for dynamic address is not defined.");
+                    throw new ArgumentNullException("baseAddress", "Base address for dynamic address is not defined.");
                 }
             }
         }

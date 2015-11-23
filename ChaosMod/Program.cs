@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Threading;
 
 namespace ChaosMod
@@ -19,8 +17,6 @@ namespace ChaosMod
             var welcomeWindow = new WelcomeWindow();
             var outputWindow = new OutputWindow();
 
-            SetUKCultureInfo();
-
             // Get information about supported games.
             Settings.SupportedGames = DataFileHandler.ReadGames();
 
@@ -35,40 +31,14 @@ namespace ChaosMod
             }
 
             // Run the modules in a separate thread.
-            Thread modulesThread = new Thread(RunGameLoop);
+            Thread modulesThread = new Thread(Settings.game.StartModulesLoop);
             modulesThread.Start();
 
             // Show the output window.
             Debug.WriteLine("Showing Output Window");
             outputWindow.ShowDialog();
 
-            Debug.WriteLine("Chaos% shutting down: reached end of Main().");
-        }
-
-        /// <summary>
-        /// To ensure the decimal separator is always a period, set the culture to en-UK.
-        /// </summary>
-        private static void SetUKCultureInfo()
-        {
-            if (CultureInfo.CurrentCulture.Name != "en-UK")
-            {
-                var culture = CultureInfo.CreateSpecificCulture("en-UK");
-                CultureInfo.DefaultThreadCurrentCulture = culture;
-                CultureInfo.DefaultThreadCurrentUICulture = culture;
-            }
-        }
-
-        static void RunGameLoop()
-        {
-            if (Settings.game == null)
-            {
-                throw new ArgumentNullException(nameof(Settings.game), "No game chosen.");
-            }
-
-            DataFileHandler.ReadFilesForGame(Settings.game);
-            Settings.game.ResolveReferences();
-
-            Settings.game.DoModulesLoop();
+            Debug.WriteLine("Program shutting down: reached end of Main().");
         }
     }
 }
