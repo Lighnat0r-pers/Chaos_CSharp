@@ -49,11 +49,11 @@ namespace ChaosMod
 
         public void GetHandle()
         {
-            Debug.WriteLine("Starting attempts to get game handle");
+            Debug.WriteLine("Starting attempts to get game handle.");
             OpenProcess();
             if (memory != null)
             {
-                Debug.WriteLine("Game handle found");
+                Debug.WriteLine("Game handle found.");
                 GetVersion();
 
                 foreach (var memoryAddress in memoryAddresses)
@@ -63,7 +63,7 @@ namespace ChaosMod
             }
             else
             {
-                Debug.WriteLine("Search for game handle aborted");
+                Debug.WriteLine("Search for game handle aborted.");
                 Thread.CurrentThread.Abort();
             }
         }
@@ -97,6 +97,8 @@ namespace ChaosMod
             memory.CloseProcess();
             memory = null;
             currentVersion = null;
+
+            Debug.WriteLine("Game handle freed.");
         }
 
         public void GetVersion()
@@ -114,23 +116,21 @@ namespace ChaosMod
 
         public void DoModulesLoop()
         {
-            GetHandle();
-
-            var modules = new Modules();
-
-            while (IsRunning && !Program.shouldStop)
+            while (!Program.shouldStop)
             {
-                modules.Update();
-            }
+                GetHandle();
 
-            if (IsRunning)
-            {
-                // The modules affect the game state, so if the game is still running,
-                // we shut them down to restore the game to its unaltered state.
+                var modules = new Modules();
+
+                while (IsRunning && !Program.shouldStop)
+                {
+                    modules.Update();
+                }
+
                 modules.Shutdown();
-            }
 
-            FreeHandle();
+                FreeHandle();
+            }
         }
 
         public MemoryAddress FindMemoryAddressByName(string name)
