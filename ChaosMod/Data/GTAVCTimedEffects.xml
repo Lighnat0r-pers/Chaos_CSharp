@@ -134,7 +134,7 @@ Supported activator types:
           <parameter>
             <name>CurrentVehicleType</name>
             <value>0</value>
-            <!-- TODO: We should be able to specify "Car" here, and the program would realize the actual value the game memory address uses for this is 0-->
+            <!-- TODO: We should be able to specify "VehicleType::Car" here, and the program would realize the actual value the game memory address uses for this is 0 -> defined in some other xml file.-->
           </parameter>
         </parameters>
       </limitation>

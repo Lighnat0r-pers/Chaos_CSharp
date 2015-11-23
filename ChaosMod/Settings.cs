@@ -6,7 +6,7 @@ namespace ChaosMod
     {
         static private int defaultWaitTime = 250;
         static private int seedValidLength = 4;
-        static private float programVersion = 2.0f; // Converted in interface to 2 decimal places.
+        static private double programVersion = 2.0;
         static private string programName = "Chaos%";
         static private int sanicModeMultiplier = 10;
         static private int baseTimeMultiplier = 1;
@@ -47,7 +47,7 @@ namespace ChaosMod
         }
 
         static public int TimeMultiplier => sanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;
-        static public float ProgramVersion => programVersion;
+        static public double ProgramVersion => programVersion;
         static public int SeedValidLength => seedValidLength;
         static public int DefaultWaitTime => defaultWaitTime;
         static public string ProgramName => programName;

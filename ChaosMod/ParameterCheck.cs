@@ -24,6 +24,11 @@ namespace ChaosMod
 
         public bool Check()
         {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException(nameof(parameter), "No parameter set.");
+            }
+
             return address.Read() == parameter;
         }
     }

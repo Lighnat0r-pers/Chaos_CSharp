@@ -43,7 +43,6 @@ namespace ChaosMod
             outputWindow.ShowDialog();
 
             Debug.WriteLine("Chaos% shutting down: reached end of Main().");
-            modulesThread.Abort();
         }
 
         /// <summary>
