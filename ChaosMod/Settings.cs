@@ -23,6 +23,7 @@ namespace ChaosMod
         static public int difficulty;
         static public string difficultyName;
         static public Game game;
+        static public TimedEffect currentEffect;
 
         static public Dictionary<string, int> difficultiesArray;
         static private List<Game> supportedGames;
@@ -37,6 +38,12 @@ namespace ChaosMod
         {
             get { return supportedGames; }
             set { supportedGames = value; }
+        }
+
+        static public TimedEffect CurrentEffect
+        {
+            get { return currentEffect; }
+            set { currentEffect = value; }
         }
 
         static public int TimeMultiplier => sanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;

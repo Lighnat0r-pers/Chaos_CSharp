@@ -16,11 +16,11 @@
             <RowDefinition Height="30*"/>
             <RowDefinition Height="64*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="difficultyTextBlock" Margin="10,10,46,0" TextWrapping="Wrap" Grid.Row="1" VerticalAlignment="Top" d:LayoutOverrides="TopMargin, BottomMargin"/>
-        <TextBlock x:Name="StaticEffectsTextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0,46,0" Grid.Row="2"/>
+        <TextBlock x:Name="difficultyTextBlock" Margin="10,10,46,0" TextWrapping="Wrap" Grid.Row="1" VerticalAlignment="Top" d:LayoutOverrides="TopMargin, BottomMargin" Text="{Binding DifficultyText}"/>
+        <TextBlock x:Name="StaticEffectsTextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0,46,0" Grid.Row="2" Text="{Binding StaticEffectsText}"/>
         <TextBlock x:Name="PermanentEffectsTitle" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Permanent Effects Active:" Margin="10,0,0,8.04" Grid.Row="3" d:LayoutOverrides="Height"/>
-        <TextBlock x:Name="PermanentEffectsTextBlock" Margin="10,0,69,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="PermanentEffectsTextBlock" Margin="10,0,69,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding PermanentEffectsText}"/>
         <TextBlock x:Name="TimedEffectsTitle" HorizontalAlignment="Left" Margin="10,0,0,14.04" Grid.Row="5" TextWrapping="Wrap" Text="Timed Effect active:" d:LayoutOverrides="Height"/>
-        <TextBlock x:Name="TimedEffectsTextBlock" Margin="9,1,69,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="TimedEffectsTextBlock" Margin="9,1,69,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding TimedEffectsText}"/>
     </Grid>
 </Controls:MetroWindow>

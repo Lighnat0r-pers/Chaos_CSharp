@@ -10,8 +10,19 @@ namespace ChaosMod
         public List<TimedEffect> timedEffects;
 
         public bool effectActive = false;
-        public TimedEffect currentEffect;
+        private TimedEffect currentEffect;
         public EffectTimer effectTimer;
+
+        internal TimedEffect CurrentEffect
+        {
+            get { return currentEffect; }
+
+            set
+            {
+                currentEffect = value;
+                Settings.CurrentEffect = value;
+            }
+        }
 
         public TimedEffectHandler(List<TimedEffect> timedEffects)
         {
@@ -38,7 +49,7 @@ namespace ChaosMod
                     {
                         effect.Activate();
                         effectActive = true;
-                        currentEffect = effect;
+                        CurrentEffect = effect;
                         effectTimer.SetDuration(effect.effectLength);
                     }
                 }
@@ -49,9 +60,9 @@ namespace ChaosMod
 
                 if (effectTimer.EndTimeHasPassed())
                 {
-                    currentEffect.Deactivate();
+                    CurrentEffect.Deactivate();
                     effectActive = false;
-                    currentEffect = null;
+                    CurrentEffect = null;
                 }
 
                 // TODO(Ligh): Add a mechanism that stops the game from resetting whatever the effect did (e.g. by continuously activating the effect).
@@ -60,9 +71,9 @@ namespace ChaosMod
 
         public void Shutdown()
         {
-            currentEffect?.Deactivate();
+            CurrentEffect?.Deactivate();
             effectActive = false;
-            currentEffect = null;
+            CurrentEffect = null;
         }
 
         public TimedEffect DebugGetNextEffect()

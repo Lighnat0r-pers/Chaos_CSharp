@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Threading;
 using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace ChaosMod
 {
@@ -11,10 +11,12 @@ namespace ChaosMod
     /// </summary>
     public partial class OutputWindow : MetroWindow
     {
+        private DispatcherTimer dispatcherTimer;
+
         public string DifficultyText => $"{Settings.difficultyName} difficulty, seed {Settings.seed.ToString($"D{Settings.SeedValidLength}")}";
         public string StaticEffectsText => "Static Effects " + (Settings.staticEffectsEnabled ? "Enabled" : "Disabled");
         public string PermanentEffectsText => "Permanent effect placeholder";
-        public string TimedEffectsText => "Timed effect placeholder";
+        public string TimedEffectsText => $"{Settings.CurrentEffect?.name ?? "No effect"} active";
 
 
         public OutputWindow()
@@ -22,9 +24,17 @@ namespace ChaosMod
             InitializeComponent();
             Visibility = Visibility.Hidden;
             Title = Settings.ProgramName;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, Settings.DefaultWaitTime);
         }
 
         private void OutputWindow1_Activated(object sender, EventArgs e)
+        {
+            dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             difficultyTextBlock.Text = DifficultyText;
             StaticEffectsTextBlock.Text = StaticEffectsText;
