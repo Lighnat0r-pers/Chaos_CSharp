@@ -5,34 +5,39 @@
     xmlns:local="clr-namespace:ChaosMod"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="WelcomeWindow1" 
     x:Class="ChaosMod.WelcomeWindow"
-    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Title="{Binding WindowName}" Height="400">
-    <Grid>
+    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Title="{Binding WindowName}" Activated="WelcomeWindow1_Activated" Width="250" Height="385.333">
+    <Grid Margin="0,0,0,0.666">
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
-            <RowDefinition Height="51*"/>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="46*"/>
-            <RowDefinition Height="23*"/>
-            <RowDefinition Height="53*"/>
+            <RowDefinition Height="33*"/>
             <RowDefinition Height="42*"/>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="37*"/>
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="33*"/>
+            <RowDefinition Height="67*"/>
+            <RowDefinition Height="76*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="introText" Margin="10,10,98.906,17.04" TextWrapping="Wrap" Text="{Binding IntroText}" d:LayoutOverrides="VerticalAlignment, Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="1"/>
-        <TextBlock x:Name="seedInstruction" Margin="10,0,83,9.04" TextWrapping="Wrap" Text="{Binding SeedInstruction}" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="2"/>
-        <TextBox x:Name="seedInput" TextWrapping="Wrap" Margin="10,0,83,14" MaxLength="{Binding SeedLength}" TextChanged="seedInput_TextChanged" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="3"/>
-        <TextBlock x:Name="DifficultyLabel" HorizontalAlignment="Left" Margin="10,0,0,4" TextWrapping="Wrap" Text="Difficulty:" Width="54" Grid.Row="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
-        <UniformGrid x:Name="difficultyGrid" Rows="1" Margin="10,1,10,30" Grid.Row="5" d:LayoutOverrides="LeftMargin, RightMargin">
+        <TextBlock x:Name="introText" Margin="10,10,98.906,14.04" TextWrapping="Wrap" Text="{Binding IntroText}" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="1"/>
+        <StackPanel x:Name="GamePanel" Margin="10,4.999,10,10" Grid.Row="2" Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <TextBlock x:Name="gameSelectLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Height="19.92" Margin="0,0,10,-1.128" Text="Game:" />
+            <Controls:SplitButton x:Name="gameSelect" BorderThickness="1" Width="179.667" HorizontalContentAlignment="Center"/>
+        </StackPanel>
+        <TextBlock x:Name="seedInstruction" Margin="10,0,83,4.021" TextWrapping="Wrap" d:LayoutOverrides="Height, LeftMargin, RightMargin" Grid.Row="3" Text="{Binding SeedInstruction}"/>
+        <TextBox x:Name="seedInput" TextWrapping="Wrap" Margin="10,3.976,83,6.989" MaxLength="{Binding SeedLength}" TextChanged="seedInput_TextChanged" d:LayoutOverrides="Height, LeftMargin, RightMargin" Grid.Row="4"/>
+        <TextBlock x:Name="DifficultyLabel" Margin="10,-0.001,121.881,4.041" TextWrapping="Wrap" Text="Difficulty:" Grid.Row="5" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <UniformGrid x:Name="DifficultyPanel" Rows="1" Margin="10,1,10,12.683" Grid.Row="6" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin">
             <RadioButton x:Name="difficultyEasy" Content="Easy" GroupName="Difficulty" HorizontalAlignment="Center"/>
             <RadioButton x:Name="difficultyMedium" Content="Medium" GroupName="Difficulty" HorizontalAlignment="Center" IsChecked="True"/>
             <RadioButton x:Name="difficultyHard" Content="Hard" GroupName="Difficulty" HorizontalAlignment="Left" Margin="12.4,0,0,0"/>
         </UniformGrid>
-        <Button x:Name="advancedOptionsButton" Content="Show advanced options" Margin="51.397,0,47.397,17" d:LayoutOverrides="Width, Height, LeftMargin, RightMargin" Grid.Row="6" Click="advancedOptionsButton_Click"/>
-        <StackPanel x:Name="advancedOptions" Margin="10,0,10,20" Grid.Row="7" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Visibility="Hidden">
+        <Button x:Name="advancedOptionsButton" Content="Show advanced options" Margin="51.397,0,47.397,7.969" d:LayoutOverrides="Width, LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="7" Click="advancedOptionsButton_Click"/>
+        <StackPanel x:Name="advancedOptions" Margin="10,0,10,4.937" Grid.Row="8" d:LayoutOverrides="Height, LeftMargin, RightMargin" Visibility="Hidden">
             <CheckBox x:Name="staticEffectsEnabled" Content="Static effects enabled" Margin="0,0,0,4" IsChecked="{Binding StaticEffectsEnabledDefault, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WelcomeWindow}}}"/>
             <CheckBox x:Name="timedEffectsEnabled" Content="Timed effects enabled" Margin="0,0,0,4" IsChecked="{Binding TimedEffectsEnabledDefault, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WelcomeWindow}}}"/>
             <CheckBox x:Name="sanicModeEnabled" Content="Sånic mode enabled" IsChecked="{Binding SanicModeEnabledDefault, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WelcomeWindow}}}" IsEnabled="{Binding IsChecked, ElementName=timedEffectsEnabled}" IsEnabledChanged="sanicModeEnabled_IsEnabledChanged"/>
         </StackPanel>
-        <Button x:Name="confirmButton" Content="Confirm" Margin="88.905,0,98.906,14.7" Grid.Row="8" d:LayoutOverrides="Width, Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Click="confirmButton_Click"/>
+        <Button x:Name="confirmButton" Content="Confirm" Margin="88.905,5,98.906,15" Grid.Row="9" d:LayoutOverrides="Width" Click="confirmButton_Click" Height="25" VerticalAlignment="Bottom"/>
     </Grid>
 </Controls:MetroWindow>

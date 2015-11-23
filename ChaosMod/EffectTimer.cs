@@ -12,7 +12,7 @@ namespace ChaosMod
         public EffectTimer()
         {
             // Try to find an IGT address to use. If there isn't one, realtime will be used.
-            GameTime = Program.game.FindMemoryAddressByName("GameTimeInMS");
+            GameTime = Settings.game.FindMemoryAddressByName("GameTimeInMS");
         }
 
         // NOTE(Ligh): This function does not offer millisecond resolution, just a 

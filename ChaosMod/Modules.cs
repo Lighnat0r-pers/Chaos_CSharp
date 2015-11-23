@@ -27,7 +27,7 @@ namespace ChaosMod
         public void InitTimedEffectsModule()
         {
             Debug.WriteLine("Initializing timed effects module.");
-            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Program.game));
+            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Settings.game));
             moduleHandlers.Add(timedEffectHandler);
         }
 
@@ -51,7 +51,7 @@ namespace ChaosMod
             {
                 moduleHandler.Update();
             }
-            Thread.Sleep(Settings.DEFAULT_WAIT_TIME * 2);
+            Thread.Sleep(Settings.DefaultWaitTime * 2);
         }
 
         public void Shutdown()
@@ -65,7 +65,7 @@ namespace ChaosMod
 
         public void DebugReadAddresses()
         {
-            foreach (MemoryAddress address in Program.game.memoryAddresses)
+            foreach (MemoryAddress address in Settings.game.memoryAddresses)
             {
                 Debug.WriteLine($"Address: {address.name}, Value: {address.Read() as object}");
             }

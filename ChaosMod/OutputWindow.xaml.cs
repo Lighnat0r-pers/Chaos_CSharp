@@ -11,7 +11,7 @@ namespace ChaosMod
     /// </summary>
     public partial class OutputWindow : MetroWindow
     {
-        public string DifficultyText => $"{Settings.difficultyName} difficulty, seed {Settings.seed.ToString($"D{Settings.SEED_VALID_LENGTH}")}";
+        public string DifficultyText => $"{Settings.difficultyName} difficulty, seed {Settings.seed.ToString($"D{Settings.SeedValidLength}")}";
         public string StaticEffectsText => "Static Effects " + (Settings.staticEffectsEnabled ? "Enabled" : "Disabled");
         public string PermanentEffectsText => "Permanent effect placeholder";
         public string TimedEffectsText => "Timed effect placeholder";
@@ -21,7 +21,7 @@ namespace ChaosMod
         {
             InitializeComponent();
             Visibility = Visibility.Hidden;
-            Title = Settings.PROGRAM_NAME;
+            Title = Settings.ProgramName;
         }
 
         private void OutputWindow1_Activated(object sender, EventArgs e)

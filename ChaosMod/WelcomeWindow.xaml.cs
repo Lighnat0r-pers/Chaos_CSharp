@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -12,18 +13,18 @@ namespace ChaosMod
     /// </summary>
     public partial class WelcomeWindow : MetroWindow
     {
-        public string IntroText => $"Welcome to Chaos% v{Settings.PROGRAM_VERSION}!";
-        public string SeedInstruction => $"Please enter a {Settings.SEED_VALID_LENGTH} digit seed below:";
-        public int SeedLength => Settings.SEED_VALID_LENGTH;
+        public string IntroText => $"Welcome to Chaos% v{Settings.ProgramVersion}!";
+        public string SeedInstruction => $"Enter a {Settings.SeedValidLength} digit seed below:";
+        public int SeedLength => Settings.SeedValidLength;
         public bool? TimedEffectsEnabledDefault => Settings.timedEffectsEnabledDefault;
         public bool? StaticEffectsEnabledDefault => Settings.staticEffectsEnabledDefault;
         public bool? SanicModeEnabledDefault => Settings.sanicModeEnabledDefault;
+        private List<Game> SupportedGames => Settings.SupportedGames;
 
         public WelcomeWindow()
         {
             InitializeComponent();
-            Title = Settings.PROGRAM_NAME;
-
+            Title = Settings.ProgramName;
             // TODO(Ligh): Handle difficulty options dynamically instead of hardcoding available options + default.
         }
 
@@ -52,6 +53,7 @@ namespace ChaosMod
         {
             if (advancedOptions.IsVisible)
             {
+                advancedOptionsButton.Content = "Show advanced options";
                 advancedOptions.Visibility = Visibility.Hidden;
                 timedEffectsEnabled.IsChecked = TimedEffectsEnabledDefault;
                 staticEffectsEnabled.IsChecked = StaticEffectsEnabledDefault;
@@ -59,6 +61,7 @@ namespace ChaosMod
             }
             else
             {
+                advancedOptionsButton.Content = "Hide advanced options";
                 advancedOptions.Visibility = Visibility.Visible;
             }
         }
@@ -73,12 +76,14 @@ namespace ChaosMod
 
         private void confirmButton_Click(object sender, RoutedEventArgs e)
         {
+            Settings.game = gameSelect.SelectedItem as Game;
+
             if (!int.TryParse(seedInput.Text, out Settings.seed))
             {
                 Debug.WriteLine("Seed entered was not valid, set to default 0.");
             }
 
-            Settings.difficultyName = (string)difficultyGrid.Children.OfType<RadioButton>().First(r => (bool)r.IsChecked).Content;
+            Settings.difficultyName = (string)DifficultyPanel.Children.OfType<RadioButton>().First(r => (bool)r.IsChecked).Content;
 
             if (!Settings.difficultiesArray.TryGetValue(Settings.difficultyName, out Settings.difficulty))
             {
@@ -91,6 +96,7 @@ namespace ChaosMod
             Settings.timedEffectsEnabled = (bool)timedEffectsEnabled.IsChecked;
             Settings.sanicModeEnabled = (bool)sanicModeEnabled.IsChecked;
 
+            Debug.WriteLine($"Game: {Settings.game.Name}");
             Debug.WriteLine($"Seed: {Settings.seed}");
             Debug.WriteLine($"Difficulty: {Settings.difficultyName}");
             Debug.WriteLine($"Static Effects Enabled: {Settings.staticEffectsEnabled}");
@@ -100,6 +106,13 @@ namespace ChaosMod
 
             Closed -= new EventHandler(WelcomeWindow_Closed);
             Close();
+        }
+
+        private void WelcomeWindow1_Activated(object sender, EventArgs e)
+        {
+            gameSelect.ItemsSource = SupportedGames;
+            gameSelect.DisplayMemberPath = "Name";
+            gameSelect.SelectedIndex = 0;
         }
     }
 }

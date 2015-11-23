@@ -8,16 +8,12 @@ namespace ChaosMod
         static private int seedValidLength = 4;
         static private float programVersion = 2.0f; // Converted in interface to 2 decimal places.
         static private string programName = "Chaos%";
-
-        // Define private variables.
         static private int sanicModeMultiplier = 10;
         static private int baseTimeMultiplier = 1;
 
-        // Define public variables.
         static public bool timedEffectsEnabledDefault = true;
         static public bool staticEffectsEnabledDefault = true;
         static public bool sanicModeEnabledDefault = false;
-
         static public int defaultDifficulty;
         static public bool timedEffectsEnabled;
         static public bool permanentEffectsEnabled;
@@ -26,10 +22,10 @@ namespace ChaosMod
         static public int seed;
         static public int difficulty;
         static public string difficultyName;
-
-        static public string gameName;
+        static public Game game;
 
         static public Dictionary<string, int> difficultiesArray;
+        static private List<Game> supportedGames;
 
 #if DEBUG
         public const bool DEBUG_MODE_ENABLED = true;
@@ -37,30 +33,17 @@ namespace ChaosMod
         public const bool DEBUG_MODE_ENABLED = false;
 #endif
 
-        static public int TimeMultiplier
+        static public List<Game> SupportedGames
         {
-            get { return sanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier; }
+            get { return supportedGames; }
+            set { supportedGames = value; }
         }
 
-        public static float PROGRAM_VERSION
-        {
-            get { return programVersion; }
-        }
-
-        public static int SEED_VALID_LENGTH
-        {
-            get { return seedValidLength; }
-        }
-
-        public static int DEFAULT_WAIT_TIME
-        {
-            get { return defaultWaitTime; }
-        }
-
-        public static string PROGRAM_NAME
-        {
-            get { return programName; }
-        }
+        static public int TimeMultiplier => sanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;
+        static public float ProgramVersion => programVersion;
+        static public int SeedValidLength => seedValidLength;
+        static public int DefaultWaitTime => defaultWaitTime;
+        static public string ProgramName => programName;
 
         /// <summary>
         /// Static constructor for the Settings class that will run once at the start of the program.

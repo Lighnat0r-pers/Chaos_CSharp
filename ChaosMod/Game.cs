@@ -18,7 +18,7 @@ namespace ChaosMod
         private long versionAddress;
         private string baseVersion;
 
-        public string name;
+        private string name;
         public string abbreviation;
         public string windowName;
         public string windowClass;
@@ -30,14 +30,17 @@ namespace ChaosMod
         public List<MemoryAddress> memoryAddresses;
         public List<Limitation> baseLimitations;
 
-        public bool IsRunning
+        public bool IsRunning => memory != null && memory.HasValidProcess();
+
+        public string Name
         {
-            get { return memory != null && memory.HasValidProcess(); }
+            get { return name; }
+            set { name = value; }
         }
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, List<GameVersion> gameVersions)
         {
-            this.name = name;
+            this.Name = name;
             this.abbreviation = abbreviation;
             this.windowName = windowName;
             this.windowClass = windowClass;
@@ -87,7 +90,7 @@ namespace ChaosMod
                         break;
                     }
                 }
-                Thread.Sleep(Settings.DEFAULT_WAIT_TIME);
+                Thread.Sleep(Settings.DefaultWaitTime);
             }
         }
 
