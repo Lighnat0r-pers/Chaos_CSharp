@@ -213,11 +213,16 @@ namespace ChaosMod
                           game.FindMemoryAddressByName(activator.Element("address").Value)
                      )).ToList(),
                      UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
-                     new List<Limitation>
-                     (from limitation in effect.Descendants("limitation")
-                      select GetLimitationFromFile(game, limitation.Element("name").Value)
-                      ).ToList()
                  )).ToList();
+                    effect.Descendants("limitation")
+                    .Select(limit =>
+                    {
+                        var limitation = ReadLimitation(game, limit.Element("name").Value);
+                        limitation.Target = Boolean.Parse(limit.Element("target").Value);
+                        limitation.SetParameters(ReadParameters(limit));
+                        return limitation;
+                    })
+                    .ToList()
 
             // TODO(Ligh): Validate everything has been read correctly.
 
