@@ -36,7 +36,6 @@
       <xs:element name="windowname" type="xs:token"/>
       <xs:element name="windowclass" type="xs:token"/>
       <xs:element name="versionaddress" type="Address"/>
-      <xs:element name="baseversion" type="xs:token"/>
       <xs:element ref="versions"/>
     </xs:sequence>
   </xs:complexType>

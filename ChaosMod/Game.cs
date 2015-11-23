@@ -16,7 +16,6 @@ namespace ChaosMod
     class Game
     {
         private long versionAddress;
-        private string baseVersion;
 
         private string name;
         public string abbreviation;
@@ -38,14 +37,13 @@ namespace ChaosMod
             set { name = value; }
         }
 
-        public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, string baseVersion, List<GameVersion> gameVersions)
+        public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, List<GameVersion> gameVersions)
         {
             this.Name = name;
             this.abbreviation = abbreviation;
             this.windowName = windowName;
             this.windowClass = windowClass;
             this.versionAddress = versionAddress;
-            this.baseVersion = baseVersion;
             this.gameVersions = gameVersions;
         }
 

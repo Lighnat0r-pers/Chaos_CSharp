@@ -38,7 +38,6 @@ namespace ChaosMod
                     game.Element("windowname").Value,
                     game.Element("windowclass").Value,
                     Int64.Parse(game.Element("versionaddress").Value, NumberStyles.HexNumber),
-                    game.Element("baseversion").Value,
                     game.Descendants("version")
                     .Select(version => new GameVersion
                     (
