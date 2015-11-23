@@ -1,0 +1,38 @@
+﻿<Controls:MetroWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:local="clr-namespace:ChaosMod"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="WelcomeWindow1" 
+    x:Class="ChaosMod.WelcomeWindow"
+    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Title="{Binding WindowName}" Height="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="53*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="40*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="introText" Margin="10,10,98.906,17.04" TextWrapping="Wrap" Text="{Binding IntroText}" d:LayoutOverrides="VerticalAlignment, Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="1"/>
+        <TextBlock x:Name="seedInstruction" Margin="10,0,83,9.04" TextWrapping="Wrap" Text="{Binding SeedInstruction}" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="2"/>
+        <TextBox x:Name="seedInput" TextWrapping="Wrap" Margin="10,0,83,14" MaxLength="{Binding SeedLength}" TextChanged="seedInput_TextChanged" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="3"/>
+        <TextBlock x:Name="DifficultyLabel" HorizontalAlignment="Left" Margin="10,0,0,4" TextWrapping="Wrap" Text="Difficulty:" Width="54" Grid.Row="4" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <UniformGrid x:Name="difficultyGrid" Rows="1" Margin="10,1,10,30" Grid.Row="5" d:LayoutOverrides="LeftMargin, RightMargin">
+            <RadioButton x:Name="difficultyEasy" Content="Easy" GroupName="Difficulty" HorizontalAlignment="Center"/>
+            <RadioButton x:Name="difficultyMedium" Content="Medium" GroupName="Difficulty" HorizontalAlignment="Center" IsChecked="True"/>
+            <RadioButton x:Name="difficultyHard" Content="Hard" GroupName="Difficulty" HorizontalAlignment="Left" Margin="12.4,0,0,0"/>
+        </UniformGrid>
+        <Button x:Name="advancedOptionsButton" Content="Show advanced options" Margin="51.397,0,47.397,17" d:LayoutOverrides="Width, Height, LeftMargin, RightMargin" Grid.Row="6" Click="advancedOptionsButton_Click"/>
+        <StackPanel x:Name="advancedOptions" Margin="10,0,10,20" Grid.Row="7" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Visibility="Hidden">
+            <CheckBox x:Name="staticEffectsEnabled" Content="Static effects enabled" Margin="0,0,0,4" IsChecked="{Binding StaticEffectsEnabledDefault, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WelcomeWindow}}}"/>
+            <CheckBox x:Name="timedEffectsEnabled" Content="Timed effects enabled" Margin="0,0,0,4" IsChecked="{Binding TimedEffectsEnabledDefault, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WelcomeWindow}}}"/>
+            <CheckBox x:Name="sanicModeEnabled" Content="Sånic mode enabled" IsChecked="{Binding SanicModeEnabledDefault, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WelcomeWindow}}}" IsEnabled="{Binding IsChecked, ElementName=timedEffectsEnabled}" IsEnabledChanged="sanicModeEnabled_IsEnabledChanged"/>
+        </StackPanel>
+        <Button x:Name="confirmButton" Content="Confirm" Margin="88.905,0,98.906,14.7" Grid.Row="8" d:LayoutOverrides="Width, Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Click="confirmButton_Click"/>
+    </Grid>
+</Controls:MetroWindow>

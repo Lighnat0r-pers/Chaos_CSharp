@@ -1,0 +1,26 @@
+﻿<Controls:MetroWindow
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:local="clr-namespace:ChaosMod"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="OutputWindow1" 
+    x:Class="ChaosMod.OutputWindow"
+    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" ResizeMode="CanMinimize" Height="331" Width="270" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Activated="OutputWindow1_Activated" Closed="OutputWindow1_Closed">
+    <Grid Margin="0,0,4,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="24*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="64*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="difficultyTextBlock" Margin="10,10,46,0" TextWrapping="Wrap" Grid.Row="1" VerticalAlignment="Top" d:LayoutOverrides="TopMargin, BottomMargin"/>
+        <TextBlock x:Name="StaticEffectsTextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,0,46,0" Grid.Row="2"/>
+        <TextBlock x:Name="PermanentEffectsTitle" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Permanent Effects Active:" Margin="10,0,0,8.04" Grid.Row="3" d:LayoutOverrides="Height"/>
+        <TextBlock x:Name="PermanentEffectsTextBlock" Margin="10,0,69,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="TimedEffectsTitle" HorizontalAlignment="Left" Margin="10,0,0,14.04" Grid.Row="5" TextWrapping="Wrap" Text="Timed Effect active:" d:LayoutOverrides="Height"/>
+        <TextBlock x:Name="TimedEffectsTextBlock" Margin="9,1,69,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top"/>
+    </Grid>
+</Controls:MetroWindow>
