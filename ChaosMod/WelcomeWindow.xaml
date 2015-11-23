@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:ChaosMod"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="WelcomeWindow1" 
     x:Class="ChaosMod.WelcomeWindow"
-    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Title="{Binding WindowName}" Activated="WelcomeWindow1_Activated" Width="250" Height="385.333">
+    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" MinHeight="300" MinWidth="250" Closed="WelcomeWindow_Closed" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Title="{Binding WindowName}" Activated="WelcomeWindow1_Activated" Width="250" Height="385.333" d:DataContext="{d:DesignData /SampleData/WelcomeWindowSampleData.xaml}">
     <Grid Margin="0,0,0,0.666">
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
@@ -19,14 +19,14 @@
             <RowDefinition Height="67*"/>
             <RowDefinition Height="76*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="introText" Margin="10,10,98.906,14.04" TextWrapping="Wrap" Text="{Binding IntroText}" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="1"/>
+        <TextBlock x:Name="introText" Margin="10,10,98.906,7.009" TextWrapping="Wrap" Text="{Binding IntroText}" d:LayoutOverrides="Height, LeftMargin, RightMargin" Grid.Row="1"/>
         <StackPanel x:Name="GamePanel" Margin="10,4.999,10,10" Grid.Row="2" Orientation="Horizontal" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <TextBlock x:Name="gameSelectLabel" HorizontalAlignment="Left" TextWrapping="Wrap" Height="19.92" Margin="0,0,10,-1.128" Text="Game:" />
             <Controls:SplitButton x:Name="gameSelect" BorderThickness="1" Width="179.667" HorizontalContentAlignment="Center"/>
         </StackPanel>
-        <TextBlock x:Name="seedInstruction" Margin="10,0,83,4.021" TextWrapping="Wrap" d:LayoutOverrides="Height, LeftMargin, RightMargin" Grid.Row="3" Text="{Binding SeedInstruction}"/>
+        <TextBlock x:Name="seedInstruction" Margin="10,0,10,4.021" TextWrapping="Wrap" Grid.Row="3" Text="{Binding SeedInstruction}" d:LayoutOverrides="Height"/>
         <TextBox x:Name="seedInput" TextWrapping="Wrap" Margin="10,3.976,83,6.989" MaxLength="{Binding SeedLength}" TextChanged="seedInput_TextChanged" d:LayoutOverrides="Height, LeftMargin, RightMargin" Grid.Row="4"/>
-        <TextBlock x:Name="DifficultyLabel" Margin="10,-0.001,121.881,4.041" TextWrapping="Wrap" Text="Difficulty:" Grid.Row="5" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <TextBlock x:Name="DifficultyLabel" Margin="10,-0.002,121.881,0" TextWrapping="Wrap" Text="Difficulty:" Grid.Row="5" d:LayoutOverrides="LeftMargin, RightMargin" VerticalAlignment="Top"/>
         <UniformGrid x:Name="DifficultyPanel" Rows="1" Margin="10,1,10,12.683" Grid.Row="6" d:LayoutOverrides="Height, LeftMargin, RightMargin, TopMargin, BottomMargin">
             <RadioButton x:Name="difficultyEasy" Content="Easy" GroupName="Difficulty" HorizontalAlignment="Center"/>
             <RadioButton x:Name="difficultyMedium" Content="Medium" GroupName="Difficulty" HorizontalAlignment="Center" IsChecked="True"/>

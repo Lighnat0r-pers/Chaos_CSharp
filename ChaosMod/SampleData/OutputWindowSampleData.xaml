@@ -1,0 +1,14 @@
+﻿<ChaosMod:OutputWindow xmlns:ChaosMod="clr-namespace:ChaosMod" xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" DifficultyText="Class vestibulum nam" EnableDWMDropShadow="True" GlowBrush="#FF1CFAA5" IconEdgeMode="Unspecified" IsMaxRestoreButtonEnabled="False" IconBitmapScalingMode="Unspecified" IsWindowDraggable="False" IsMinButtonEnabled="True" IsCloseButtonEnabled="True" IconOverlayBehavior="Never" IgnoreTaskbarOnMaximize="True" LeftWindowCommandsOverlayBehavior="Flyouts" NonActiveGlowBrush="#FFCED838" NonActiveBorderBrush="#FF9980FF" NonActiveWindowTitleBrush="#FFD9267A" OverrideDefaultWindowCommandsBrush="#FF970265" PermanentEffectsText="Integer duis" RightWindowCommandsOverlayBehavior="Always" ShowMinButton="False" ShowTitleBar="False" ShowMaxRestoreButton="True" SaveWindowPosition="False" ShowSystemMenuOnRightClick="False" ShowIconOnTitleBar="True" ShowCloseButton="False" StaticEffectsText="Aliquam curae cras aenean maecenas" TitlebarHeight="53" TimedEffectsText="Mauris nunc donec nullam" TitleCaps="True" TitleForeground="#FF7359D3" UseNoneWindowStyle="True" WindowTransitionsEnabled="True" WindowButtonCommandsOverlayBehavior="HiddenTitleBar" WindowTitleBrush="#FF98FB61" WindowTitle="Congue etiam">
+	<ChaosMod:OutputWindow.Flyouts>
+		<Controls:FlyoutsControl OverrideIsPinned="False"/>
+	</ChaosMod:OutputWindow.Flyouts>
+	<ChaosMod:OutputWindow.LeftWindowCommands>
+		<Controls:WindowCommands ShowSeparators="True"/>
+	</ChaosMod:OutputWindow.LeftWindowCommands>
+	<ChaosMod:OutputWindow.MetroDialogOptions>
+		<Dialogs:MetroDialogSettings AnimateHide="False" AnimateShow="True" AffirmativeButtonText="Adipiscing amet parturient" ColorScheme="Accented" DefaultText="Diam eget vestibulum dis" FirstAuxiliaryButtonText="Phasellus ante aptent" MaximumBodyHeight="388.87" NegativeButtonText="Curabitur praesent" SecondAuxiliaryButtonText="Sed quisque arcu auctor"/>
+	</ChaosMod:OutputWindow.MetroDialogOptions>
+	<ChaosMod:OutputWindow.RightWindowCommands>
+		<Controls:WindowCommands ShowSeparators="False"/>
+	</ChaosMod:OutputWindow.RightWindowCommands>
+</ChaosMod:OutputWindow>

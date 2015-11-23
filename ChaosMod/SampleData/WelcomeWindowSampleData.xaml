@@ -1,0 +1,14 @@
+﻿<ChaosMod:WelcomeWindow xmlns:ChaosMod="clr-namespace:ChaosMod" xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro" EnableDWMDropShadow="True" GlowBrush="#FF88FECF" IconEdgeMode="Aliased" IsMaxRestoreButtonEnabled="False" IconBitmapScalingMode="Linear" IntroText="Aliquam class" IsWindowDraggable="False" IsMinButtonEnabled="True" IsCloseButtonEnabled="True" IconOverlayBehavior="Flyouts" IgnoreTaskbarOnMaximize="True" LeftWindowCommandsOverlayBehavior="Always" NonActiveGlowBrush="#FFB5484B" NonActiveBorderBrush="#FF80CD7E" NonActiveWindowTitleBrush="#FF94094C" OverrideDefaultWindowCommandsBrush="#FF26A3D0" RightWindowCommandsOverlayBehavior="HiddenTitleBar" ShowMinButton="False" ShowTitleBar="False" ShowMaxRestoreButton="True" SaveWindowPosition="False" ShowSystemMenuOnRightClick="False" ShowIconOnTitleBar="True" ShowCloseButton="False" SeedLength="30" SeedInstruction="Nam phasellus sed maecenas" TitlebarHeight="61" TitleCaps="True" TitleForeground="#FF87A353" UseNoneWindowStyle="True" WindowTransitionsEnabled="True" WindowButtonCommandsOverlayBehavior="Never" WindowTitleBrush="#FFC64AC8" WindowTitle="Donec consequat non etiam">
+	<ChaosMod:WelcomeWindow.Flyouts>
+		<Controls:FlyoutsControl OverrideIsPinned="False"/>
+	</ChaosMod:WelcomeWindow.Flyouts>
+	<ChaosMod:WelcomeWindow.LeftWindowCommands>
+		<Controls:WindowCommands ShowSeparators="True"/>
+	</ChaosMod:WelcomeWindow.LeftWindowCommands>
+	<ChaosMod:WelcomeWindow.MetroDialogOptions>
+		<Dialogs:MetroDialogSettings AnimateHide="False" AnimateShow="True" AffirmativeButtonText="Dis cras integer" ColorScheme="Accented" DefaultText="Nunc curae vestibulum adipiscing auctor" FirstAuxiliaryButtonText="Leo mus mauris" MaximumBodyHeight="308.87" NegativeButtonText="Class quisque est hac aenean" SecondAuxiliaryButtonText="Nec nullam duis aptent"/>
+	</ChaosMod:WelcomeWindow.MetroDialogOptions>
+	<ChaosMod:WelcomeWindow.RightWindowCommands>
+		<Controls:WindowCommands ShowSeparators="False"/>
+	</ChaosMod:WelcomeWindow.RightWindowCommands>
+</ChaosMod:WelcomeWindow>

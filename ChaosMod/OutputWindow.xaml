@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:ChaosMod"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="OutputWindow1" 
     x:Class="ChaosMod.OutputWindow"
-    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" ResizeMode="CanMinimize" Height="331" Width="270" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Activated="OutputWindow1_Activated" Closed="OutputWindow1_Closed">
+    Visibility="Visible" BorderThickness="0" Icon="Resources/Sunrise (Logo).png" ResizeMode="CanMinimize" Height="331" Width="270" DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Activated="OutputWindow1_Activated" Closed="OutputWindow1_Closed" d:DataContext="{d:DesignData /SampleData/OutputWindowSampleData.xaml}">
     <Grid Margin="0,0,4,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
