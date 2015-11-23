@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace ChaosMod
 {
@@ -140,71 +141,54 @@ namespace ChaosMod
             return baseLimitations;
         }
 
-        static private Limitation GetLimitationFromFile(Game game, string limitationName)
+        static private Limitation ReadLimitation(Game game, string limitationName)
         {
-            // TODO(Ligh): Properly catch errors here.
-
-            // TODO(Ligh): The simple check is actually nothing more than a parameter check with a value that is not changed.
-            // It's already handled that way internally, but perhaps there shouldn't be a distinction in the xml either.
-
             // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
 
             Debug.WriteLine($"Reading limitation {limitationName} from file.");
-            var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
+            var file = XmlUtils.getXDocument(game.abbreviation, limitationsFilename);
 
-            var node = file.SelectSingleNode($"//limitations/limitation[name = '{limitationName}']");
-            ICheck check;
-            string name = node.SelectSingleNode("name").InnerText;
-
-            var checks = new List<ICheck>();
-
-            foreach (XmlNode checkNode in node.SelectNodes("checks/check"))
-            {
-                switch (checkNode.Attributes["xsi:type"].Value)
-                {
-                    case "parameter":
-                        var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
-                        string value = checkNode.SelectSingleNode("default")?.InnerText;
-                        check = new ParameterCheck(address, value);
-                        break;
-                    case "limitation":
-                        var limitation = GetLimitationFromFile(game, checkNode.SelectSingleNode("limitation").InnerText);
-                        limitation.Target = Boolean.Parse(checkNode.SelectSingleNode("target").InnerText);
-
-                        var parameterNodes = checkNode.SelectNodes("parameters/parameter");
-                        if (parameterNodes.Count > 0)
+            var limitation =
+                file.Descendants("limitation")
+                .Where(limit => limit.Element("name")?.Value == limitationName)
+                .Select(limit => new Limitation
+                (
+                    limit.Element("name").Value,
+                    limit.Descendants("check")
+                    .Select<XElement, ICheck>(check =>
+                    {
+                        switch (check.Attribute(XmlUtils.xsiNamespace + "type").Value)
                         {
-                            var parameters = new Dictionary<string, string>();
-
-                            foreach (XmlNode parameterNode in parameterNodes)
-                            {
-                                string parameterName = parameterNode.SelectSingleNode("name").InnerText;
-                                string parameterValue = parameterNode.SelectSingleNode("value").InnerText;
-                                parameters.Add(parameterName, parameterValue);
-                            }
-
-                            limitation.SetParameters(parameters);
+                            case "parameter":
+                                return new ParameterCheck
+                                (
+                                    game.FindMemoryAddressByName(check.Element("address").Value),
+                                    check.Element("value")?.Value
+                                );
+                            case "limitation":
+                                return new LimitationCheck
+                                (
+                                    ReadLimitation(game, check.Element("limitation").Value),
+                                    Boolean.Parse(check.Element("target").Value),
+                                    ReadParameters(check)
+                                );
+                            case "comparison":
+                                return new ComparisonCheck
+                                (
+                                    check.Descendants("address").Select(c => game.FindMemoryAddressByName(c.Value)).ToList(),
+                                    Boolean.Parse(check.Element("equal").Value)
+                                );
+                            default:
+                                throw new NotSupportedException($"Tried to process unknown limitation check type: {check.Attribute(XmlUtils.xsiNamespace + "type").Value}");
                         }
+                    })
+                    .ToList()
+                ))
+                .FirstOrDefault();
 
-                        check = new LimitationCheck(limitation);
-                        break;
-                    case "comparison":
-                        var addresses = new List<MemoryAddress>();
-                        foreach (XmlNode addressNode in checkNode.SelectNodes("addresses/address"))
-                        {
-                            addresses.Add(game.FindMemoryAddressByName(addressNode.InnerText));
-                        }
-                        bool equal = Boolean.Parse(checkNode.SelectSingleNode("equal").InnerText);
-                        check = new ComparisonCheck(addresses, equal);
-                        break;
-                    default:
-                        throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi:type"].Value}");
-                }
+            // TODO(Ligh): Validate everything has been read correctly.
 
-                checks.Add(check);
-            }
-
-            return new Limitation(name, checks);
+            return limitation;
         }
 
         static public List<TimedEffect> ReadTimedEffects(Game game)
@@ -238,6 +222,15 @@ namespace ChaosMod
             // TODO(Ligh): Validate everything has been read correctly.
 
             return timedEffects;
+        }
+
+        static private Dictionary<string, string> ReadParameters(XElement parentNode)
+        {
+            return parentNode.Descendants("parameter").ToDictionary
+            (
+                c => c.Element("name").Value,
+                c => c.Element("value").Value
+            );
         }
     }
 }

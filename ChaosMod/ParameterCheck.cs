@@ -10,7 +10,11 @@ namespace ChaosMod
         public ParameterCheck(MemoryAddress address, string parameter = null)
         {
             this.address = address;
-            this.parameter = address.ConvertToRightDataType(parameter);
+
+            if (parameter != null)
+            {
+                this.parameter = address.ConvertToRightDataType(parameter);
+            }
         }
 
         public void SetParameter(dynamic parameter)

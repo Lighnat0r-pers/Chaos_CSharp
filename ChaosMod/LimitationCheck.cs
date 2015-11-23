@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChaosMod
 {
@@ -6,8 +7,10 @@ namespace ChaosMod
     {
         public Limitation limitation;
 
-        public LimitationCheck(Limitation limitation)
+        public LimitationCheck(Limitation limitation, bool target, Dictionary<string, string> parameters)
         {
+            limitation.Target = target;
+            limitation.SetParameters(parameters);
             this.limitation = limitation;
         }
 
