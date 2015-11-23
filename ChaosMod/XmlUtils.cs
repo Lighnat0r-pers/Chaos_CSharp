@@ -8,11 +8,9 @@ namespace ChaosMod
 {
     static class XmlUtils
     {
-        static private string baseResourceString = "Chaos_Mod.Resources.";
-        static private string dataDirectory = "Data\\";
-
-        static public XNamespace xsiNamespace
-            => "http://www.w3.org/2001/XMLSchema-instance";
+        static private string baseResourceString => "ChaosMod.Resources.";
+        static private string dataDirectory => "Data\\";
+        static public XNamespace xsiNamespace => "http://www.w3.org/2001/XMLSchema-instance";
 
         static private void xmlValidationEventHandler(object sender, ValidationEventArgs e)
         {
@@ -29,7 +27,6 @@ namespace ChaosMod
         static private XmlSchemaSet getXmlSchemaSet(string filename)
         {
             var x = Assembly.GetExecutingAssembly().GetManifestResourceStream(baseResourceString + filename);
-
             var schemas = new XmlSchemaSet();
             schemas.Add(XmlSchema.Read(x, null));
 
