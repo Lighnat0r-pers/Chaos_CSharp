@@ -93,6 +93,7 @@ Supported activator types:
     <name>Quarter Game Speed</name>
     <category>GameSpeed</category>
     <difficulty>3</difficulty>
+    <duration>7500</duration>
     <activators>
       <activator type="simple">
         <address>GameSpeed</address>
@@ -104,6 +105,7 @@ Supported activator types:
     <name>Half Game Speed</name>
     <category>GameSpeed</category>
     <difficulty>2</difficulty>
+    <duration>15000</duration>
     <activators>
       <activator type="simple">
         <address>GameSpeed</address>
@@ -115,6 +117,7 @@ Supported activator types:
     <name>Double Game Speed</name>
     <category>GameSpeed</category>
     <difficulty>2</difficulty>
+    <duration>60000</duration>
     <activators>
       <activator type="simple">
         <address>GameSpeed</address>
