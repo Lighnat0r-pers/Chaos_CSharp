@@ -15,43 +15,36 @@ namespace ChaosMod
 
     class Game
     {
+        private string windowName;
+        private string windowClass;
         private long versionAddress;
-        private string name;
+        private GameVersion currentVersion;
+        private List<MemoryAddress> memoryAddresses;
 
-        public string abbreviation;
-        public string windowName;
-        public string windowClass;
+        public List<BaseCheck> BaseChecks { get; private set; }
+        public string Abbreviation { get; private set; }
+        public Memory Memory { get; private set; }
+        public List<GameVersion> Versions { get; private set; }
+        public string Name { get; private set; }
 
-        public Memory memory;
-        public GameVersion currentVersion;
-
-        public List<GameVersion> gameVersions;
-        public List<MemoryAddress> memoryAddresses;
-        public List<BaseCheck> BaseChecks { get; set; }
-
-        public bool IsRunning => memory != null && memory.HasValidProcess();
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        private bool IsRunning => (bool)Memory?.ValidProcess;
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, List<GameVersion> gameVersions)
         {
-            this.Name = name;
-            this.abbreviation = abbreviation;
+            Name = name;
+            Abbreviation = abbreviation;
+            Versions = gameVersions;
+
             this.windowName = windowName;
             this.windowClass = windowClass;
             this.versionAddress = versionAddress;
-            this.gameVersions = gameVersions;
         }
 
-        public void GetHandle()
+        private void GetHandle()
         {
             Debug.WriteLine("Starting attempts to get game handle.");
             OpenProcess();
-            if (memory != null)
+            if (Memory != null)
             {
                 Debug.WriteLine("Game handle found.");
                 GetVersion();
@@ -76,7 +69,7 @@ namespace ChaosMod
         /// </summary>
         private void OpenProcess()
         {
-            while (memory == null && Program.shouldStop == false)
+            while (Memory == null && Program.ShouldStop == false)
             {
                 foreach (var process in Array.FindAll(Process.GetProcesses(), p => p.MainWindowTitle == windowName))
                 {
@@ -84,27 +77,27 @@ namespace ChaosMod
                     ProcessHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, windowClass.Length + 1);
                     if (foundClassName.ToString() == windowClass)
                     {
-                        memory = new Memory(process);
+                        Memory = new Memory(process);
                         break;
                     }
                 }
-                Thread.Sleep(Settings.DefaultWaitTime);
+                Thread.Sleep(250);
             }
         }
 
-        public void FreeHandle()
+        private void FreeHandle()
         {
-            memory.CloseProcess();
-            memory = null;
+            Memory.CloseProcess();
+            Memory = null;
             currentVersion = null;
 
             Debug.WriteLine("Game handle freed.");
         }
 
-        public void GetVersion()
+        private void GetVersion()
         {
-            byte value = memory.Read(versionAddress, "byte", 1);
-            currentVersion = gameVersions.Find(v => v.versionAddressValue == value);
+            byte value = Memory.Read(versionAddress, "byte", 1);
+            currentVersion = Versions.Find(v => v.versionAddressValue == value);
 
             if (currentVersion == null)
             {
@@ -116,23 +109,34 @@ namespace ChaosMod
 
         public void StartModulesLoop()
         {
-            DataFileHandler.ReadFilesForGame(this);
+            ReadFiles();
             ResolveReferences();
 
             DoModulesLoop();
         }
 
-        public void DoModulesLoop()
+        private void ReadFiles()
         {
-            while (!Program.shouldStop)
+            Debug.WriteLine("Starting to read files for game.");
+
+            memoryAddresses = DataFileHandler.ReadMemoryAddresses(this);
+            BaseChecks = DataFileHandler.ReadBaseChecks(this);
+
+            Debug.WriteLine("Done reading files for game.");
+        }
+
+        private void DoModulesLoop()
+        {
+            while (!Program.ShouldStop)
             {
                 GetHandle();
 
                 var modules = new Modules();
 
-                while (IsRunning && !Program.shouldStop)
+                while (IsRunning && !Program.ShouldStop)
                 {
                     modules.Update();
+                    //DebugReadAddresses();
                 }
 
                 modules.Shutdown();
@@ -143,10 +147,10 @@ namespace ChaosMod
 
         public MemoryAddress FindMemoryAddressByName(string name)
         {
-            return memoryAddresses.Find(p => p.name == name);
+            return memoryAddresses.Find(p => p.Name == name);
         }
 
-        public void ResolveReferences()
+        private void ResolveReferences()
         {
             if (memoryAddresses == null)
             {
@@ -156,13 +160,22 @@ namespace ChaosMod
             // Set base address for all dynamic addresses.
             foreach (var address in memoryAddresses.FindAll(m => m.IsDynamic == true))
             {
-                address.baseAddress = FindMemoryAddressByName(address.baseAddressName);
+                address.BaseAddress = FindMemoryAddressByName(address.BaseAddressName);
 
-                if (address.baseAddress == null)
+                if (address.BaseAddress == null)
                 {
                     throw new ArgumentNullException("baseAddress", "Base address for dynamic address is not defined.");
                 }
             }
         }
+
+        private void DebugReadAddresses()
+        {
+            foreach (MemoryAddress address in memoryAddresses)
+            {
+                Debug.WriteLine($"Address: {address.Name}, Value: {address.Read() as object}");
+            }
+        }
+
     }
 }

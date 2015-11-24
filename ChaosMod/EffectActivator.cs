@@ -4,11 +4,11 @@ namespace ChaosMod
 {
     class EffectActivator
     {
-        private dynamic original = null;
+        private dynamic original;
 
-        public string type;
-        public dynamic target;
-        public MemoryAddress address;
+        private string type;
+        private dynamic target;
+        private MemoryAddress address;
 
         public EffectActivator(string type, string target, MemoryAddress address)
         {

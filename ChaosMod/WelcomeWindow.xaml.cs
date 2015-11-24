@@ -30,7 +30,7 @@ namespace ChaosMod
 
         private void WelcomeWindow_Closed(object sender, EventArgs e)
         {
-            Program.shouldStop = true;
+            Program.ShouldStop = true;
             Debug.WriteLine("Event WelcomeWindow_Closed fired");
         }
 

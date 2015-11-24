@@ -8,19 +8,16 @@ namespace ChaosMod
         private Game game;
         private GameVersion gameVersion;
         private long address;
+        private long offset;
+        private string dataType;
+        private int size = 0;
 
-        public string baseAddressName;
-        public MemoryAddress baseAddress;
+        public bool IsDynamic => address == 0;
 
-        public string name;
-        public long offset;
-        public string dataType;
-        public int size = 0;
+        public string BaseAddressName { get; private set; }
+        public string Name { get; private set; }
 
-        public bool IsDynamic
-        {
-            get { return address == 0; }
-        }
+        public MemoryAddress BaseAddress { get; set; }
 
         public long Address
         {
@@ -29,7 +26,7 @@ namespace ChaosMod
         }
 
         /// <summary>
-        /// Constructor for static memory address
+        /// Constructor for static memory address.
         /// </summary>
         public MemoryAddress(Game game, string name, long address, GameVersion gameVersion, string type, int length = 0)
             : this(game, name, type, length)
@@ -44,12 +41,12 @@ namespace ChaosMod
         }
 
         /// <summary>
-        /// Constructor for dynamic memory address
+        /// Constructor for dynamic memory address.
         /// </summary>
         public MemoryAddress(Game game, string name, string baseAddressName, long offset, string type, int length = 0)
             : this(game, name, type, length)
         {
-            this.baseAddressName = baseAddressName;
+            BaseAddressName = baseAddressName;
             this.offset = offset;
         }
 
@@ -58,12 +55,12 @@ namespace ChaosMod
         /// </summary>
         private MemoryAddress(Game game, string name, string dataType, int length = 0)
         {
-            this.game = game;
-            this.name = name;
+            Name = name;
 
-            // TODO(Ligh): Handle size differently so we don't have to spend time
-            // creating this dictionary again for every memory address.
-            Dictionary<string, int> sizes = new Dictionary<string, int>()
+            this.game = game;
+
+            // TODO(Ligh): Handle size differently so we don't have to spend time creating this dictionary again for every memory address.
+            var sizes = new Dictionary<string, int>()
             {
                 {"bool", sizeof(bool)},
                 {"byte", sizeof(byte)},
@@ -154,28 +151,26 @@ namespace ChaosMod
 
         public dynamic Read()
         {
-            if (game.memory == null)
+            if (game.Memory == null)
             {
                 throw new InvalidOperationException("Tried to read an address without a handle to the game process.");
             }
 
-            return game.memory.Read(Address, dataType, size);
+            return game.Memory.Read(Address, dataType, size);
         }
 
         public void Write(dynamic input)
         {
-            if (game.memory == null)
+            if (game.Memory == null)
             {
                 throw new InvalidOperationException("Tried to write to an address without a handle to the game process.");
             }
 
-            game.memory.Write(Address, input, dataType, size);
+            game.Memory.Write(Address, input, dataType, size);
         }
 
         /// <summary>
-        /// Reads the pointer value in baseAddress and adds offset to it.
-        /// As the Read() function calls this function, this works recursively until a static address
-        /// is reached, so multiple pointer levels are supported.
+        /// Determines the currently valid address for a dynamic address.
         /// </summary>
         /// <returns>
         /// Up to date dynamic address for this function. 
@@ -183,17 +178,17 @@ namespace ChaosMod
         /// </returns>
         private long GetDynamicAddress()
         {
-            if (baseAddress == null)
+            if (BaseAddress == null)
             {
-                throw new NotSupportedException("Tried to get the dynamic address of a static memory address.");
+                throw new InvalidOperationException("Tried to get the dynamic address of a static memory address.");
             }
 
-            if (baseAddress.dataType != "int" && baseAddress.dataType != "long")
+            if (BaseAddress.dataType != "int" && BaseAddress.dataType != "long")
             {
-                throw new ArgumentOutOfRangeException(nameof(dataType), $"Tried to use an address with a non-pointer datatype ({baseAddress.dataType}) as a pointer address.");
+                throw new ArgumentOutOfRangeException(nameof(dataType), $"Tried to use an address with a non-pointer datatype ({BaseAddress.dataType}) as a pointer address.");
             }
 
-            return baseAddress.Read() + offset;
+            return BaseAddress.Read() + offset;
         }
     }
 }

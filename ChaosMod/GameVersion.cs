@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 namespace ChaosMod
@@ -8,8 +7,8 @@ namespace ChaosMod
     {
         private SortedList<long, int> offsets;
 
-        public string name;
-        public int versionAddressValue;
+        public string name { get; private set; }
+        public int versionAddressValue { get; private set; }
 
         public GameVersion(string name, int versionAddressValue, SortedList<long, int> offsets)
         {

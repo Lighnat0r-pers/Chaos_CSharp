@@ -26,7 +26,6 @@ namespace ChaosMod
         static public int TimeMultiplier => SanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;
         static public double ProgramVersion => 2.0;
         static public int SeedValidLength => 4;
-        static public int DefaultWaitTime => 250;
         static public string ProgramName => "Chaos%";
         static public bool timedEffectsEnabledDefault => true;
         static public bool staticEffectsEnabledDefault => true;

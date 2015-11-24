@@ -4,32 +4,27 @@ namespace ChaosMod
 {
     class ParameterCheck : ICheck
     {
-        public MemoryAddress address;
-        public dynamic parameter;
+        public MemoryAddress Address { get; private set; }
+        public dynamic Parameter { get; set; }
 
         public ParameterCheck(MemoryAddress address, string parameter = null)
         {
-            this.address = address;
+            Address = address;
 
             if (parameter != null)
             {
-                this.parameter = address.ConvertToRightDataType(parameter);
+                Parameter = address.ConvertToRightDataType(parameter);
             }
-        }
-
-        public void SetParameter(dynamic parameter)
-        {
-            this.parameter = parameter;
         }
 
         public bool Succeeds()
         {
-            if (parameter == null)
+            if (Parameter == null)
             {
-                throw new ArgumentNullException(nameof(parameter), "No parameter set.");
+                throw new ArgumentNullException(nameof(Parameter), "No parameter set.");
             }
 
-            return address.Read() == parameter;
+            return Address.Read() == Parameter;
         }
     }
 }

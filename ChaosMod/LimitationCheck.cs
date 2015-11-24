@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ChaosMod
 {
     class LimitationCheck : ICheck
     {
-        public Limitation limitation;
+        private Limitation limitation;
 
         public LimitationCheck(Limitation limitation, bool target, Dictionary<string, string> parameters)
         {

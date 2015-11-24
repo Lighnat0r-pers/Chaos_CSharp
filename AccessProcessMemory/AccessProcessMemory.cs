@@ -47,41 +47,44 @@ namespace AccessProcessMemory
     public class Memory
     {
         /// <summary>
-        /// Constructor to initiate Memory class with a target process.
+        /// Initializes a new instance of the Memory class for the specified process.
         /// </summary>
         public Memory(Process process)
         {
             targetProcess = process;
+            OpenProcess();
         }
 
         /// <summary>
         /// Process that the functions in this library will target.
         /// </summary>
-        public Process targetProcess
-        {
-            get { return m_Process; }
-            set { m_Process = value; }
-        }
+        private Process targetProcess;
 
-        // Private vars containing the target process and its handle.
-        private Process m_Process = null;
+        /// <summary>
+        /// Handle to the targetted process.
+        /// </summary>
         private IntPtr m_ProcessHandle = IntPtr.Zero;
 
         /// <summary>
-        /// Gets the process handle for m_Process. Needs to be called before accessing the memory.
+        /// Whether this class is targetting an existing process.
         /// </summary>
-        public void OpenProcess()
+        public bool ValidProcess => targetProcess != null && !targetProcess.HasExited;
+
+        /// <summary>
+        /// Gets the process handle for the target process. Needs to be called before accessing the memory.
+        /// </summary>
+        private void OpenProcess()
         {
             if (m_ProcessHandle == IntPtr.Zero)
             {
-                m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, true, m_Process.Id);
+                m_ProcessHandle = AccessProcessMemoryApi.OpenProcess(AccessProcessMemoryApi.PROCESS_ALL_ACCESS, true, targetProcess.Id);
                 if (m_ProcessHandle == IntPtr.Zero)
                     Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error()); // Throw exception if error occurred
             }
         }
 
         /// <summary>
-        /// Close the handle to the process.
+        /// Closes the handle to the process.
         /// </summary>
         public void CloseProcess()
         {
@@ -91,18 +94,11 @@ namespace AccessProcessMemory
             m_ProcessHandle = IntPtr.Zero;
         }
 
-        public bool HasValidProcess()
-        {
-            return m_Process != null && !m_Process.HasExited;
-        }
-
         /// <summary>
-        /// Read [length] bytes at [address] in the current targetProcess. The byte array is then 
-        /// cast to type before being returned.
+        /// Reads [length] bytes at [address] as [type] in the targeted process.
         /// </summary>
         public dynamic Read(long address, string type, int length)
         {
-            OpenProcess();
             var buffer = new byte[length];
             IntPtr ptrBytesReaded;
             AccessProcessMemoryApi.ReadProcessMemory(m_ProcessHandle, (IntPtr)address, buffer, (IntPtr)length, out ptrBytesReaded);
@@ -111,15 +107,12 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Converts the input of the type specified in type to a byte array of [length]. If the input is shorter,
-        /// the rest of the array will be filled with zeros. Length defaults to the length of the input after conversion
-        /// to byte array. Writes the fullInput byte array to [address] in the current targetProcess.
+        /// Writes [input] zero-padded up to [length] to [address] in the targeted process.
         /// </summary>
-        public void Write(long address, dynamic input, string type, int length = int.MinValue)
+        public void Write(long address, dynamic input, string type, int length = 0)
         {
-            OpenProcess();
             byte[] byteInput = ConvertInput(input, type);
-            if (length == int.MinValue)
+            if (length == 0)
             {
                 length = byteInput.Length;
             }
@@ -132,10 +125,10 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Converts byte array to the type given by the dataType parameter. If the parameter
-        /// contains an unimplemented type an exception is thrown. The byte array is automatically 
-        /// converted to big endian if necessary.
+        /// Converts byte array to the type given by the dataType parameter. Endianness is handled automatically.
         /// </summary>
+        /// <exception cref="ArgumentNullException" />
+        /// <exception cref="NotSupportedException" />
         private static dynamic ConvertOutput(byte[] output, string dataType)
         {
             if (output == null)
@@ -183,10 +176,10 @@ namespace AccessProcessMemory
         }
 
         /// <summary>
-        /// Converts the type given by the dataType parameter to a byte array. If the parameter
-        /// contains an unimplemented type an exception is thrown. The byte array is automatically 
-        /// converted to big endian if necessary.
+        /// Converts the type given by the dataType parameter to a byte array. Endianness is handled automatically.
         /// </summary>
+        /// <exception cref="ArgumentNullException" />
+        /// <exception cref="NotSupportedException" />
         private static byte[] ConvertInput(dynamic input, string dataType)
         {
             if (input == null)

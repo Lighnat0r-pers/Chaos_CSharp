@@ -8,6 +8,8 @@ namespace ChaosMod
     {
         private List<IModuleHandler> moduleHandlers = new List<IModuleHandler>();
 
+        private int RefreshRate => 100; // Milliseconds
+
         public Modules()
         {
             if (Settings.TimedEffectsEnabled)
@@ -24,19 +26,19 @@ namespace ChaosMod
             }
         }
 
-        public void InitTimedEffectsModule()
+        private void InitTimedEffectsModule()
         {
             Debug.WriteLine("Initializing timed effects module.");
             TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Settings.Game));
             moduleHandlers.Add(timedEffectHandler);
         }
 
-        public void InitPermanentEffectsModule()
+        private void InitPermanentEffectsModule()
         {
             Debug.WriteLine("Initializing permanent effects module.");
         }
 
-        public void InitStaticEffectsModule()
+        private void InitStaticEffectsModule()
         {
             Debug.WriteLine("Initializing static effects module.");
         }
@@ -46,29 +48,20 @@ namespace ChaosMod
         /// </summary>
         public void Update()
         {
-            //DebugReadAddresses();
-            foreach (IModuleHandler moduleHandler in moduleHandlers)
+            foreach (var moduleHandler in moduleHandlers)
             {
                 moduleHandler.Update();
             }
-            Thread.Sleep(Settings.DefaultWaitTime * 2);
+            Thread.Sleep(RefreshRate);
         }
 
         public void Shutdown()
         {
-            // Deactivate all modules here
-            foreach (IModuleHandler moduleHandler in moduleHandlers)
+            foreach (var moduleHandler in moduleHandlers)
             {
                 moduleHandler.Shutdown();
             }
         }
 
-        public void DebugReadAddresses()
-        {
-            foreach (MemoryAddress address in Settings.Game.memoryAddresses)
-            {
-                Debug.WriteLine($"Address: {address.name}, Value: {address.Read() as object}");
-            }
-        }
     }
 }

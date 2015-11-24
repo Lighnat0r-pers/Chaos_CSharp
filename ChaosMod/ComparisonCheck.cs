@@ -5,8 +5,8 @@ namespace ChaosMod
 {
     class ComparisonCheck : ICheck
     {
-        public List<MemoryAddress> addresses;
-        public bool equal;
+        private List<MemoryAddress> addresses;
+        private bool equal;
 
         public ComparisonCheck(List<MemoryAddress> addresses, bool equal)
         {

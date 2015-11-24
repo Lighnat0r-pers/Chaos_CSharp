@@ -16,7 +16,7 @@ namespace ChaosMod
         public string DifficultyText => $"{Settings.Difficulty.Name} difficulty, seed {Settings.Seed.ToString($"D{Settings.SeedValidLength}")}";
         public string StaticEffectsText => "Static Effects " + (Settings.StaticEffectsEnabled ? "Enabled" : "Disabled");
         public string PermanentEffectsText => "Permanent effect placeholder";
-        public string TimedEffectsText => $"{Settings.CurrentEffect?.name ?? "No effect"} active";
+        public string TimedEffectsText => $"{Settings.CurrentEffect?.Name ?? "No effect"}";
 
 
         public OutputWindow()
@@ -26,7 +26,7 @@ namespace ChaosMod
             Title = Settings.ProgramName;
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, Settings.DefaultWaitTime);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
         }
 
         private void OutputWindow1_Activated(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace ChaosMod
         private void OutputWindow1_Closed(object sender, EventArgs e)
         {
             Debug.WriteLine("Event OutputWindow1_Closed fired");
-            Program.shouldStop = true;
+            Program.ShouldStop = true;
         }
     }
 }

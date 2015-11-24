@@ -5,14 +5,15 @@ namespace ChaosMod
 {
     class TimedEffect
     {
-        static private long defaultEffectLength = 30000;
+        static private long defaultEffectLength => 30000;
 
         private List<EffectActivator> activators;
         private List<Limitation> limitations;
 
-        public string name;
-        public string category;
-        public int difficulty;
+        public string Name { get; private set; }
+
+        public string Category { get; set; }
+        public int Difficulty { get; set; }
 
         /// <summary>
         /// Property effectLength which automatically takes the timeMultiplier into account.
@@ -30,9 +31,9 @@ namespace ChaosMod
 
             this.activators = activators;
             this.limitations = limitations;
-            this.name = name;
-            this.category = category;
-            this.difficulty = difficulty;
+            Name = name;
+            Category = category;
+            Difficulty = difficulty;
         }
 
         public bool CanActivate()
@@ -57,7 +58,7 @@ namespace ChaosMod
                 activator.Deactivate();
             }
 
-            Debug.WriteLine($"Deactivated timed effect: {name}");
+                Debug.WriteLine($"Deactivated timed effect: {Name}");
         }
     }
 }

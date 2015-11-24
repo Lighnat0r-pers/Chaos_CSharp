@@ -3,27 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace ChaosMod
 {
     static class DataFileHandler
     {
-        static private string gamesFilename = "Games";
-        static private string memoryAddressesFilename = "MemoryAddresses";
-        static private string limitationsFilename = "Limitations";
-        static private string timedEffectsFilename = "TimedEffects";
-        //static private string permanentEffectsFilename = "PermanentEffects";
-        //static private string staticEffectsFilename = "StaticEffects";
-
-        static public void ReadFilesForGame(Game game)
-        {
-            Debug.WriteLine("Starting to read files for game.");
-            game.memoryAddresses = ReadMemoryAddresses(game);
-            game.BaseChecks = ReadBaseChecks(game);
-            Debug.WriteLine("Done reading files for game.");
-        }
+        static private string gamesFilename => "Games";
+        static private string memoryAddressesFilename => "MemoryAddresses";
+        static private string limitationsFilename => "Limitations";
+        static private string timedEffectsFilename => "TimedEffects";
+        //static private string permanentEffectsFilename => "PermanentEffects";
+        //static private string staticEffectsFilename => "StaticEffects";
 
         static public List<Game> ReadGames()
         {
@@ -61,10 +52,10 @@ namespace ChaosMod
             return games;
         }
 
-        static private List<MemoryAddress> ReadMemoryAddresses(Game game)
+        static public List<MemoryAddress> ReadMemoryAddresses(Game game)
         {
             Debug.WriteLine("Reading memory addresses from file.");
-            var file = XmlUtils.getXDocument(game.abbreviation, memoryAddressesFilename);
+            var file = XmlUtils.getXDocument(game.Abbreviation, memoryAddressesFilename);
 
             var memoryAddresses =
                 file.Descendants("memoryaddress")
@@ -78,7 +69,7 @@ namespace ChaosMod
                                 game,
                                 address.Element("name").Value,
                                 Int64.Parse(address.Element("address").Value, NumberStyles.HexNumber),
-                                game.gameVersions.Find(v => v.name == file.Element("addresses").Attribute("gameversion").Value),
+                                game.Versions.Find(v => v.name == file.Element("addresses").Attribute("gameversion").Value),
                                 address.Element("datatype").Value,
                                 Int32.Parse(address.Element("length")?.Value ?? "0")
                             );
@@ -123,19 +114,59 @@ namespace ChaosMod
             return baseChecks;
         }
 
+        static public List<TimedEffect> ReadTimedEffects(Game game)
+        {
+            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
+
+            Debug.WriteLine("Reading timed effects from file.");
+
+            var timedEffects =
+                XmlUtils.getXDocument(game.Abbreviation, timedEffectsFilename).Descendants("timedeffect")
+                .Select(effect => new TimedEffect
+                (
+                    effect.Element("name").Value,
+                    effect.Element("category").Value,
+                    Int32.Parse(effect.Element("difficulty").Value),
+                    effect.Descendants("activator")
+                    .Select(activator =>
+                    new EffectActivator
+                    (
+                        activator.Attribute("type").Value,
+                        activator.Element("target").Value,
+                        game.FindMemoryAddressByName(activator.Element("address").Value)
+                    ))
+                    .ToList(),
+                    UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
+                    effect.Descendants("limitation")
+                    .Select(limit =>
+                    {
+                        var limitation = ReadLimitation(game, limit.Element("name").Value);
+                        limitation.Target = Boolean.Parse(limit.Element("target").Value);
+                        limitation.SetParameters(ReadParameters(limit));
+                        return limitation;
+                    })
+                    .ToList()
+                ))
+                .ToList();
+
+            // TODO(Ligh): Validate everything has been read correctly.
+
+            return timedEffects;
+        }
+
         static private Limitation ReadLimitation(Game game, string limitationName)
         {
             // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
 
             Debug.WriteLine($"Reading limitation {limitationName} from file.");
-            var file = XmlUtils.getXDocument(game.abbreviation, limitationsFilename);
+            var file = XmlUtils.getXDocument(game.Abbreviation, limitationsFilename);
 
             var limitation =
                 file.Descendants("limitation")
                 .Where(limit => limit.Element("name")?.Value == limitationName)
                 .Select(limit => new Limitation
                 (
-                    limit.Element("name").Value,
+                    limitationName,
                     limit.Descendants("check")
                     .Select<XElement, ICheck>(check =>
                     {
@@ -171,46 +202,6 @@ namespace ChaosMod
             // TODO(Ligh): Validate everything has been read correctly.
 
             return limitation;
-        }
-
-        static public List<TimedEffect> ReadTimedEffects(Game game)
-        {
-            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
-
-            Debug.WriteLine("Reading timed effects from file.");
-
-            var timedEffects =
-                XmlUtils.getXDocument(game.abbreviation, timedEffectsFilename).Descendants("timedeffect")
-                .Select(effect => new TimedEffect
-                (
-                    effect.Element("name").Value,
-                    effect.Element("category").Value,
-                    Int32.Parse(effect.Element("difficulty").Value),
-                    effect.Descendants("activator")
-                    .Select(activator =>
-                    new EffectActivator
-                    (
-                        activator.Attribute("type").Value,
-                        activator.Element("target").Value,
-                        game.FindMemoryAddressByName(activator.Element("address").Value)
-                    ))
-                    .ToList(),
-                    UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
-                    effect.Descendants("limitation")
-                    .Select(limit =>
-                    {
-                        var limitation = ReadLimitation(game, limit.Element("name").Value);
-                        limitation.Target = Boolean.Parse(limit.Element("target").Value);
-                        limitation.SetParameters(ReadParameters(limit));
-                        return limitation;
-                    })
-                    .ToList()
-                ))
-                .ToList();
-
-            // TODO(Ligh): Validate everything has been read correctly.
-
-            return timedEffects;
         }
 
         static private Dictionary<string, string> ReadParameters(XElement parentNode)

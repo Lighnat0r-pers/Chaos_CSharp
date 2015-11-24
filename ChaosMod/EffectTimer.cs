@@ -6,8 +6,9 @@ namespace ChaosMod
     {
         private long startTime;
         private long endTime;
-
         private MemoryAddress GameTime;
+
+        private long CurrentTime => GameTime?.Read() ?? DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 
         public EffectTimer()
         {
@@ -15,16 +16,9 @@ namespace ChaosMod
             GameTime = Settings.Game.FindMemoryAddressByName("GameTimeInMS");
         }
 
-        // NOTE(Ligh): This function does not offer millisecond resolution, just a 
-        // somewhat accurate timestamp in milliseconds.
-        private long GetCurrentTime()
-        {
-            return GameTime?.Read() ?? DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        }
-
         public void SetDuration(long duration)
         {
-            startTime = GetCurrentTime();
+            startTime = CurrentTime;
             endTime = startTime + duration;
         }
 
@@ -32,7 +26,7 @@ namespace ChaosMod
         {
             // NOTE(Ligh): startTime should never be less than current time but we check it
             // just in case to avoid really long effects.
-            return (GetCurrentTime() > endTime || GetCurrentTime() < startTime);
+            return (CurrentTime > endTime || CurrentTime < startTime);
         }
     }
 }

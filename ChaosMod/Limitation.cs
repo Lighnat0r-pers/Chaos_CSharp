@@ -5,10 +5,8 @@ namespace ChaosMod
 {
     class Limitation
     {
-        private bool target;
-
-        public string name;
-        public List<ICheck> checks;
+        private string name;
+        private List<ICheck> checks;
 
         public bool Target { private get; set; }
 
@@ -20,31 +18,15 @@ namespace ChaosMod
 
         public void SetParameters(Dictionary<string, string> parameters)
         {
-            if (parameters != null)
+            foreach (ParameterCheck check in checks.FindAll(c => c is ParameterCheck))
             {
-                foreach (ParameterCheck check in checks.FindAll(c => c is ParameterCheck))
+                if (parameters?.ContainsKey(check.Address.Name) ?? false)
                 {
-                    if (parameters.ContainsKey(check.address.name))
-                    {
-                        dynamic parameter = check.address.ConvertToRightDataType(parameters[check.address.name]);
-                        check.SetParameter(parameter);
-                        parameters.Remove(check.address.name);
-                    }
-                    else
-                    {
-                        // Checks if a default value was already set; if not, throw an exception since we're missing required data.
-                        if (check.parameter == null)
-                        {
-                            throw new ArgumentNullException(nameof(parameters), $"Missing parameter for parameter check {check.address.name} in {name} limitation");
-                        }
-                    }
+                    check.Parameter = check.Address.ConvertToRightDataType(parameters[check.Address.Name]);
                 }
-
-                // Checks there are any parameter values left. All used values are removed, so we're dealing with excess data here, which is probably not intended.
-                // Note that this is not actually a fatal error, the program could continue just fine.
-                if (parameters.Count > 0)
+                else if (check.Parameter == null)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(parameters), $"Excess parameter(s) for limitation {name}. Parameters: {String.Join("; ", parameters)}");
+                    throw new ArgumentNullException(nameof(parameters), $"Missing parameter for parameter check {check.Address.Name} in {name} limitation");
                 }
             }
         }

@@ -6,7 +6,7 @@ namespace ChaosMod
 {
     static class Program
     {
-        static public bool shouldStop = false;
+        static public bool ShouldStop { get; set; }
 
         [STAThread]
         static void Main()
@@ -24,7 +24,7 @@ namespace ChaosMod
             Debug.WriteLine("Showing Welcome Window");
             welcomeWindow.ShowDialog();
 
-            if (shouldStop == true) // Exit the application if the welcome window was exited.
+            if (ShouldStop == true) // Exit the application if the welcome window was exited.
             {
                 Debug.WriteLine("Exiting application as stop signal was given");
                 return;
