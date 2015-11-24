@@ -76,38 +76,40 @@ namespace ChaosMod
 
         private void confirmButton_Click(object sender, RoutedEventArgs e)
         {
-            Settings.game = gameSelect.SelectedItem as Game;
+            Settings.Game = gameSelect.SelectedItem as Game;
 
-            if (Settings.game == null)
+            if (Settings.Game == null)
             {
-                throw new ArgumentNullException(nameof(Settings.game), "No game selected.");
+                throw new ArgumentNullException(nameof(Settings.Game), "No game selected.");
             }
 
-            if (!int.TryParse(seedInput.Text, out Settings.seed))
+            int seed;
+            if (!int.TryParse(seedInput.Text, out seed))
             {
                 Debug.WriteLine("Seed entered was not valid, set to default 0.");
             }
+            Settings.Seed = seed;
 
-            Settings.difficultyName = (string)DifficultyPanel.Children.OfType<RadioButton>().First(r => (bool)r.IsChecked).Content;
+            Settings.Difficulty = Settings.difficulties.Find(d => d.Name == (string)DifficultyPanel.Children.OfType<RadioButton>().First(r => (bool)r.IsChecked).Content);
 
-            if (!Settings.difficultiesArray.TryGetValue(Settings.difficultyName, out Settings.difficulty))
+            if (Settings.Difficulty.Equals(default(Difficulty)))
             {
                 Debug.WriteLine("Invalid difficulty selected, set to default.");
-                Settings.difficulty = Settings.defaultDifficulty;
+                Settings.Difficulty = Settings.defaultDifficulty;
             }
 
-            Settings.permanentEffectsEnabled = (Settings.seed == 0);
-            Settings.staticEffectsEnabled = (bool)staticEffectsEnabled.IsChecked;
-            Settings.timedEffectsEnabled = (bool)timedEffectsEnabled.IsChecked;
-            Settings.sanicModeEnabled = (bool)sanicModeEnabled.IsChecked;
+            Settings.PermanentEffectsEnabled = (Settings.Seed == 0);
+            Settings.StaticEffectsEnabled = (bool)staticEffectsEnabled.IsChecked;
+            Settings.TimedEffectsEnabled = (bool)timedEffectsEnabled.IsChecked;
+            Settings.SanicModeEnabled = (bool)sanicModeEnabled.IsChecked;
 
-            Debug.WriteLine($"Game: {Settings.game.Name}");
-            Debug.WriteLine($"Seed: {Settings.seed}");
-            Debug.WriteLine($"Difficulty: {Settings.difficultyName}");
-            Debug.WriteLine($"Static Effects Enabled: {Settings.staticEffectsEnabled}");
-            Debug.WriteLine($"Permanent Effects Enabled: {Settings.permanentEffectsEnabled}");
-            Debug.WriteLine($"Timed Effects Enabled: {Settings.timedEffectsEnabled}");
-            Debug.WriteLine($"Sanic Mode Enabled: {Settings.sanicModeEnabled}");
+            Debug.WriteLine($"Game: {Settings.Game.Name}");
+            Debug.WriteLine($"Seed: {Settings.Seed}");
+            Debug.WriteLine($"Difficulty: {Settings.Difficulty.Name}");
+            Debug.WriteLine($"Static Effects Enabled: {Settings.StaticEffectsEnabled}");
+            Debug.WriteLine($"Permanent Effects Enabled: {Settings.PermanentEffectsEnabled}");
+            Debug.WriteLine($"Timed Effects Enabled: {Settings.TimedEffectsEnabled}");
+            Debug.WriteLine($"Sanic Mode Enabled: {Settings.SanicModeEnabled}");
 
             Closed -= new EventHandler(WelcomeWindow_Closed);
             Close();

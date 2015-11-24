@@ -13,8 +13,8 @@ namespace ChaosMod
     {
         private DispatcherTimer dispatcherTimer;
 
-        public string DifficultyText => $"{Settings.difficultyName} difficulty, seed {Settings.seed.ToString($"D{Settings.SeedValidLength}")}";
-        public string StaticEffectsText => "Static Effects " + (Settings.staticEffectsEnabled ? "Enabled" : "Disabled");
+        public string DifficultyText => $"{Settings.Difficulty.Name} difficulty, seed {Settings.Seed.ToString($"D{Settings.SeedValidLength}")}";
+        public string StaticEffectsText => "Static Effects " + (Settings.StaticEffectsEnabled ? "Enabled" : "Disabled");
         public string PermanentEffectsText => "Permanent effect placeholder";
         public string TimedEffectsText => $"{Settings.CurrentEffect?.name ?? "No effect"} active";
 

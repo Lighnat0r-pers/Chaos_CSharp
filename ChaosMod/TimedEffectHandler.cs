@@ -27,7 +27,7 @@ namespace ChaosMod
         public TimedEffectHandler(List<TimedEffect> timedEffects)
         {
             this.timedEffects = timedEffects;
-            debugRandom = new Random(Settings.seed);
+            debugRandom = new Random(Settings.Seed);
             effectTimer = new EffectTimer();
         }
 

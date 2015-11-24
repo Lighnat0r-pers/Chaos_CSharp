@@ -4,67 +4,53 @@ namespace ChaosMod
 {
     static class Settings
     {
-        static private int defaultWaitTime = 250;
-        static private int seedValidLength = 4;
-        static private double programVersion = 2.0;
-        static private string programName = "Chaos%";
-        static private int sanicModeMultiplier = 10;
-        static private int baseTimeMultiplier = 1;
-
-        static public bool timedEffectsEnabledDefault = true;
-        static public bool staticEffectsEnabledDefault = true;
-        static public bool sanicModeEnabledDefault = false;
-        static public int defaultDifficulty;
-        static public bool timedEffectsEnabled;
-        static public bool permanentEffectsEnabled;
-        static public bool staticEffectsEnabled;
-        static public bool sanicModeEnabled;
-        static public int seed;
-        static public int difficulty;
-        static public string difficultyName;
-        static public Game game;
-        static public TimedEffect currentEffect;
-
-        static public Dictionary<string, int> difficultiesArray;
-        static private List<Game> supportedGames;
-
 #if DEBUG
-        public const bool DEBUG_MODE_ENABLED = true;
+        static public bool DEBUG_MODE_ENABLED => true;
 #else
-        public const bool DEBUG_MODE_ENABLED = false;
+        static public bool DEBUG_MODE_ENABLED => false;
 #endif
 
-        static public List<Game> SupportedGames
-        {
-            get { return supportedGames; }
-            set { supportedGames = value; }
-        }
+        static public bool TimedEffectsEnabled { get; set; }
+        static public bool PermanentEffectsEnabled { get; set; }
+        static public bool StaticEffectsEnabled { get; set; }
+        static public bool SanicModeEnabled { get; set; }
+        static public int Seed { get; set; }
+        static public Difficulty Difficulty { get; set; }
+        static public Game Game { get; set; }
+        static public List<Game> SupportedGames { get; set; }
+        static public TimedEffect CurrentEffect { get; set; }
 
-        static public TimedEffect CurrentEffect
-        {
-            get { return currentEffect; }
-            set { currentEffect = value; }
-        }
+        static private int sanicModeMultiplier => 10;
+        static private int baseTimeMultiplier => 1;
 
-        static public int TimeMultiplier => sanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;
-        static public double ProgramVersion => programVersion;
-        static public int SeedValidLength => seedValidLength;
-        static public int DefaultWaitTime => defaultWaitTime;
-        static public string ProgramName => programName;
+        static public int TimeMultiplier => SanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;
+        static public double ProgramVersion => 2.0;
+        static public int SeedValidLength => 4;
+        static public int DefaultWaitTime => 250;
+        static public string ProgramName => "Chaos%";
+        static public bool timedEffectsEnabledDefault => true;
+        static public bool staticEffectsEnabledDefault => true;
+        static public bool sanicModeEnabledDefault => false;
 
-        /// <summary>
-        /// Static constructor for the Settings class that will run once at the start of the program.
-        /// </summary>
-        static Settings()
-        {
-            difficultiesArray = new Dictionary<string, int>()
+        static public Difficulty defaultDifficulty => new Difficulty("Medium", 7);
+        static public List<Difficulty> difficulties =>
+            new List<Difficulty>()
             {
-                {"Easy", 4},
-                {"Medium", 7},
-                {"Hard", 10},
+                new Difficulty("Easy", 4),
+                defaultDifficulty,
+                new Difficulty("Hard", 10),
             };
+    }
 
-            defaultDifficulty = difficultiesArray["Medium"];
+    struct Difficulty
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
+
+        public Difficulty(string name, int value)
+        {
+            Name = name;
+            Value = value;
         }
     }
 }

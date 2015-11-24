@@ -10,15 +10,15 @@ namespace ChaosMod
 
         public Modules()
         {
-            if (Settings.timedEffectsEnabled)
+            if (Settings.TimedEffectsEnabled)
             {
                 InitTimedEffectsModule();
             }
-            if (Settings.permanentEffectsEnabled)
+            if (Settings.PermanentEffectsEnabled)
             {
                 InitPermanentEffectsModule();
             }
-            if (Settings.staticEffectsEnabled)
+            if (Settings.StaticEffectsEnabled)
             {
                 InitStaticEffectsModule();
             }
@@ -27,7 +27,7 @@ namespace ChaosMod
         public void InitTimedEffectsModule()
         {
             Debug.WriteLine("Initializing timed effects module.");
-            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Settings.game));
+            TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Settings.Game));
             moduleHandlers.Add(timedEffectHandler);
         }
 
@@ -65,7 +65,7 @@ namespace ChaosMod
 
         public void DebugReadAddresses()
         {
-            foreach (MemoryAddress address in Settings.game.memoryAddresses)
+            foreach (MemoryAddress address in Settings.Game.memoryAddresses)
             {
                 Debug.WriteLine($"Address: {address.name}, Value: {address.Read() as object}");
             }

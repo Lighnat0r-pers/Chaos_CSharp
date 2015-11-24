@@ -31,7 +31,7 @@ namespace ChaosMod
             }
 
             // Run the modules in a separate thread.
-            Thread modulesThread = new Thread(Settings.game.StartModulesLoop);
+            Thread modulesThread = new Thread(Settings.Game.StartModulesLoop);
             modulesThread.Start();
 
             // Show the output window.
