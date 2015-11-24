@@ -32,21 +32,20 @@ namespace ChaosMod
 
         public void Deactivate()
         {
-            if (original == null)
+            if (original != null)
             {
-                throw new ArgumentNullException(nameof(original), "Tried to deactivate activator without original value set.");
-            }
 
-            switch (type)
-            {
-                case "simple":
-                    address.Write(original);
-                    break;
-                default:
-                    throw new NotSupportedException("Tried to deactivate activator with unsupported type.");
-            }
+                switch (type)
+                {
+                    case "simple":
+                        address.Write(original);
+                        break;
+                    default:
+                        throw new NotSupportedException("Tried to deactivate activator with unsupported type.");
+                }
 
-            original = null;
+                original = null;
+            }
         }
     }
 }

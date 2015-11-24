@@ -11,6 +11,7 @@ namespace ChaosMod
         private List<Limitation> limitations;
 
         public string Name { get; private set; }
+        public bool Activated { get; private set; }
 
         public string Category { get; set; }
         public int Difficulty { get; set; }
@@ -43,22 +44,32 @@ namespace ChaosMod
 
         public void Activate()
         {
-            foreach (var activator in activators)
+            if (!Activated)
             {
-                activator.Activate();
-            }
+                foreach (var activator in activators)
+                {
+                    activator.Activate();
+                }
 
-            Debug.WriteLine($"Activated timed effect: {name}");
+                Activated = true;
+
+                Debug.WriteLine($"Activated timed effect: {Name}");
+            }
         }
 
         public void Deactivate()
         {
-            foreach (var activator in activators)
+            if (Activated)
             {
-                activator.Deactivate();
-            }
+                foreach (var activator in activators)
+                {
+                    activator.Deactivate();
+                }
+
+                Activated = false;
 
                 Debug.WriteLine($"Deactivated timed effect: {Name}");
+            }
         }
     }
 }
