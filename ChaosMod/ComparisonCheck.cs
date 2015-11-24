@@ -14,7 +14,7 @@ namespace ChaosMod
             this.equal = equal;
         }
 
-        public bool Check()
+        public bool Succeeds()
         {
             dynamic value = addresses[0].Read();
             bool result = addresses.TrueForAll(c => c.Read() == value);

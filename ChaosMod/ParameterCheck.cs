@@ -22,7 +22,7 @@ namespace ChaosMod
             this.parameter = parameter;
         }
 
-        public bool Check()
+        public bool Succeeds()
         {
             if (parameter == null)
             {

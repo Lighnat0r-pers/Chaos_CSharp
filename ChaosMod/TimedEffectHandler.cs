@@ -7,13 +7,14 @@ namespace ChaosMod
     {
         private Random debugRandom;
 
-        public List<TimedEffect> timedEffects;
-
-        public bool effectActive = false;
+        private List<TimedEffect> timedEffects;
         private TimedEffect currentEffect;
-        public EffectTimer effectTimer;
+        private EffectTimer effectTimer;
 
-        internal TimedEffect CurrentEffect
+        private bool ShouldAbort => Settings.Game.BaseChecks.Exists(c => !c.Succeeds() && c.onFail == BaseCheck.Abort);
+        private bool ShouldSuspend => Settings.Game.BaseChecks.Exists(c => !c.Succeeds() && (c.onFail == BaseCheck.Suspend || c.onFail == BaseCheck.Abort));
+
+        private TimedEffect CurrentEffect
         {
             get { return currentEffect; }
 
@@ -35,20 +36,18 @@ namespace ChaosMod
         {
             // TODO(Ligh): Build in debug tools for manipulating the timed effects.
 
-            // TODO(Ligh): Check base limitations. If they fail, deactivate the active effect if there is one.
-
-            // NOTE(Ligh): If the base limitations validate and no effect is active, get the next effect and activate it.
-            if (!effectActive)
+            // If the base limitations validate and no effect is active, get the next effect and activate it.
+            if (CurrentEffect == null)
             {
                 // TODO(Ligh): This needs to support gradual activations somehow.
-                while (!effectActive)
+
+                while (!ShouldSuspend && CurrentEffect == null)
                 {
-                    TimedEffect effect = DebugGetNextEffect();
+                    var effect = DebugGetNextEffect();
 
                     if (effect.CanActivate())
                     {
                         effect.Activate();
-                        effectActive = true;
                         CurrentEffect = effect;
                         effectTimer.SetDuration(effect.effectLength);
                     }
@@ -56,13 +55,21 @@ namespace ChaosMod
             }
             else
             {
-                // NOTE(Ligh): Do stuff when there's already an active effect.
+                // Do stuff when there's already an active effect.
 
-                if (effectTimer.EndTimeHasPassed())
+                if (ShouldAbort || effectTimer.EndTimeHasPassed())
                 {
                     CurrentEffect.Deactivate();
-                    effectActive = false;
                     CurrentEffect = null;
+                }
+                else if (ShouldSuspend)
+                {
+                    CurrentEffect.Deactivate();
+                }
+                else
+                {
+                    // NOTE(Ligh): This doesn't actually reactivate the effect if it is already activated.
+                    CurrentEffect.Activate();
                 }
 
                 // TODO(Ligh): Add a mechanism that stops the game from resetting whatever the effect did (e.g. by continuously activating the effect).
@@ -72,7 +79,6 @@ namespace ChaosMod
         public void Shutdown()
         {
             CurrentEffect?.Deactivate();
-            effectActive = false;
             CurrentEffect = null;
         }
 

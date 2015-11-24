@@ -27,7 +27,7 @@ namespace ChaosMod
 
         public List<GameVersion> gameVersions;
         public List<MemoryAddress> memoryAddresses;
-        public List<Limitation> baseLimitations;
+        public List<BaseCheck> BaseChecks { get; set; }
 
         public bool IsRunning => memory != null && memory.HasValidProcess();
 

@@ -10,10 +10,7 @@ namespace ChaosMod
         public string name;
         public List<ICheck> checks;
 
-        public bool Target
-        {
-            set { target = value; }
-        }
+        public bool Target { private get; set; }
 
         public Limitation(string name, List<ICheck> checks)
         {
@@ -56,7 +53,7 @@ namespace ChaosMod
         /// TODO(Ligh): This function name is vague on when it returns what.
         public bool Check()
         {
-            return checks.TrueForAll(c => c.Check() == target);
+            return checks.TrueForAll(c => c.Succeeds() == Target);
         }
     }
 }

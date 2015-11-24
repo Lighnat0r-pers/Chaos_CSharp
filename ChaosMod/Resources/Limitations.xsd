@@ -41,23 +41,24 @@
   <!--Define what the base should be-->
   <xs:complexType name="Base">
     <xs:sequence>
-      <xs:element name="limitation" maxOccurs="unbounded" type="BaseLimitation"/>
+      <xs:element name="check" maxOccurs="unbounded" type="baseCheck"/>
     </xs:sequence>
   </xs:complexType>
 
-  <!--Define what a base limitation should be-->
-  <xs:complexType name="BaseLimitation">
-    <xs:sequence>
-      <xs:element name="onFail" type="onFail"/>
-      <xs:element ref="checks"/>
-    </xs:sequence>
-  </xs:complexType>
-  
   <!--Define what a limitation should be-->
   <xs:complexType name="Limitation">
     <xs:sequence>
       <xs:element name="name" type="Name"/>
       <xs:element ref="checks"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Define what a base check should be-->
+  <xs:complexType name="baseCheck">
+    <xs:sequence>
+      <xs:element name="address" type="Name"/>
+      <xs:element name="failCase" type="xs:string"/>
+      <xs:element name="onFail" type="onFail"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -116,7 +117,7 @@
       <xs:enumeration value="abort"/>
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:simpleType name="Name">
     <xs:restriction base="xs:Name">
       <xs:minLength value="1"/>

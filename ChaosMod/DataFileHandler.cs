@@ -21,7 +21,7 @@ namespace ChaosMod
         {
             Debug.WriteLine("Starting to read files for game.");
             game.memoryAddresses = ReadMemoryAddresses(game);
-            //game.baseLimitations = GetBaseLimitationsFromFile(game);
+            game.BaseChecks = ReadBaseChecks(game);
             Debug.WriteLine("Done reading files for game.");
         }
 
@@ -103,46 +103,24 @@ namespace ChaosMod
             return memoryAddresses;
         }
 
-        static private List<Limitation> GetBaseLimitationsFromFile(Game game)
+        static public List<BaseCheck> ReadBaseChecks(Game game)
         {
-            // TODO(Ligh): Properly catch errors here.
+            Debug.WriteLine("Reading base checks from file.");
+            var file = XmlUtils.getXDocument(game.Abbreviation, limitationsFilename);
 
-            // TODO(Ligh): Read base limitations here and implement them elsewhere.
+            var baseChecks =
+                file.Descendants("base").First().Descendants("check")
+                .Select(check => new BaseCheck
+                (
+                    game.FindMemoryAddressByName(check.Element("address").Value),
+                    check.Element("failCase").Value,
+                    check.Element("onFail").Value
+                ))
+                .ToList();
 
-            Debug.WriteLine("Reading base limitations from file.");
-            var file = XmlUtils.getXmlDocument(game.abbreviation, limitationsFilename);
+            // TODO(Ligh): Validate everything has been read correctly.
 
-            var baseLimitations = new List<Limitation>();
-
-            foreach (XmlNode node in file.SelectNodes("//limitations/limitation"))
-            {
-                ICheck check;
-                string name = node.SelectSingleNode("name").InnerText;
-
-                var checks = new List<ICheck>();
-
-                foreach (XmlNode checkNode in node.SelectNodes("checks/check"))
-                {
-                    switch (checkNode.Attributes["xsi:type"].Value)
-                    {
-                        case "parameter":
-                            var address = game.FindMemoryAddressByName(checkNode.SelectSingleNode("address").InnerText);
-                            dynamic value = checkNode.SelectSingleNode("value").InnerText;
-                            check = new ParameterCheck(address, value);
-                            break;
-                        default:
-                            throw new NotSupportedException($"Tried to process unknown limitation check type: {checkNode.Attributes["xsi:type"].Value}");
-                    }
-
-                    checks.Add(check);
-                }
-
-                baseLimitations.Add(new Limitation(name, checks));
-            }
-
-            Debug.WriteLine($"Read {baseLimitations.Count} base limitations from file.");
-
-            return baseLimitations;
+            return baseChecks;
         }
 
         static private Limitation ReadLimitation(Game game, string limitationName)

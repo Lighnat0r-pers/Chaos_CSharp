@@ -7,44 +7,24 @@ Supported check types:
 * Limitation - Check if another limitation returns target (boolean). Use this to provide aliases or composite limitations easily without duplicate logic.
 * Comparison - Compares if multiple addresses are equal to eachother or not. equal specifies whether they should be or not.
 
- TODO: Base limitations should only use the Simple check type. Enforce this.
- TODO: The value field in base limitations is actually the fail case but in non-base limitations it is the pass case. Clean that up.
 -->
 
 <limitations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <base>
     <!-- Missing base limitations:
-          * InTheBeginningDone
-          * StillToFadeOut - When would this trigger?
-          * ShuttingDownCheck - Disabled in the old version, so not needed(?)
+          * InTheBeginningDone - Might be covered already by the other 3 checks - Confirm this.
+          * StillToFadeOut
     -->
-    <limitation>
+    <check>
+      <address>NotLoadingGame</address>
+      <failCase>false</failCase>
       <onFail>abort</onFail>
-      <checks>
-        <check xsi:type="parameter">
-          <address>NotLoadingGame</address>
-          <value>false</value>
-        </check>
-      </checks>
-    </limitation>
-    <limitation>
+    </check>
+    <check>
+      <address>PlayerControllable</address>
+      <failCase>false</failCase>
       <onFail>suspend</onFail>
-      <checks>
-        <check xsi:type="parameter">
-          <address>InMenu</address>
-          <value>true</value>
-        </check>
-      </checks>
-    </limitation>
-    <limitation>
-      <onFail>suspend</onFail>
-      <checks>
-        <check xsi:type="parameter">
-          <address>PlayerControllable</address>
-          <value>false</value>
-        </check>
-      </checks>
-    </limitation>
+    </check>
   </base>
   <limitation>
     <name>OnMission</name>

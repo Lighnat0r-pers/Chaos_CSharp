@@ -2,6 +2,6 @@
 {
     interface ICheck
     {
-        bool Check();
+        bool Succeeds();
     }
 }

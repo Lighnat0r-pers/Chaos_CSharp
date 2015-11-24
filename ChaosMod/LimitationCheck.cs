@@ -14,7 +14,7 @@ namespace ChaosMod
             this.limitation = limitation;
         }
 
-        public bool Check()
+        public bool Succeeds()
         {
             return limitation.Check();
         }
