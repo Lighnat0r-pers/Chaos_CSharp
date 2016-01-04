@@ -27,6 +27,7 @@ namespace ChaosMod
             if (ShouldStop == true) // Exit the application if the welcome window was exited.
             {
                 Debug.WriteLine("Exiting application as stop signal was given");
+                outputWindow.Close();
                 return;
             }
 
