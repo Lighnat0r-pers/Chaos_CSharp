@@ -16,6 +16,8 @@ namespace ChaosMod
         //static private string permanentEffectsFilename => "PermanentEffects";
         //static private string staticEffectsFilename => "StaticEffects";
 
+        static private bool MemoryAddressesRead = false;
+
         static public List<Game> ReadGames()
         {
             Debug.WriteLine("Reading games from file.");
@@ -91,6 +93,8 @@ namespace ChaosMod
 
             // TODO(Ligh): Validate everything has been read correctly.
 
+            MemoryAddressesRead = true;
+
             return memoryAddresses;
         }
 
@@ -116,7 +120,10 @@ namespace ChaosMod
 
         static public List<TimedEffect> ReadTimedEffects(Game game)
         {
-            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
+            if (!MemoryAddressesRead)
+            {
+                throw new InvalidOperationException("Cannot read timed effects before reading memory addresses.");
+            }
 
             Debug.WriteLine("Reading timed effects from file.");
 
@@ -156,7 +163,10 @@ namespace ChaosMod
 
         static private Limitation ReadLimitation(Game game, string limitationName)
         {
-            // IMPORTANT(Ligh): This function cannot be called before the memory addresses have all been read. 
+            if (!MemoryAddressesRead)
+            {
+                throw new InvalidOperationException("Cannot read timed effects before reading memory addresses.");
+            }
 
             Debug.WriteLine($"Reading limitation {limitationName} from file.");
             var file = XmlUtils.getXDocument(game.Abbreviation, limitationsFilename);
