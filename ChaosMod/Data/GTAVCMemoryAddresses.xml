@@ -24,7 +24,7 @@ The length element is only used for string length (in characters, not bytes!) of
   <memoryaddress>
     <name>DrunkCam</name>
     <address xsi:type="static">00983B38</address>
-    <datatype>int</datatype>
+    <datatype>float</datatype>
   </memoryaddress>
   <memoryaddress>
     <name>PlayerPointer</name>
