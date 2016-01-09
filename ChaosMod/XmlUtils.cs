@@ -14,7 +14,11 @@ namespace ChaosMod
 
         static private void xmlValidationEventHandler(object sender, ValidationEventArgs e)
         {
+            // TODO(Ligh): Do more with the error here.
+
             Debug.WriteLine($"ERROR: {e.Message}");
+
+            throw new System.Exception($"Xml validation error: {e.Message}");
         }
 
         static private XmlSchemaSet getXmlSchemaSet(string filename)
