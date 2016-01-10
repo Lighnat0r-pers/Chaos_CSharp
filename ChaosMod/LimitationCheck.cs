@@ -4,18 +4,18 @@ namespace ChaosMod
 {
     class LimitationCheck : ICheck
     {
-        private Limitation limitation;
+        private Limitation Limitation { get; }
 
         public LimitationCheck(Limitation limitation, bool target, Dictionary<string, string> parameters)
         {
             limitation.Target = target;
             limitation.SetParameters(parameters);
-            this.limitation = limitation;
+            Limitation = limitation;
         }
 
         public bool Succeeds()
         {
-            return limitation.Check();
+            return Limitation.Check();
         }
     }
 }

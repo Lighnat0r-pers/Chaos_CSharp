@@ -8,12 +8,14 @@ namespace ChaosMod
     {
         private Random debugRandom;
 
-        private List<TimedEffect> timedEffects;
-        private TimedEffect currentEffect;
-        private EffectTimer effectTimer;
+        private List<TimedEffect> TimedEffects { get; }
 
-        private bool ShouldAbort => Settings.Game.BaseChecks.Exists(c => !c.Succeeds() && c.onFail == BaseCheck.Abort);
-        private bool ShouldSuspend => Settings.Game.BaseChecks.Exists(c => !c.Succeeds() && (c.onFail == BaseCheck.Suspend || c.onFail == BaseCheck.Abort));
+        private EffectTimer effectTimer { get; } = new EffectTimer();
+
+        private TimedEffect currentEffect;
+
+        private bool ShouldAbort => Settings.Game.BaseChecks.Exists(c => !c.Succeeds() && c.FailType == FailType.Abort);
+        private bool ShouldSuspend => Settings.Game.BaseChecks.Exists(c => !c.Succeeds() && (c.FailType == FailType.Suspend || c.FailType == FailType.Abort));
 
         private TimedEffect CurrentEffect
         {
@@ -28,9 +30,8 @@ namespace ChaosMod
 
         public TimedEffectHandler(List<TimedEffect> timedEffects)
         {
-            this.timedEffects = timedEffects;
+            TimedEffects = timedEffects;
             debugRandom = new Random(Settings.Seed);
-            effectTimer = new EffectTimer();
         }
 
         public void Update()
@@ -46,13 +47,13 @@ namespace ChaosMod
                 {
                     var effect = DebugGetNextEffect();
 
-                    if (effect.CanActivate())
+                    if (effect.CanActivate)
                     {
                         Debug.WriteLine($"Activating timed effect: {effect.Name}");
 
                         effect.Activate();
                         CurrentEffect = effect;
-                        effectTimer.SetDuration(effect.effectLength);
+                        effectTimer.SetDuration(effect.EffectLength);
                     }
                 }
             }
@@ -109,7 +110,7 @@ namespace ChaosMod
 
         public TimedEffect DebugGetNextEffect()
         {
-            return timedEffects[debugRandom.Next(timedEffects.Count)];
+            return TimedEffects[debugRandom.Next(TimedEffects.Count)];
         }
     }
 }

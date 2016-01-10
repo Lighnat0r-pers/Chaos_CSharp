@@ -4,11 +4,12 @@ namespace ChaosMod
 {
     class EffectTimer
     {
-        private long startTime;
-        private long endTime;
-        private MemoryAddress GameTime;
+        private MemoryAddress GameTime { get; }
 
         private long CurrentTime => GameTime?.Read() ?? DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
+        private long startTime;
+        private long endTime;
 
         public EffectTimer()
         {

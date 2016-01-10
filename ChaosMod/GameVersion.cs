@@ -5,21 +5,21 @@ namespace ChaosMod
 {
     class GameVersion
     {
-        private SortedList<long, int> offsets;
+        public string Name { get; }
+        public int VersionAddressValue { get; }
 
-        public string name { get; private set; }
-        public int versionAddressValue { get; private set; }
+        private SortedList<long, int> Offsets { get; }
 
         public GameVersion(string name, int versionAddressValue, SortedList<long, int> offsets)
         {
-            this.name = name;
-            this.versionAddressValue = versionAddressValue;
-            this.offsets = offsets;
+            Name = name;
+            VersionAddressValue = versionAddressValue;
+            Offsets = offsets;
         }
 
         public long GetOffsetForVersion(long address)
         {
-            return offsets.FirstOrDefault(kvp => kvp.Key >= address).Value;
+            return Offsets.FirstOrDefault(kvp => kvp.Key >= address).Value;
         }
     }
 }

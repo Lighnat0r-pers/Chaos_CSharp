@@ -1,25 +1,36 @@
-﻿namespace ChaosMod
+﻿using System;
+
+namespace ChaosMod
 {
+    public enum FailType
+    {
+        Abort,
+        Suspend,
+    }
+
     class BaseCheck : ICheck
     {
-        static public string Abort => "abort";
-        static public string Suspend => "suspend";
+        public FailType FailType { get; }
 
-        private MemoryAddress address;
-        private dynamic failCase;
+        private MemoryAddress Address { get; }
+        private dynamic FailCase { get; }
 
-        public string onFail { get; private set; }
-
-        public BaseCheck(MemoryAddress address, string failCase, string onFail)
+        public BaseCheck(MemoryAddress address, string failCase, FailType failType)
         {
-            this.address = address;
-            this.failCase = address.ConvertToRightDataType(failCase);
-            this.onFail = onFail;
+            if (address == null)
+            {
+                throw new ArgumentNullException(nameof(address), "Invalid address for base check");
+            }
+
+            Address = address;
+            FailCase = address.ConvertToRightDataType(failCase);
+
+            FailType = failType;
         }
 
         public bool Succeeds()
         {
-            return address.Read() != failCase;
+            return Address.Read() != FailCase;
         }
     }
 }

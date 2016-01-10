@@ -4,8 +4,9 @@ namespace ChaosMod
 {
     class ParameterCheck : ICheck
     {
-        public MemoryAddress Address { get; private set; }
         public dynamic Parameter { get; set; }
+
+        public MemoryAddress Address { get; }
 
         public ParameterCheck(MemoryAddress address, string parameter = null)
         {

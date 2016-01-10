@@ -58,7 +58,7 @@
     <xs:sequence>
       <xs:element name="address" type="Name"/>
       <xs:element name="failCase" type="xs:string"/>
-      <xs:element name="onFail" type="onFail"/>
+      <xs:element name="failType" type="FailType"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -111,7 +111,7 @@
 
   <!--+++ Simple types -->
 
-  <xs:simpleType name="onFail">
+  <xs:simpleType name="FailType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="suspend"/>
       <xs:enumeration value="abort"/>

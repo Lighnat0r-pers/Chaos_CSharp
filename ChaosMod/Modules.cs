@@ -6,7 +6,7 @@ namespace ChaosMod
 {
     class Modules
     {
-        private List<IModuleHandler> moduleHandlers = new List<IModuleHandler>();
+        private List<IModuleHandler> ModuleHandlers { get; } = new List<IModuleHandler>();
 
         private int RefreshRate => 100; // Milliseconds
 
@@ -30,7 +30,7 @@ namespace ChaosMod
         {
             Debug.WriteLine("Initializing timed effects module.");
             TimedEffectHandler timedEffectHandler = new TimedEffectHandler(DataFileHandler.ReadTimedEffects(Settings.Game));
-            moduleHandlers.Add(timedEffectHandler);
+            ModuleHandlers.Add(timedEffectHandler);
         }
 
         private void InitPermanentEffectsModule()
@@ -48,7 +48,7 @@ namespace ChaosMod
         /// </summary>
         public void Update()
         {
-            foreach (var moduleHandler in moduleHandlers)
+            foreach (var moduleHandler in ModuleHandlers)
             {
                 moduleHandler.Update();
             }
@@ -57,7 +57,7 @@ namespace ChaosMod
 
         public void Shutdown()
         {
-            foreach (var moduleHandler in moduleHandlers)
+            foreach (var moduleHandler in ModuleHandlers)
             {
                 moduleHandler.Shutdown();
             }

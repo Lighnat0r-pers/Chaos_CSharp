@@ -25,7 +25,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>4</difficulty>
     <duration>15000</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>DrunkCam</address>
         <target>40</target>
         <activation>Continuous</activation>
@@ -38,7 +38,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>2</difficulty>
     <duration>5000</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>Gravity</address>
         <target>-0.002</target>
       </activator>
@@ -50,7 +50,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>1</difficulty>
     <duration>10000</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>Gravity</address>
         <target>0.0</target>
       </activator>
@@ -61,7 +61,7 @@ The deactivation element in activators is optional and supports the following va
     <category>Gravity</category>
     <difficulty>2</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>Gravity</address>
         <target>0.002</target>
       </activator>
@@ -72,7 +72,7 @@ The deactivation element in activators is optional and supports the following va
     <category>Gravity</category>
     <difficulty>1</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>Gravity</address>
         <target>0.004</target>
       </activator>
@@ -83,7 +83,7 @@ The deactivation element in activators is optional and supports the following va
     <category>Gravity</category>
     <difficulty>2</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>Gravity</address>
         <target>0.016</target>
       </activator>
@@ -95,7 +95,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>3</difficulty>
     <duration>7500</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>GameSpeed</address>
         <target>0.25</target>
         <activation>Continuous</activation>
@@ -108,7 +108,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>2</difficulty>
     <duration>15000</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>GameSpeed</address>
         <target>0.5</target>
         <activation>Continuous</activation>
@@ -121,7 +121,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>2</difficulty>
     <duration>60000</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>GameSpeed</address>
         <target>2.0</target>
         <activation>Continuous</activation>
@@ -146,7 +146,7 @@ The deactivation element in activators is optional and supports the following va
       </limitation>
     </limitations>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>DisableRightTurns</address>
         <target>0.0</target>
       </activator>
@@ -169,7 +169,7 @@ The deactivation element in activators is optional and supports the following va
     </limitations>
     <activators>
       <!-- TODO(Ligh): Implement proper deactivation of this effect.-->
-      <activator type="simple">
+      <activator>
         <address>PlayerStatus</address>
         <target>43</target>
       </activator>
@@ -192,7 +192,7 @@ The deactivation element in activators is optional and supports the following va
     </limitations>
     <activators>
       <!-- TODO(Ligh): Implement proper deactivation of this effect.-->
-      <activator type="simple">
+      <activator>
         <address>PlayerStatus</address>
         <target>36</target>
       </activator>
@@ -203,7 +203,7 @@ The deactivation element in activators is optional and supports the following va
     <category>EnvironmentVisuals</category>
     <difficulty>2</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>Mirage</address>
         <target>0</target>
       </activator>
@@ -215,7 +215,7 @@ The deactivation element in activators is optional and supports the following va
     <difficulty>2</difficulty>
     <duration>10000</duration>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>DrawDistance</address>
         <target>0.0</target>
       </activator>
@@ -226,7 +226,7 @@ The deactivation element in activators is optional and supports the following va
     <category>EnvironmentVisuals</category>
     <difficulty>1</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>DrawDistance</address>
         <target>17.5</target>
       </activator>
@@ -237,7 +237,7 @@ The deactivation element in activators is optional and supports the following va
     <category>EnvironmentVisuals</category>
     <difficulty>2</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>DrawDistance</address>
         <target>140.0</target>
       </activator>
@@ -248,7 +248,7 @@ The deactivation element in activators is optional and supports the following va
     <category>EnvironmentVisuals</category>
     <difficulty>1</difficulty>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>MillisecondsPerGameMinute</address>
         <target>10</target>
       </activator>
@@ -270,25 +270,25 @@ The deactivation element in activators is optional and supports the following va
       </limitation>
     </limitations>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>PlayerX</address>
         <target>228.163406</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerY</address>
         <target>-1262.800903</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerZ</address>
         <target>20.574146</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>CurrentInterior</address>
         <target>1</target>
         <activation>StartOnly</activation>
@@ -316,25 +316,25 @@ The deactivation element in activators is optional and supports the following va
       </limitation>
     </limitations>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>PlayerX</address>
         <target>470.703583</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerY</address>
         <target>-71.482162</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerZ</address>
         <target>10.483632</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>CurrentInterior</address>
         <target>17</target>
         <activation>StartOnly</activation>
@@ -358,25 +358,25 @@ The deactivation element in activators is optional and supports the following va
       </limitation>
     </limitations>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>PlayerX</address>
         <target>74.752792</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerY</address>
         <target>590.400757</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerZ</address>
         <target>18.570541</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>CurrentInterior</address>
         <target>0</target>
         <activation>StartOnly</activation>
@@ -400,25 +400,25 @@ The deactivation element in activators is optional and supports the following va
       </limitation>
     </limitations>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>PlayerX</address>
         <target>-1359.881714</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerY</address>
         <target>-931.143860</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerZ</address>
         <target>20.893085</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>CurrentInterior</address>
         <target>0</target>
         <activation>StartOnly</activation>
@@ -442,25 +442,25 @@ The deactivation element in activators is optional and supports the following va
       </limitation>
     </limitations>
     <activators>
-      <activator type="simple">
+      <activator>
         <address>PlayerX</address>
         <target>-1691.595703</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerY</address>
         <target>-177.515533</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>PlayerZ</address>
         <target>29.752483</target>
         <activation>StartOnly</activation>
         <deactivation>Never</deactivation>
       </activator>
-      <activator type="simple">
+      <activator>
         <address>CurrentInterior</address>
         <target>0</target>
         <activation>StartOnly</activation>

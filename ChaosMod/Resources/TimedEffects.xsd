@@ -35,18 +35,6 @@
     </xs:complexType>
   </xs:element>
 
-  <!--+++ Attributes -->
-
-  <!--Limit allowed values of type-->
-  <xs:attribute name="type">
-    <xs:simpleType>
-      <xs:restriction base="xs:string">
-        <xs:enumeration value="simple"/>
-        <xs:enumeration value="gradual"/>
-      </xs:restriction>
-    </xs:simpleType>
-  </xs:attribute>
-
   <!--+++ Complex types -->
 
   <xs:complexType name="TimedEffect">
@@ -85,7 +73,6 @@
       <xs:element name="activation" type="Activation" minOccurs="0"/>
       <xs:element name="deactivation" type="Deactivation" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute ref="type" use="required"/>
   </xs:complexType>
 
   <!--+++ Simple types -->

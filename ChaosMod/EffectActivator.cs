@@ -2,80 +2,60 @@
 
 namespace ChaosMod
 {
+    public enum ActivationType
+    {
+        Single = 0,
+        Continuous,
+        StartOnly,
+    }
+
+    public enum DeactivationType
+    {
+        Standard = 0,
+        Never,
+    }
+
     class EffectActivator
     {
-        static public Activation DEFAULT_ACTIVATION => Activation.Single;
-        static public Deactivation DEFAULT_DEACTIVATION => Deactivation.Standard;
-
-        public enum Activation
-        {
-            Single = 1,
-            Continuous = 2,
-            StartOnly = 3,
-        }
-
-        public enum Deactivation
-        {
-            Standard = 1,
-            Never = 2,
-        }
-
         public TimedEffect effect { get; set; }
+
+        private dynamic Target { get; }
+        private MemoryAddress Address { get; }
+        private ActivationType ActivationType { get; }
+        private DeactivationType DeactivationType { get; }
 
         private dynamic original;
 
-        private string type;
-        private dynamic target;
-        private MemoryAddress address;
-        private Activation activation;
-        private Deactivation deactivation;
-
-        public EffectActivator(string type, string target, MemoryAddress address, Activation activation, Deactivation deactivation)
+        public EffectActivator(string target, MemoryAddress address, ActivationType activation, DeactivationType deactivation)
         {
-            this.type = type;
-            this.target = address.ConvertToRightDataType(target);
-            this.address = address;
-            this.activation = activation;
-            this.deactivation = deactivation;
-
+            Target = address.ConvertToRightDataType(target);
+            Address = address;
+            ActivationType = activation;
+            DeactivationType = deactivation;
         }
 
         public void Activate()
         {
             if (effect.IsInactive ||
-                (effect.IsSuspended && activation != Activation.StartOnly) ||
-                activation == Activation.Continuous)
+                (effect.IsSuspended && ActivationType != ActivationType.StartOnly) ||
+                ActivationType == ActivationType.Continuous)
             {
-                switch (type)
-                {
-                    case "simple":
-                        original = address.Read();
-                        address.Write(target);
-                        break;
-                    default:
-                        throw new NotSupportedException("Tried to activate activator with unsupported type.");
-                }
+                original = Address.Read();
+                Address.Write(Target);
             }
         }
 
         public void Deactivate()
         {
 
-            if (effect.IsActive && deactivation != Deactivation.Never)
+            if (effect.IsActive && DeactivationType != DeactivationType.Never)
             {
                 if (original == null)
                 {
                     throw new ArgumentNullException("Tried to deactivate activator without original value.");
                 }
 
-                switch (type)
-                {
-                    case "simple":
-                        address.Write(original);
-                        break;
-                    default:
-                        throw new NotSupportedException("Tried to deactivate activator with unsupported type.");
-                }
+                Address.Write(original);
             }
         }
     }

@@ -5,20 +5,20 @@ namespace ChaosMod
 {
     class ComparisonCheck : ICheck
     {
-        private List<MemoryAddress> addresses;
-        private bool equal;
+        private List<MemoryAddress> Addresses { get; }
+        private bool Equal { get; }
 
         public ComparisonCheck(List<MemoryAddress> addresses, bool equal)
         {
-            this.addresses = addresses;
-            this.equal = equal;
+            Addresses = addresses;
+            Equal = equal;
         }
 
         public bool Succeeds()
         {
-            dynamic value = addresses[0].Read();
-            bool result = addresses.TrueForAll(c => c.Read() == value);
-            return result == equal;
+            dynamic value = Addresses[0].Read();
+            bool result = Addresses.TrueForAll(c => c.Read() == value);
+            return result == Equal;
         }
     }
 }

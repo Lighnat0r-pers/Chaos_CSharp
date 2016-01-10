@@ -15,19 +15,21 @@ namespace ChaosMod
 
     class Game
     {
-        private string windowName;
-        private string windowClass;
-        private long versionAddress;
-        private GameVersion currentVersion;
-        private List<MemoryAddress> memoryAddresses;
-
         public List<BaseCheck> BaseChecks { get; private set; }
-        public string Abbreviation { get; private set; }
         public Memory Memory { get; private set; }
-        public List<GameVersion> Versions { get; private set; }
-        public string Name { get; private set; }
+
+        public string Abbreviation { get; }
+        public List<GameVersion> Versions { get; }
+        public string Name { get; }
+
+        private string WindowName { get; }
+        private string WindowClass { get; }
+        private long VersionAddress { get; }
 
         private bool IsRunning => (bool)Memory?.ValidProcess;
+
+        private GameVersion currentVersion;
+        private List<MemoryAddress> memoryAddresses;
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, List<GameVersion> gameVersions)
         {
@@ -35,9 +37,9 @@ namespace ChaosMod
             Abbreviation = abbreviation;
             Versions = gameVersions;
 
-            this.windowName = windowName;
-            this.windowClass = windowClass;
-            this.versionAddress = versionAddress;
+            WindowName = windowName;
+            WindowClass = windowClass;
+            VersionAddress = versionAddress;
         }
 
         private void GetHandle()
@@ -71,11 +73,11 @@ namespace ChaosMod
         {
             while (Memory == null && Program.ShouldStop == false)
             {
-                foreach (var process in Array.FindAll(Process.GetProcesses(), p => p.MainWindowTitle == windowName))
+                foreach (var process in Array.FindAll(Process.GetProcesses(), p => p.MainWindowTitle == WindowName))
                 {
                     var foundClassName = new System.Text.StringBuilder();
-                    ProcessHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, windowClass.Length + 1);
-                    if (foundClassName.ToString() == windowClass)
+                    ProcessHandlerApi.GetClassName(process.MainWindowHandle, foundClassName, WindowClass.Length + 1);
+                    if (foundClassName.ToString() == WindowClass)
                     {
                         Memory = new Memory(process);
                         break;
@@ -96,15 +98,15 @@ namespace ChaosMod
 
         private void GetVersion()
         {
-            byte value = Memory.Read(versionAddress, DataType.Byte, 1);
-            currentVersion = Versions.Find(v => v.versionAddressValue == value);
+            byte value = Memory.Read(VersionAddress, DataType.Byte, 1);
+            currentVersion = Versions.Find(v => v.VersionAddressValue == value);
 
             if (currentVersion == null)
             {
                 throw new InvalidOperationException($"Failed to determine the game version: Unknown version. Version address value was {value}");
             }
 
-            Debug.WriteLine($"Detected game version: {currentVersion.name}");
+            Debug.WriteLine($"Detected game version: {currentVersion.Name}");
         }
 
         public void StartModulesLoop()

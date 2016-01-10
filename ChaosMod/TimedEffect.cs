@@ -2,46 +2,48 @@
 
 namespace ChaosMod
 {
+    public enum ActivationState
+    {
+        Inactive = 0,
+        Active = 1,
+        Suspended = 2,
+    }
+
     class TimedEffect
     {
         static private long defaultEffectLength => 30000;
 
-        public enum ActivationState
+        /// <summary>
+        /// Duration of the effect taking time multipliers into account.
+        /// </summary>
+        public long EffectLength
         {
-            Inactive = 0,
-            Active = 1,
-            Suspended = 2,
+            get { return effectLength; }
+            set { effectLength = value * Settings.TimeMultiplier; }
         }
-
-        private List<EffectActivator> activators;
-        private List<Limitation> limitations;
-
-        public bool IsInactive => Activation == ActivationState.Inactive;
-        public bool IsActive => Activation == ActivationState.Active;
-        public bool IsSuspended => Activation == ActivationState.Suspended;
-
-        public string Name { get; private set; }
-        public ActivationState Activation { get; private set; }
+        private long effectLength;
 
         public string Category { get; set; }
         public int Difficulty { get; set; }
 
-        /// <summary>
-        /// Duration of the effect taking time multipliers into account.
-        /// </summary>
-        public long effectLength
-        {
-            get { return length; }
-            set { length = value * Settings.TimeMultiplier; }
-        }
-        private long length;
+        public ActivationState Activation { get; private set; }
+
+        public string Name { get; }
+
+        public bool CanActivate => Limitations.TrueForAll(l => l.Check());
+        public bool IsInactive => Activation == ActivationState.Inactive;
+        public bool IsActive => Activation == ActivationState.Active;
+        public bool IsSuspended => Activation == ActivationState.Suspended;
+
+        private List<EffectActivator> Activators { get; }
+        private List<Limitation> Limitations { get; }
 
         public TimedEffect(string name, string category, int difficulty, List<EffectActivator> activators, uint duration = 0, List<Limitation> limitations = null)
         {
-            effectLength = duration == 0 ? defaultEffectLength : duration;
+            EffectLength = duration == 0 ? defaultEffectLength : duration;
 
-            this.activators = activators;
-            this.limitations = limitations;
+            Activators = activators;
+            Limitations = limitations;
             Name = name;
             Category = category;
             Difficulty = difficulty;
@@ -52,14 +54,9 @@ namespace ChaosMod
             }
         }
 
-        public bool CanActivate()
-        {
-            return limitations.TrueForAll(l => l.Check());
-        }
-
         public void Activate()
         {
-            foreach (var activator in activators)
+            foreach (var activator in Activators)
             {
                 activator.Activate();
             }
@@ -69,7 +66,7 @@ namespace ChaosMod
 
         public void Deactivate()
         {
-            foreach (var activator in activators)
+            foreach (var activator in Activators)
             {
                 activator.Deactivate();
             }

@@ -6,18 +6,6 @@ namespace ChaosMod
 {
     class MemoryAddress
     {
-        private Game game;
-        private GameVersion gameVersion;
-        private long address;
-        private long offset;
-        private DataType dataType;
-        private int size = 0;
-
-        public bool IsDynamic => address == 0;
-
-        public string BaseAddressName { get; private set; }
-        public string Name { get; private set; }
-
         public MemoryAddress BaseAddress { get; set; }
 
         public long Address
@@ -25,6 +13,19 @@ namespace ChaosMod
             get { return IsDynamic ? GetDynamicAddress() : address; }
             set { address = value; }
         }
+
+        public string BaseAddressName { get; }
+        public string Name { get; }
+
+        public bool IsDynamic => address == 0;
+
+        private Game Game { get; }
+        private GameVersion GameVersion { get; }
+        private long Offset { get; }
+        private DataType DataType { get; }
+        private int Size { get; }
+
+        private long address;
 
         /// <summary>
         /// Constructor for static memory address.
@@ -38,7 +39,7 @@ namespace ChaosMod
             }
 
             Address = address;
-            this.gameVersion = gameVersion;
+            GameVersion = gameVersion;
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace ChaosMod
             : this(game, name, type, length)
         {
             BaseAddressName = baseAddressName;
-            this.offset = offset;
+            Offset = offset;
         }
 
         /// <summary>
@@ -57,8 +58,7 @@ namespace ChaosMod
         private MemoryAddress(Game game, string name, DataType dataType, int length = 0)
         {
             Name = name;
-
-            this.game = game;
+            Game = game;
 
             // TODO(Ligh): Handle size differently so we don't have to spend time creating this dictionary again for every memory address.
             var sizes = new Dictionary<DataType, int>()
@@ -79,13 +79,13 @@ namespace ChaosMod
                 throw new ArgumentOutOfRangeException(nameof(dataType), "Invalid datatype of memory address.");
             }
 
-            this.dataType = dataType;
+            DataType = dataType;
 
-            size = sizes[dataType];
+            Size = sizes[dataType];
 
-            if (size == 0)
+            if (Size == 0)
             {
-                throw new ArgumentException(nameof(size), "Invalid size of memory address.");
+                throw new ArgumentException(nameof(Size), "Invalid size of memory address.");
             }
         }
 
@@ -97,14 +97,14 @@ namespace ChaosMod
                 return;
             }
 
-            if (newVersion == null || gameVersion == null)
+            if (newVersion == null || GameVersion == null)
             {
                 throw new ArgumentNullException("Tried to update address for version but version is not defined.");
             }
 
-            if (newVersion != gameVersion)
+            if (newVersion != GameVersion)
             {
-                address += newVersion.GetOffsetForVersion(address) - gameVersion.GetOffsetForVersion(address);
+                address += newVersion.GetOffsetForVersion(address) - GameVersion.GetOffsetForVersion(address);
             }
         }
 
@@ -116,7 +116,7 @@ namespace ChaosMod
             }
 
             dynamic result;
-            switch (dataType)
+            switch (DataType)
             {
                 case DataType.Bool:
                     result = Convert.ToBoolean(input);
@@ -146,7 +146,7 @@ namespace ChaosMod
                     result = input;
                     break;
                 default:
-                    throw new NotSupportedException($"Tried to convert input to unknown data type {dataType}");
+                    throw new NotSupportedException($"Tried to convert input to unknown data type {DataType}");
             }
 
             return result;
@@ -154,22 +154,22 @@ namespace ChaosMod
 
         public dynamic Read()
         {
-            if (game.Memory == null)
+            if (Game.Memory == null)
             {
                 throw new InvalidOperationException("Tried to read an address without a handle to the game process.");
             }
 
-            return game.Memory.Read(Address, dataType, size);
+            return Game.Memory.Read(Address, DataType, Size);
         }
 
         public void Write(dynamic input)
         {
-            if (game.Memory == null)
+            if (Game.Memory == null)
             {
                 throw new InvalidOperationException("Tried to write to an address without a handle to the game process.");
             }
 
-            game.Memory.Write(Address, input, dataType, size);
+            Game.Memory.Write(Address, input, DataType, Size);
         }
 
         /// <summary>
@@ -187,12 +187,12 @@ namespace ChaosMod
             }
 
             // TODO(Ligh): Switch to using IntPtr for pointers.
-            if (BaseAddress.dataType != DataType.Int && BaseAddress.dataType != DataType.Long)
+            if (BaseAddress.DataType != DataType.Int && BaseAddress.DataType != DataType.Long)
             {
-                throw new ArgumentOutOfRangeException(nameof(dataType), $"Tried to use an address with a non-pointer datatype ({BaseAddress.dataType}) as a pointer address.");
+                throw new ArgumentOutOfRangeException(nameof(DataType), $"Tried to use an address with a non-pointer datatype ({BaseAddress.DataType}) as a pointer address.");
             }
 
-            return BaseAddress.Read() + offset;
+            return BaseAddress.Read() + Offset;
         }
     }
 }

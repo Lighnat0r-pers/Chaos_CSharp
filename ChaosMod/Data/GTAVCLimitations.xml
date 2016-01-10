@@ -18,12 +18,12 @@ Supported check types:
     <check>
       <address>NotLoadingGame</address>
       <failCase>false</failCase>
-      <onFail>abort</onFail>
+      <failType>abort</failType>
     </check>
     <check>
       <address>PlayerControllable</address>
       <failCase>false</failCase>
-      <onFail>suspend</onFail>
+      <failType>suspend</failType>
     </check>
   </base>
   <limitation>

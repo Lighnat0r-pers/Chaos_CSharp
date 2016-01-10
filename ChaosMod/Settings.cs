@@ -20,9 +20,6 @@ namespace ChaosMod
         static public List<Game> SupportedGames { get; set; }
         static public TimedEffect CurrentEffect { get; set; }
 
-        static private int sanicModeMultiplier => 10;
-        static private int baseTimeMultiplier => 1;
-
         static public int TimeMultiplier => SanicModeEnabled ? baseTimeMultiplier / sanicModeMultiplier : baseTimeMultiplier;
         static public double ProgramVersion => 2.0;
         static public int SeedValidLength => 4;
@@ -39,6 +36,10 @@ namespace ChaosMod
                 defaultDifficulty,
                 new Difficulty("Hard", 10),
             };
+
+        static private int sanicModeMultiplier => 10;
+        static private int baseTimeMultiplier => 1;
+
     }
 
     struct Difficulty

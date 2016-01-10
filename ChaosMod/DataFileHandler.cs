@@ -20,7 +20,7 @@ namespace ChaosMod
         //static private string permanentEffectsFilename => "PermanentEffects";
         //static private string staticEffectsFilename => "StaticEffects";
 
-        static private bool MemoryAddressesRead = false;
+        static private bool memoryAddressesRead = false;
 
         static public List<Game> ReadGames()
         {
@@ -75,7 +75,7 @@ namespace ChaosMod
                                 game,
                                 address.Element("name").Value,
                                 Int64.Parse(address.Element("address").Value, NumberStyles.HexNumber),
-                                game.Versions.Find(v => v.name == file.Element("addresses").Attribute("gameversion").Value),
+                                game.Versions.Find(v => v.Name == file.Element("addresses").Attribute("gameversion").Value),
                                 (DataType)Enum.Parse(typeof(DataType), address.Element("datatype").Value, true),
                                 Int32.Parse(address.Element("length")?.Value ?? "0")
                             );
@@ -97,7 +97,7 @@ namespace ChaosMod
 
             // TODO(Ligh): Validate everything has been read correctly.
 
-            MemoryAddressesRead = true;
+            memoryAddressesRead = true;
 
             return memoryAddresses;
         }
@@ -113,7 +113,7 @@ namespace ChaosMod
                 (
                     game.FindMemoryAddressByName(check.Element("address").Value),
                     check.Element("failCase").Value,
-                    check.Element("onFail").Value
+                    (FailType)Enum.Parse(typeof(FailType), check.Element("failType")?.Value, true)
                 ))
                 .ToList();
 
@@ -124,7 +124,7 @@ namespace ChaosMod
 
         static public List<TimedEffect> ReadTimedEffects(Game game)
         {
-            if (!MemoryAddressesRead)
+            if (!memoryAddressesRead)
             {
                 throw new InvalidOperationException("Cannot read timed effects before reading memory addresses.");
             }
@@ -142,11 +142,10 @@ namespace ChaosMod
                     .Select(activator =>
                     new EffectActivator
                     (
-                        activator.Attribute("type").Value,
                         activator.Element("target").Value,
                         game.FindMemoryAddressByName(activator.Element("address").Value),
-                        (EffectActivator.Activation)Enum.Parse(typeof(EffectActivator.Activation), activator.Element("activation")?.Value ?? EffectActivator.DEFAULT_ACTIVATION.ToString(), true),
-                        (EffectActivator.Deactivation)Enum.Parse(typeof(EffectActivator.Deactivation), activator.Element("deactivation")?.Value ?? EffectActivator.DEFAULT_DEACTIVATION.ToString(), true)
+                        (ActivationType)Enum.Parse(typeof(ActivationType), activator.Element("activation")?.Value ?? default(ActivationType).ToString(), true),
+                        (DeactivationType)Enum.Parse(typeof(DeactivationType), activator.Element("deactivation")?.Value ?? default(DeactivationType).ToString(), true)
                     ))
                     .ToList(),
                     UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
@@ -169,7 +168,7 @@ namespace ChaosMod
 
         static private Limitation ReadLimitation(Game game, string limitationName)
         {
-            if (!MemoryAddressesRead)
+            if (!memoryAddressesRead)
             {
                 throw new InvalidOperationException("Cannot read timed effects before reading memory addresses.");
             }

@@ -7,10 +7,10 @@ namespace ChaosMod
 {
     static class XmlUtils
     {
+        static public XNamespace xsiNamespace => "http://www.w3.org/2001/XMLSchema-instance";
+
         static private string baseResourceString => "ChaosMod.Resources.";
         static private string dataDirectory => "Data\\";
-
-        static public XNamespace xsiNamespace => "http://www.w3.org/2001/XMLSchema-instance";
 
         static private void xmlValidationEventHandler(object sender, ValidationEventArgs e)
         {
