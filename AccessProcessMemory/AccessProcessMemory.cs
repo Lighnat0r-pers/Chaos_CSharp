@@ -46,7 +46,7 @@ namespace AccessProcessMemory
     /// </summary>
     public enum DataType
     {
-        Boolean,
+        Bool,
         Byte,
         Short,
         Int,
@@ -158,7 +158,7 @@ namespace AccessProcessMemory
             dynamic result;
             switch (dataType)
             {
-                case DataType.Boolean:
+                case DataType.Bool:
                     result = BitConverter.ToBoolean(output, 0);
                     break;
                 case DataType.Byte:
@@ -204,7 +204,7 @@ namespace AccessProcessMemory
             byte[] result;
             switch (dataType)
             {
-                case DataType.Boolean:
+                case DataType.Bool:
                     result = BitConverter.GetBytes(input);
                     break;
                 case DataType.Byte:

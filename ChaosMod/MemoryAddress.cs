@@ -63,7 +63,7 @@ namespace ChaosMod
             // TODO(Ligh): Handle size differently so we don't have to spend time creating this dictionary again for every memory address.
             var sizes = new Dictionary<DataType, int>()
             {
-                {DataType.Boolean, sizeof(bool)},
+                {DataType.Bool, sizeof(bool)},
                 {DataType.Byte, sizeof(byte)},
                 {DataType.Short, sizeof(short)},
                 {DataType.Int, sizeof(int)},
@@ -118,7 +118,7 @@ namespace ChaosMod
             dynamic result;
             switch (dataType)
             {
-                case DataType.Boolean:
+                case DataType.Bool:
                     result = Convert.ToBoolean(input);
                     break;
                 case DataType.Byte:
