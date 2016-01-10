@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using AccessProcessMemory;
 
 namespace ChaosMod
 {
@@ -75,7 +76,7 @@ namespace ChaosMod
                                 address.Element("name").Value,
                                 Int64.Parse(address.Element("address").Value, NumberStyles.HexNumber),
                                 game.Versions.Find(v => v.name == file.Element("addresses").Attribute("gameversion").Value),
-                                address.Element("datatype").Value,
+                                (DataType)Enum.Parse(typeof(DataType), address.Element("datatype").Value, true),
                                 Int32.Parse(address.Element("length")?.Value ?? "0")
                             );
                         case "dynamic":
@@ -85,7 +86,7 @@ namespace ChaosMod
                                 address.Element("name").Value,
                                 address.Element("address").Element("baseaddress").Value,
                                 Int64.Parse(address.Element("address").Element("offset").Value, NumberStyles.HexNumber),
-                                address.Element("datatype").Value,
+                                (DataType)Enum.Parse(typeof(DataType), address.Element("datatype").Value, true),
                                 Int32.Parse(address.Element("length")?.Value ?? "0")
                             );
                         default:

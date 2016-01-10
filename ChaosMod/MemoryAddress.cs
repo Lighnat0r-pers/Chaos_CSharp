@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AccessProcessMemory;
 
 namespace ChaosMod
 {
@@ -9,7 +10,7 @@ namespace ChaosMod
         private GameVersion gameVersion;
         private long address;
         private long offset;
-        private string dataType;
+        private DataType dataType;
         private int size = 0;
 
         public bool IsDynamic => address == 0;
@@ -28,7 +29,7 @@ namespace ChaosMod
         /// <summary>
         /// Constructor for static memory address.
         /// </summary>
-        public MemoryAddress(Game game, string name, long address, GameVersion gameVersion, string type, int length = 0)
+        public MemoryAddress(Game game, string name, long address, GameVersion gameVersion, DataType type, int length = 0)
             : this(game, name, type, length)
         {
             if (gameVersion == null)
@@ -43,7 +44,7 @@ namespace ChaosMod
         /// <summary>
         /// Constructor for dynamic memory address.
         /// </summary>
-        public MemoryAddress(Game game, string name, string baseAddressName, long offset, string type, int length = 0)
+        public MemoryAddress(Game game, string name, string baseAddressName, long offset, DataType type, int length = 0)
             : this(game, name, type, length)
         {
             BaseAddressName = baseAddressName;
@@ -53,24 +54,24 @@ namespace ChaosMod
         /// <summary>
         /// Generic constructor
         /// </summary>
-        private MemoryAddress(Game game, string name, string dataType, int length = 0)
+        private MemoryAddress(Game game, string name, DataType dataType, int length = 0)
         {
             Name = name;
 
             this.game = game;
 
             // TODO(Ligh): Handle size differently so we don't have to spend time creating this dictionary again for every memory address.
-            var sizes = new Dictionary<string, int>()
+            var sizes = new Dictionary<DataType, int>()
             {
-                {"bool", sizeof(bool)},
-                {"byte", sizeof(byte)},
-                {"short", sizeof(short)},
-                {"int", sizeof(int)},
-                {"long", sizeof(long)},
-                {"float", sizeof(float)},
-                {"double", sizeof(double)},
-                {"ascii", length},
-                {"unicode", length * 2},
+                {DataType.Boolean, sizeof(bool)},
+                {DataType.Byte, sizeof(byte)},
+                {DataType.Short, sizeof(short)},
+                {DataType.Int, sizeof(int)},
+                {DataType.Long, sizeof(long)},
+                {DataType.Float, sizeof(float)},
+                {DataType.Double, sizeof(double)},
+                {DataType.Ascii, length},
+                {DataType.Unicode, length * 2},
             };
 
             if (!sizes.ContainsKey(dataType))
@@ -110,36 +111,38 @@ namespace ChaosMod
         public dynamic ConvertToRightDataType(string input)
         {
             if (input == null)
+            {
                 throw new ArgumentNullException(nameof(input), "Error while converting input for memory, no input");
+            }
 
             dynamic result;
             switch (dataType)
             {
-                case "bool":
+                case DataType.Boolean:
                     result = Convert.ToBoolean(input);
                     break;
-                case "byte":
+                case DataType.Byte:
                     result = Convert.ToByte(input);
                     break;
-                case "short":
+                case DataType.Short:
                     result = Convert.ToInt16(input);
                     break;
-                case "int":
+                case DataType.Int:
                     result = Convert.ToInt32(input);
                     break;
-                case "long":
+                case DataType.Long:
                     result = Convert.ToInt64(input);
                     break;
-                case "float":
+                case DataType.Float:
                     result = Convert.ToSingle(input);
                     break;
-                case "double":
+                case DataType.Double:
                     result = Convert.ToDouble(input);
                     break;
-                case "ascii":
+                case DataType.Ascii:
                     result = input;
                     break;
-                case "unicode":
+                case DataType.Unicode:
                     result = input;
                     break;
                 default:
@@ -183,7 +186,8 @@ namespace ChaosMod
                 throw new InvalidOperationException("Tried to get the dynamic address of a static memory address.");
             }
 
-            if (BaseAddress.dataType != "int" && BaseAddress.dataType != "long")
+            // TODO(Ligh): Switch to using IntPtr for pointers.
+            if (BaseAddress.dataType != DataType.Int && BaseAddress.dataType != DataType.Long)
             {
                 throw new ArgumentOutOfRangeException(nameof(dataType), $"Tried to use an address with a non-pointer datatype ({BaseAddress.dataType}) as a pointer address.");
             }

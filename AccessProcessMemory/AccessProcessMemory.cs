@@ -42,6 +42,22 @@ namespace AccessProcessMemory
     }
 
     /// <summary>
+    /// Data types supported for memory reads and writes.
+    /// </summary>
+    public enum DataType
+    {
+        Boolean,
+        Byte,
+        Short,
+        Int,
+        Long,
+        Float,
+        Double,
+        Ascii,
+        Unicode,
+    }
+
+    /// <summary>
     /// Class containing methods to read and write the memory of the target process.
     /// </summary>
     public class Memory
@@ -97,7 +113,7 @@ namespace AccessProcessMemory
         /// <summary>
         /// Reads [length] bytes at [address] as [type] in the targeted process.
         /// </summary>
-        public dynamic Read(long address, string type, int length)
+        public dynamic Read(long address, DataType type, int length)
         {
             var buffer = new byte[length];
             IntPtr ptrBytesReaded;
@@ -109,7 +125,7 @@ namespace AccessProcessMemory
         /// <summary>
         /// Writes [input] zero-padded up to [length] to [address] in the targeted process.
         /// </summary>
-        public void Write(long address, dynamic input, string type, int length = 0)
+        public void Write(long address, dynamic input, DataType type, int length = 0)
         {
             byte[] byteInput = ConvertInput(input, type);
             if (length == 0)
@@ -129,7 +145,7 @@ namespace AccessProcessMemory
         /// </summary>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="NotSupportedException" />
-        private static dynamic ConvertOutput(byte[] output, string dataType)
+        private static dynamic ConvertOutput(byte[] output, DataType dataType)
         {
             if (output == null)
                 throw new ArgumentNullException(nameof(output), "Error while converting output from memory, no output");
@@ -142,31 +158,31 @@ namespace AccessProcessMemory
             dynamic result;
             switch (dataType)
             {
-                case "bool":
+                case DataType.Boolean:
                     result = BitConverter.ToBoolean(output, 0);
                     break;
-                case "byte":
+                case DataType.Byte:
                     result = output[0];
                     break;
-                case "short":
+                case DataType.Short:
                     result = BitConverter.ToInt16(output, 0);
                     break;
-                case "int":
+                case DataType.Int:
                     result = BitConverter.ToInt32(output, 0);
                     break;
-                case "long":
+                case DataType.Long:
                     result = BitConverter.ToInt64(output, 0);
                     break;
-                case "float":
+                case DataType.Float:
                     result = BitConverter.ToSingle(output, 0);
                     break;
-                case "double":
+                case DataType.Double:
                     result = BitConverter.ToDouble(output, 0);
                     break;
-                case "ascii":
+                case DataType.Ascii:
                     result = Encoding.ASCII.GetString(output).TrimEnd(('\0'));
                     break;
-                case "unicode":
+                case DataType.Unicode:
                     result = Encoding.Unicode.GetString(output).TrimEnd(('\0'));
                     break;
                 default:
@@ -180,7 +196,7 @@ namespace AccessProcessMemory
         /// </summary>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="NotSupportedException" />
-        private static byte[] ConvertInput(dynamic input, string dataType)
+        private static byte[] ConvertInput(dynamic input, DataType dataType)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input), "Error while converting input for memory, no input");
@@ -188,31 +204,31 @@ namespace AccessProcessMemory
             byte[] result;
             switch (dataType)
             {
-                case "bool":
+                case DataType.Boolean:
                     result = BitConverter.GetBytes(input);
                     break;
-                case "byte":
+                case DataType.Byte:
                     result = new byte[] { input };
                     break;
-                case "short":
+                case DataType.Short:
                     result = BitConverter.GetBytes(input);
                     break;
-                case "int":
+                case DataType.Int:
                     result = BitConverter.GetBytes(input);
                     break;
-                case "long":
+                case DataType.Long:
                     result = BitConverter.GetBytes(input);
                     break;
-                case "float":
+                case DataType.Float:
                     result = BitConverter.GetBytes(input);
                     break;
-                case "double":
+                case DataType.Double:
                     result = BitConverter.GetBytes(input);
                     break;
-                case "ascii":
+                case DataType.Ascii:
                     result = Encoding.ASCII.GetBytes(input);
                     break;
-                case "unicode":
+                case DataType.Unicode:
                     result = Encoding.Unicode.GetBytes(input);
                     break;
                 default:

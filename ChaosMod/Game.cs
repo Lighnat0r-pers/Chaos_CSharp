@@ -1,9 +1,9 @@
-﻿using AccessProcessMemory;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using AccessProcessMemory;
 
 namespace ChaosMod
 {
@@ -96,7 +96,7 @@ namespace ChaosMod
 
         private void GetVersion()
         {
-            byte value = Memory.Read(versionAddress, "byte", 1);
+            byte value = Memory.Read(versionAddress, DataType.Byte, 1);
             currentVersion = Versions.Find(v => v.versionAddressValue == value);
 
             if (currentVersion == null)
