@@ -9,6 +9,9 @@ namespace ChaosMod
 {
     static class DataFileHandler
     {
+        // TODO(Ligh): All reads from files are prone to exceptions, so wrap them in try blocks and
+        // properly report errors to the user (what went wrong, how to fix etc).
+        // Also try to recover from errors as much as possible.
         static private string gamesFilename => "Games";
         static private string memoryAddressesFilename => "MemoryAddresses";
         static private string limitationsFilename => "Limitations";
@@ -140,7 +143,9 @@ namespace ChaosMod
                     (
                         activator.Attribute("type").Value,
                         activator.Element("target").Value,
-                        game.FindMemoryAddressByName(activator.Element("address").Value)
+                        game.FindMemoryAddressByName(activator.Element("address").Value),
+                        (EffectActivator.Activation)Enum.Parse(typeof(EffectActivator.Activation), activator.Element("activation")?.Value ?? EffectActivator.DEFAULT_ACTIVATION.ToString(), true),
+                        (EffectActivator.Deactivation)Enum.Parse(typeof(EffectActivator.Deactivation), activator.Element("deactivation")?.Value ?? EffectActivator.DEFAULT_DEACTIVATION.ToString(), true)
                     ))
                     .ToList(),
                     UInt32.Parse(effect.Element("duration")?.Value ?? "0"),

@@ -7,28 +7,28 @@ EDIT AT YOUR OWN RISK!!
 Supported activator types:
 * Simple - Changes the address to target value.
 * TODO(Ligh): Gradual - Gradually changes the address from its original value to target value.
-
-
- TODO(Ligh): Implement a place to define base limitations, which need to pass for all effects. 
- * These would need to be checked continuously, not just on activation. 
- * Some of them would need to deactivate the effect permanently, others just temporarily until the limitation passes again.
- TODO(Ligh): Determine whether these special properties should be special for the base limitations, or (more likely) available for
- all limitations.
  
+The activation element in activators is optional and supports the following values:
+* Single     - The activator is activated once when the effect is activated or reactivated. (Default if element not included)
+* Continuous - The activator is activated continously while the effect is active.
+* StartOnly  - The activator is activated once when the effect is activated (not when reactivated).
+
+The deactivation element in activators is optional and supports the following values:
+* Standard   - The activator is deactivated on deactivation or suspension of the effect. (Default if element not included)
+* Never      - The activator is never deactivated.
 -->
 
 <timedeffects>
   <timedeffect>
-    <!-- TODO(Ligh): Does not work right now. Related to other TODO or incorrect address?-->
     <name>Xtreme Drunk Cam</name>
     <category>GUIVisuals</category>
     <difficulty>4</difficulty>
     <duration>15000</duration>
     <activators>
-      <!-- TODO(Ligh): This needs to be continuously activated in case the game disables it.-->
       <activator type="simple">
         <address>DrunkCam</address>
         <target>40</target>
+        <activation>Continuous</activation>
       </activator>
     </activators>
   </timedeffect>
@@ -98,6 +98,7 @@ Supported activator types:
       <activator type="simple">
         <address>GameSpeed</address>
         <target>0.25</target>
+        <activation>Continuous</activation>
       </activator>
     </activators>
   </timedeffect>
@@ -110,6 +111,7 @@ Supported activator types:
       <activator type="simple">
         <address>GameSpeed</address>
         <target>0.5</target>
+        <activation>Continuous</activation>
       </activator>
     </activators>
   </timedeffect>
@@ -122,6 +124,7 @@ Supported activator types:
       <activator type="simple">
         <address>GameSpeed</address>
         <target>2.0</target>
+        <activation>Continuous</activation>
       </activator>
     </activators>
   </timedeffect>
@@ -267,22 +270,29 @@ Supported activator types:
       </limitation>
     </limitations>
     <activators>
-      <!-- TODO(Ligh): These activators shouldn't be 'deactivated' at the end of the effect.-->
       <activator type="simple">
         <address>PlayerX</address>
         <target>228.163406</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerY</address>
         <target>-1262.800903</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerZ</address>
         <target>20.574146</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>CurrentInterior</address>
         <target>1</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
     </activators>
   </timedeffect>
@@ -306,22 +316,29 @@ Supported activator types:
       </limitation>
     </limitations>
     <activators>
-      <!-- TODO(Ligh): These activators shouldn't be 'deactivated' at the end of the effect.-->
       <activator type="simple">
         <address>PlayerX</address>
         <target>470.703583</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerY</address>
         <target>-71.482162</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerZ</address>
         <target>10.483632</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>CurrentInterior</address>
         <target>17</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
     </activators>
   </timedeffect>
@@ -341,22 +358,29 @@ Supported activator types:
       </limitation>
     </limitations>
     <activators>
-      <!-- TODO(Ligh): These activators shouldn't be 'deactivated' at the end of the effect.-->
       <activator type="simple">
         <address>PlayerX</address>
         <target>74.752792</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerY</address>
         <target>590.400757</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerZ</address>
         <target>18.570541</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>CurrentInterior</address>
         <target>0</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
     </activators>
   </timedeffect>
@@ -376,22 +400,29 @@ Supported activator types:
       </limitation>
     </limitations>
     <activators>
-      <!-- TODO(Ligh): These activators shouldn't be 'deactivated' at the end of the effect.-->
       <activator type="simple">
         <address>PlayerX</address>
         <target>-1359.881714</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerY</address>
         <target>-931.143860</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerZ</address>
         <target>20.893085</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>CurrentInterior</address>
         <target>0</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
     </activators>
   </timedeffect>
@@ -411,22 +442,29 @@ Supported activator types:
       </limitation>
     </limitations>
     <activators>
-      <!-- TODO(Ligh): These activators shouldn't be 'deactivated' at the end of the effect.-->
       <activator type="simple">
         <address>PlayerX</address>
         <target>-1691.595703</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerY</address>
         <target>-177.515533</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>PlayerZ</address>
         <target>29.752483</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
       <activator type="simple">
         <address>CurrentInterior</address>
         <target>0</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
     </activators>
   </timedeffect>

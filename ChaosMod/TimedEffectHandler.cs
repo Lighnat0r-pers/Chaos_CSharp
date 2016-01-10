@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ChaosMod
 {
@@ -47,6 +48,8 @@ namespace ChaosMod
 
                     if (effect.CanActivate())
                     {
+                        Debug.WriteLine($"Activating timed effect: {effect.Name}");
+
                         effect.Activate();
                         CurrentEffect = effect;
                         effectTimer.SetDuration(effect.effectLength);
@@ -59,25 +62,47 @@ namespace ChaosMod
 
                 if (ShouldAbort || effectTimer.EndTimeHasPassed())
                 {
+                    if (ShouldAbort)
+                    {
+                        Debug.WriteLine($"Aborting timed effect: {CurrentEffect.Name}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Deactivating timed effect: {CurrentEffect.Name}");
+                    }
+
                     CurrentEffect.Deactivate();
                     CurrentEffect = null;
                 }
                 else if (ShouldSuspend)
                 {
-                    CurrentEffect.Deactivate();
+                    if (CurrentEffect.IsActive)
+                    {
+                        Debug.WriteLine($"Suspending timed effect: {CurrentEffect.Name}");
+                    }
+
+                    CurrentEffect.Suspend();
                 }
                 else
                 {
-                    // NOTE(Ligh): This doesn't actually reactivate the effect if it is already activated.
+                    if (!CurrentEffect.IsActive)
+                    {
+                        Debug.WriteLine($"Reactivating timed effect: {CurrentEffect.Name}");
+                    }
+
                     CurrentEffect.Activate();
                 }
-
-                // TODO(Ligh): Add a mechanism that stops the game from resetting whatever the effect did (e.g. by continuously activating the effect).
             }
         }
 
         public void Shutdown()
         {
+            if (CurrentEffect != null)
+            {
+                Debug.WriteLine($"Deactivating timed effect for shutdown: {CurrentEffect.Name}");
+
+            }
+
             CurrentEffect?.Deactivate();
             CurrentEffect = null;
         }
