@@ -35,6 +35,13 @@
     </xs:complexType>
   </xs:element>
 
+  <xs:group name="inline">
+    <xs:sequence>
+      <xs:element ref="limitations" minOccurs="0"/>
+      <xs:element ref="activators"/>
+    </xs:sequence>
+  </xs:group>
+
   <!--+++ Complex types -->
 
   <xs:complexType name="TimedEffect">
@@ -43,8 +50,10 @@
       <xs:element name="category" type="Token"/>
       <xs:element name="difficulty" type="Difficulty"/>
       <xs:element name="duration" type="Duration" minOccurs="0"/>
-      <xs:element ref="limitations" minOccurs="0"/>
-      <xs:element ref="activators"/>
+      <xs:choice>
+        <xs:element name="script" type="xs:token"/>
+        <xs:group ref="inline"/>
+      </xs:choice>
     </xs:sequence>
   </xs:complexType>
 

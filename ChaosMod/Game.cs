@@ -17,6 +17,7 @@ namespace ChaosMod
     {
         public List<BaseCheck> BaseChecks { get; private set; }
         public Memory Memory { get; private set; }
+        public List<MemoryAddress> MemoryAddresses { get; private set; }
 
         public string Abbreviation { get; }
         public List<GameVersion> Versions { get; }
@@ -29,7 +30,6 @@ namespace ChaosMod
         private bool IsRunning => (bool)Memory?.ValidProcess;
 
         private GameVersion currentVersion;
-        private List<MemoryAddress> memoryAddresses;
 
         public Game(string name, string abbreviation, string windowName, string windowClass, long versionAddress, List<GameVersion> gameVersions)
         {
@@ -51,7 +51,7 @@ namespace ChaosMod
                 Debug.WriteLine("Game handle found.");
                 GetVersion();
 
-                foreach (var memoryAddress in memoryAddresses)
+                foreach (var memoryAddress in MemoryAddresses)
                 {
                     memoryAddress.UpdateForVersion(currentVersion);
                 }
@@ -121,7 +121,7 @@ namespace ChaosMod
         {
             Debug.WriteLine("Starting to read files for game.");
 
-            memoryAddresses = DataFileHandler.ReadMemoryAddresses(this);
+            MemoryAddresses = DataFileHandler.ReadMemoryAddresses(this);
             BaseChecks = DataFileHandler.ReadBaseChecks(this);
 
             Debug.WriteLine("Done reading files for game.");
@@ -138,7 +138,6 @@ namespace ChaosMod
                 while (IsRunning && !Program.ShouldStop)
                 {
                     modules.Update();
-                    //DebugReadAddresses();
                 }
 
                 modules.Shutdown();
@@ -149,18 +148,18 @@ namespace ChaosMod
 
         public MemoryAddress FindMemoryAddressByName(string name)
         {
-            return memoryAddresses.Find(p => p.Name == name);
+            return MemoryAddresses.Find(p => p.Name == name);
         }
 
         private void ResolveReferences()
         {
-            if (memoryAddresses == null)
+            if (MemoryAddresses == null)
             {
                 throw new InvalidOperationException("Cannot resolve references before reference objects are initialized.");
             }
 
             // Set base address for all dynamic addresses.
-            foreach (var address in memoryAddresses.FindAll(m => m.IsDynamic == true))
+            foreach (var address in MemoryAddresses.FindAll(m => m.IsDynamic == true))
             {
                 address.BaseAddress = FindMemoryAddressByName(address.BaseAddressName);
 
@@ -170,14 +169,5 @@ namespace ChaosMod
                 }
             }
         }
-
-        private void DebugReadAddresses()
-        {
-            foreach (MemoryAddress address in memoryAddresses)
-            {
-                Debug.WriteLine($"Address: {address.Name}, Value: {address.Read() as object}");
-            }
-        }
-
     }
 }

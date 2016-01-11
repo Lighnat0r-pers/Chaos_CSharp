@@ -20,6 +20,12 @@ The deactivation element in activators is optional and supports the following va
 
 <timedeffects>
   <timedeffect>
+    <name>Interior</name>
+    <category>EnvironmentVisuals</category>
+    <difficulty>2</difficulty>
+    <script>Interior.cesl</script>
+  </timedeffect>
+  <timedeffect>
     <name>Xtreme Drunk Cam</name>
     <category>GUIVisuals</category>
     <difficulty>4</difficulty>
@@ -195,6 +201,37 @@ The deactivation element in activators is optional and supports the following va
       <activator>
         <address>PlayerStatus</address>
         <target>36</target>
+      </activator>
+    </activators>
+  </timedeffect>
+  <timedeffect>
+    <name>Sudden Death (Vehicle)</name>
+    <category>Collision</category>
+    <!-- TODO(Ligh): This difficulty should be higher if sanic mode is active.-->
+    <difficulty>1</difficulty>
+    <duration>10000</duration>
+    <limitations>
+      <limitation>
+        <name>InVehicle</name>
+        <target>true</target>
+      </limitation>
+      <limitation>
+        <name>OnMissionNamed</name>
+        <target>false</target>
+        <parameters>
+          <parameter>
+            <name>MissionName</name>
+            <value>Distribution</value>
+          </parameter>
+        </parameters>
+      </limitation>
+    </limitations>
+    <activators>
+      <activator>
+        <address>VehicleHealth</address>
+        <target>250.0</target>
+        <activation>StartOnly</activation>
+        <deactivation>Never</deactivation>
       </activator>
     </activators>
   </timedeffect>

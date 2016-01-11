@@ -6,8 +6,6 @@ namespace ChaosMod
 {
     class TimedEffectHandler : IModuleHandler
     {
-        private Random debugRandom;
-
         private List<TimedEffect> TimedEffects { get; }
 
         private EffectTimer effectTimer { get; } = new EffectTimer();
@@ -31,7 +29,6 @@ namespace ChaosMod
         public TimedEffectHandler(List<TimedEffect> timedEffects)
         {
             TimedEffects = timedEffects;
-            debugRandom = new Random(Settings.Seed);
         }
 
         public void Update()
@@ -46,6 +43,12 @@ namespace ChaosMod
                 while (!ShouldSuspend && CurrentEffect == null)
                 {
                     var effect = DebugGetNextEffect();
+
+                    // TODO(Ligh): Remove this debug bit.
+                    if (effect.EffectType == EffectType.Inline)
+                    {
+                        continue;
+                    }
 
                     if (effect.CanActivate)
                     {
@@ -82,7 +85,10 @@ namespace ChaosMod
                         Debug.WriteLine($"Suspending timed effect: {CurrentEffect.Name}");
                     }
 
-                    CurrentEffect.Suspend();
+                    if (!CurrentEffect.IsSuspended)
+                    {
+                        CurrentEffect.Suspend();
+                    }
                 }
                 else
                 {
@@ -91,7 +97,14 @@ namespace ChaosMod
                         Debug.WriteLine($"Reactivating timed effect: {CurrentEffect.Name}");
                     }
 
-                    CurrentEffect.Activate();
+                    if (!CurrentEffect.IsActive)
+                    {
+                        CurrentEffect.Activate();
+                    }
+                    else
+                    {
+                        CurrentEffect.Update();
+                    }
                 }
             }
         }
@@ -101,7 +114,6 @@ namespace ChaosMod
             if (CurrentEffect != null)
             {
                 Debug.WriteLine($"Deactivating timed effect for shutdown: {CurrentEffect.Name}");
-
             }
 
             CurrentEffect?.Deactivate();
@@ -110,7 +122,7 @@ namespace ChaosMod
 
         public TimedEffect DebugGetNextEffect()
         {
-            return TimedEffects[debugRandom.Next(TimedEffects.Count)];
+            return TimedEffects[Settings.Random.Next(TimedEffects.Count)];
         }
     }
 }

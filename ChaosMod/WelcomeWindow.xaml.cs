@@ -89,6 +89,7 @@ namespace ChaosMod
                 Debug.WriteLine("Seed entered was not valid, set to default 0.");
             }
             Settings.Seed = seed;
+            Settings.Random = new Random(seed);
 
             Settings.Difficulty = Settings.difficulties.Find(d => d.Name == (string)DifficultyPanel.Children.OfType<RadioButton>().First(r => (bool)r.IsChecked).Content);
 

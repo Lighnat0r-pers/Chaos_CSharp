@@ -133,32 +133,48 @@ namespace ChaosMod
 
             var timedEffects =
                 XmlUtils.getXDocument(game.Abbreviation, timedEffectsFilename).Descendants("timedeffect")
-                .Select(effect => new TimedEffect
-                (
-                    effect.Element("name").Value,
-                    effect.Element("category").Value,
-                    Int32.Parse(effect.Element("difficulty").Value),
-                    effect.Descendants("activator")
-                    .Select(activator =>
-                    new EffectActivator
-                    (
-                        activator.Element("target").Value,
-                        game.FindMemoryAddressByName(activator.Element("address").Value),
-                        (ActivationType)Enum.Parse(typeof(ActivationType), activator.Element("activation")?.Value ?? default(ActivationType).ToString(), true),
-                        (DeactivationType)Enum.Parse(typeof(DeactivationType), activator.Element("deactivation")?.Value ?? default(DeactivationType).ToString(), true)
-                    ))
-                    .ToList(),
-                    UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
-                    effect.Descendants("limitation")
-                    .Select(limit =>
+                .Select(effect =>
+                {
+                    if (effect.Element("script") != null)
                     {
-                        var limitation = ReadLimitation(game, limit.Element("name").Value);
-                        limitation.Target = Boolean.Parse(limit.Element("target").Value);
-                        limitation.SetParameters(ReadParameters(limit));
-                        return limitation;
-                    })
-                    .ToList()
-                ))
+                        return new TimedEffect
+                        (
+                            effect.Element("name").Value,
+                            effect.Element("category").Value,
+                            Int32.Parse(effect.Element("difficulty").Value),
+                            effect.Element("script").Value
+                        );
+                    }
+                    else
+                    {
+                        return new TimedEffect
+                        (
+                            effect.Element("name").Value,
+                            effect.Element("category").Value,
+                            Int32.Parse(effect.Element("difficulty").Value),
+                            effect.Descendants("activator")
+                            .Select(activator =>
+                            new EffectActivator
+                            (
+                                activator.Element("target").Value,
+                                game.FindMemoryAddressByName(activator.Element("address").Value),
+                                (ActivationType)Enum.Parse(typeof(ActivationType), activator.Element("activation")?.Value ?? default(ActivationType).ToString(), true),
+                                (DeactivationType)Enum.Parse(typeof(DeactivationType), activator.Element("deactivation")?.Value ?? default(DeactivationType).ToString(), true)
+                            ))
+                            .ToList(),
+                            UInt32.Parse(effect.Element("duration")?.Value ?? "0"),
+                            effect.Descendants("limitation")
+                            .Select(limit =>
+                            {
+                                var limitation = ReadLimitation(game, limit.Element("name").Value);
+                                limitation.Target = Boolean.Parse(limit.Element("target").Value);
+                                limitation.SetParameters(ReadParameters(limit));
+                                return limitation;
+                            })
+                            .ToList()
+                        );
+                    }
+                })
                 .ToList();
 
             // TODO(Ligh): Validate everything has been read correctly.

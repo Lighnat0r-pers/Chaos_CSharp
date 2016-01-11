@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ChaosMod
 {
@@ -15,6 +16,7 @@ namespace ChaosMod
         static public bool StaticEffectsEnabled { get; set; }
         static public bool SanicModeEnabled { get; set; }
         static public int Seed { get; set; }
+        static public Random Random { get; set; }
         static public Difficulty Difficulty { get; set; }
         static public Game Game { get; set; }
         static public List<Game> SupportedGames { get; set; }
