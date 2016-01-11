@@ -164,6 +164,8 @@ namespace ChaosMod
 
         public void Write(dynamic input)
         {
+            input = ConvertToRightDataType(input.ToString());
+
             if (Game.Memory == null)
             {
                 throw new InvalidOperationException("Tried to write to an address without a handle to the game process.");
